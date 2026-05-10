@@ -1,0 +1,143 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="YAML Converter" description="Convert between YAML and JSON formats. Free online tool.">
+  <div class="tool-page">
+    <div class="tool-header">
+      <h1 data-t="yaml_title">YAML Converter</h1>
+      <p data-t="yaml_desc">Convert between YAML and JSON formats.</p>
+    </div>
+
+    <div class="yaml-tabs">
+      <button class="yaml-tab active" id="tabY2J" data-t="yaml_to_json">YAML → JSON</button>
+      <button class="yaml-tab" id="tabJ2Y" data-t="yaml_from_json">JSON → YAML</button>
+    </div>
+
+    <!-- YAML to JSON -->
+    <div id="panelY2J">
+      <div class="editor-row">
+        <div>
+          <div class="editor-label">YAML</div>
+          <textarea id="y2j_input" placeholder="Paste YAML here..." data-t-ph="ph_yaml_input" style="min-height:260px"></textarea>
+        </div>
+        <div>
+          <div class="editor-label">JSON</div>
+          <textarea id="y2j_output" readonly placeholder="Result..." data-t-ph="ph_json_output" style="min-height:260px"></textarea>
+        </div>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary" id="y2jBtn" data-t="yaml_tab">Convert</button>
+        <button class="btn" id="y2jCopy" data-t="btn_copy">Copy Output</button>
+        <button class="btn" id="y2jClear" data-t="btn_clear">Clear</button>
+      </div>
+      <div id="y2j_error" class="error-msg"></div>
+    </div>
+
+    <!-- JSON to YAML -->
+    <div id="panelJ2Y" style="display:none;">
+      <div class="editor-row">
+        <div>
+          <div class="editor-label">JSON</div>
+          <textarea id="j2y_input" placeholder='{"key": "value"}' data-t-ph="ph_json_input" style="min-height:260px"></textarea>
+        </div>
+        <div>
+          <div class="editor-label">YAML</div>
+          <textarea id="j2y_output" readonly placeholder="Result..." data-t-ph="ph_yaml_output" style="min-height:260px"></textarea>
+        </div>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary" id="j2yBtn" data-t="yaml_tab">Convert</button>
+        <button class="btn" id="j2yCopy" data-t="btn_copy">Copy Output</button>
+        <button class="btn" id="j2yClear" data-t="btn_clear">Clear</button>
+      </div>
+      <div id="j2y_error" class="error-msg"></div>
+    </div>
+
+    <section class="tool-info">
+      <h2 data-t="yaml_about">About YAML</h2>
+      <p data-t="yaml_about_text">YAML (YAML Ain't Markup Language) is a human-readable data serialization format. It's commonly used for configuration files, data exchange, and in tools like Docker, Kubernetes, and GitHub Actions. This converter uses the js-yaml library to handle parsing and stringifying.</p>
+    </section>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+  <script is:inline>
+    const $ = id => document.getElementById(id);
+    const getDict = (key) => (window.__devtools && window.__devtools.dict) ? window.__devtools.dict[(window.__devtools.getLang())][key] || '' : '';
+    const toast = () => {
+      const t = $('toast');
+      t.textContent = getDict('copied');
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2000);
+    };
+
+    let currentTab = 'y2j';
+    let currentErrors = { y2j: null, j2y: null };
+
+    function showError(panel, key) {
+      currentErrors[panel] = key;
+      $(panel + '_error').textContent = key ? getDict(key) : '';
+    }
+
+    function switchTab(tab) {
+      currentTab = tab;
+      if (tab === 'y2j') {
+        $('panelY2J').style.display = 'block';
+        $('panelJ2Y').style.display = 'none';
+        $('tabY2J').classList.add('active');
+        $('tabJ2Y').classList.remove('active');
+      } else {
+        $('panelY2J').style.display = 'none';
+        $('panelJ2Y').style.display = 'block';
+        $('tabY2J').classList.remove('active');
+        $('tabJ2Y').classList.add('active');
+      }
+    }
+
+    $('tabY2J').addEventListener('click', () => switchTab('y2j'));
+    $('tabJ2Y').addEventListener('click', () => switchTab('j2y'));
+
+    // YAML → JSON
+    $('y2jBtn').addEventListener('click', () => {
+      showError('y2j', null);
+      const val = $('y2j_input').value.trim();
+      if (!val) { $('y2j_output').value = ''; return; }
+      try {
+        const parsed = jsyaml.load(val);
+        $('y2j_output').value = JSON.stringify(parsed, null, 2);
+      } catch (e) {
+        showError('y2j', 'err_yaml_parse');
+        $('y2j_output').value = '';
+      }
+    });
+
+    // JSON → YAML
+    $('j2yBtn').addEventListener('click', () => {
+      showError('j2y', null);
+      const val = $('j2y_input').value.trim();
+      if (!val) { $('j2y_output').value = ''; return; }
+      try {
+        const parsed = JSON.parse(val);
+        $('j2y_output').value = jsyaml.dump(parsed, { indent: 2, lineWidth: -1, noRefs: true });
+      } catch (e) {
+        showError('j2y', 'err_json_parse');
+        $('j2y_output').value = '';
+      }
+    });
+
+    // Copy
+    $('y2jCopy').addEventListener('click', () => { if ($('y2j_output').value) { navigator.clipboard.writeText($('y2j_output').value); toast(); } });
+    $('j2yCopy').addEventListener('click', () => { if ($('j2y_output').value) { navigator.clipboard.writeText($('j2y_output').value); toast(); } });
+
+    // Clear
+    $('y2jClear').addEventListener('click', () => { $('y2j_input').value = ''; $('y2j_output').value = ''; showError('y2j', null); });
+    $('j2yClear').addEventListener('click', () => { $('j2y_input').value = ''; $('j2y_output').value = ''; showError('j2y', null); });
+
+    // Language switch
+    document.getElementById('langBtn').addEventListener('click', () => {
+      setTimeout(() => {
+        if (currentErrors.y2j) showError('y2j', currentErrors.y2j);
+        if (currentErrors.j2y) showError('j2y', currentErrors.j2y);
+      }, 20);
+    });
+  </script>
+</BaseLayout>

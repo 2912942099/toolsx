@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Text Case Converter" description="Convert text between uppercase, lowercase, title case, camelCase, snake_case, kebab-case and more.">
+  <div class="tool-page">
+    <div class="tool-header">
+      <h1 data-t="case_title">Text Case Converter</h1>
+      <p data-t="case_desc">Convert text between different case formats instantly.</p>
+    </div>
+
+    <div class="editor-label" data-t="input_label">Input</div>
+    <textarea id="input" placeholder="Type or paste your text here..." data-t-ph="ph_case_input"></textarea>
+
+    <div class="btn-group">
+      <button class="btn" data-case="upper" data-t="case_upper">UPPERCASE</button>
+      <button class="btn" data-case="lower" data-t="case_lower">lowercase</button>
+      <button class="btn" data-case="title" data-t="case_title_case">Title Case</button>
+      <button class="btn" data-case="sentence" data-t="case_sentence">Sentence case</button>
+      <button class="btn" data-case="camel" data-t="case_camel">camelCase</button>
+      <button class="btn" data-case="pascal" data-t="case_pascal">PascalCase</button>
+      <button class="btn" data-case="snake" data-t="case_snake">snake_case</button>
+      <button class="btn" data-case="kebab" data-t="case_kebab">kebab-case</button>
+      <button class="btn" data-case="reverse" data-t="case_reverse">Reverse</button>
+    </div>
+
+    <div class="editor-label" data-t="output_label">Output</div>
+    <textarea id="output" readonly placeholder="Result..." data-t-ph="ph_case_output"></textarea>
+
+    <div class="btn-group">
+      <button class="btn" id="copyBtn" data-t="btn_copy">Copy Output</button>
+      <button class="btn" id="clearBtn" data-t="btn_clear">Clear</button>
+    </div>
+
+    <section class="tool-info">
+      <h2 data-t="case_about">About Text Case Formats</h2>
+      <p data-t="case_about_text">camelCase — first word lowercase, each subsequent word capitalized. PascalCase — every word capitalized, no spaces. snake_case — all lowercase, underscores for spaces. kebab-case — all lowercase, hyphens for spaces.</p>
+    </section>
+  </div>
+
+  <script is:inline>
+    const $ = id => document.getElementById(id);
+    const getDict = (key) => (window.__devtools && window.__devtools.dict) ? window.__devtools.dict[(window.__devtools.getLang())][key] || '' : '';
+    const toast = () => {
+      const t = $('toast');
+      t.textContent = getDict('copied');
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2000);
+    };
+
+    const input = $('input'), output = $('output');
+    function toCamel(s) { return s.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g,(_,c)=>c.toUpperCase()); }
+    function toPascal(s) { return s.toLowerCase().replace(/(^|[^a-zA-Z0-9]+)(.)/g,(_,__,c)=>c.toUpperCase()); }
+    function toSnake(s) { return s.replace(/([a-z])([A-Z])/g,'$1_$2').replace(/[\s\-]+/g,'_').toLowerCase(); }
+    function toKebab(s) { return s.replace(/([a-z])([A-Z])/g,'$1-$2').replace(/[\s_]+/g,'-').toLowerCase(); }
+    function toTitle(s) { return s.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase()); }
+    function toSentence(s) { return s.toLowerCase().replace(/(^\s*\w|[.!?]\s+\w)/g,c=>c.toUpperCase()); }
+
+    document.querySelectorAll('[data-case]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const t = input.value;
+        const map = {
+          upper: t.toUpperCase(), lower: t.toLowerCase(),
+          title: toTitle(t), sentence: toSentence(t),
+          camel: toCamel(t), pascal: toPascal(t),
+          snake: toSnake(t), kebab: toKebab(t),
+          reverse: t.split('').reverse().join(''),
+        };
+        output.value = map[btn.dataset.case] || '';
+      });
+    });
+
+    $('copyBtn').addEventListener('click', () => { if (output.value) { navigator.clipboard.writeText(output.value); toast(); } });
+    $('clearBtn').addEventListener('click', () => { input.value = ''; output.value = ''; });
+  </script>
+</BaseLayout>

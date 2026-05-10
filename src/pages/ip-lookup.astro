@@ -1,0 +1,218 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="IP Lookup" description="Lookup IP address and geolocation information. Free online tool.">
+  <div class="tool-page">
+    <div class="tool-header">
+      <h1 data-t="ip_title">IP Lookup</h1>
+      <p data-t="ip_desc">Lookup IP address and geolocation information.</p>
+    </div>
+
+    <div class="ip-input-row">
+      <input type="text" id="ipInput" placeholder="Enter IP address (e.g. 8.8.8.8) or leave empty for your IP" data-t-ph="ph_ip_input" spellcheck="false" />
+      <button class="btn btn-primary" id="lookupBtn" data-t="btn_lookup">Lookup</button>
+      <button class="btn" id="myIpBtn" data-t="btn_my_ip">My IP</button>
+    </div>
+
+    <div id="error" class="error-msg"></div>
+
+    <div id="results" class="ip-results" style="display:none;">
+      <div class="ip-result-card ip-result-main">
+        <div class="ip-result-label" data-t="lbl_ip">IP Address</div>
+        <div class="ip-result-ip-col">
+          <div class="ip-result-ip-item">
+            <span class="ip-result-version" data-t="lbl_ipv4">IPv4</span>
+            <span class="ip-result-ip" id="r_ipv4">—</span>
+          </div>
+          <div class="ip-result-ip-item">
+            <span class="ip-result-version" data-t="lbl_ipv6">IPv6</span>
+            <span class="ip-result-ip" id="r_ipv6">—</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ip-result-grid">
+        <div class="ip-result-card">
+          <div class="ip-result-label" data-t="lbl_country">Country</div>
+          <div class="ip-result-value" id="r_country">—</div>
+        </div>
+        <div class="ip-result-card">
+          <div class="ip-result-label" data-t="lbl_region">Region</div>
+          <div class="ip-result-value" id="r_region">—</div>
+        </div>
+        <div class="ip-result-card">
+          <div class="ip-result-label" data-t="lbl_city">City</div>
+          <div class="ip-result-value" id="r_city">—</div>
+        </div>
+        <div class="ip-result-card">
+          <div class="ip-result-label" data-t="lbl_timezone">Timezone</div>
+          <div class="ip-result-value" id="r_timezone">—</div>
+        </div>
+        <div class="ip-result-card">
+          <div class="ip-result-label" data-t="lbl_isp">ISP</div>
+          <div class="ip-result-value" id="r_isp">—</div>
+        </div>
+        <div class="ip-result-card">
+          <div class="ip-result-label" data-t="lbl_org">Organization</div>
+          <div class="ip-result-value" id="r_org">—</div>
+        </div>
+        <div class="ip-result-card">
+          <div class="ip-result-label" data-t="lbl_coords">Coordinates</div>
+          <div class="ip-result-value" id="r_coords">—</div>
+        </div>
+        <div class="ip-result-card">
+          <div class="ip-result-label" data-t="lbl_as">AS</div>
+          <div class="ip-result-value" id="r_as">—</div>
+        </div>
+      </div>
+    </div>
+
+    <section class="tool-info">
+      <h2 data-t="ip_about">About IP Lookup</h2>
+      <p data-t="ip_about_text">This tool queries your public IP address and shows geolocation data including country, city, region, timezone, and ISP. You can also enter any IP address to look up its information. Data is provided by ipapi.co API.</p>
+    </section>
+  </div>
+
+  <script is:inline>
+    const $ = id => document.getElementById(id);
+    const getLang = () => (window.__devtools && window.__devtools.getLang) ? window.__devtools.getLang() : 'en';
+    const getDict = (key) => (window.__devtools && window.__devtools.dict) ? window.__devtools.dict[getLang()][key] || '' : '';
+
+    let currentError = null;
+    let currentQueryIp = '';
+    let isLoading = false;
+
+    function showError(key) {
+      currentError = key;
+      $('error').textContent = key ? getDict(key) : '';
+    }
+
+    function setLoading(on) {
+      isLoading = on;
+      $('lookupBtn').textContent = on ? getDict('lbl_loading') : getDict('btn_lookup');
+      $('lookupBtn').disabled = on;
+    }
+
+    function isIPv6(ip) { return ip.indexOf(':') !== -1; }
+    function isIPv4(ip) { return ip.indexOf('.') !== -1 && !isIPv6(ip); }
+
+    function renderResults(data) {
+      $('results').style.display = 'block';
+      $('r_ipv4').textContent = data.ipv4 || '—';
+      $('r_ipv6').textContent = data.ipv6 || '—';
+      $('r_country').textContent = data.country || '—';
+      $('r_region').textContent = data.region || '—';
+      $('r_city').textContent = data.city || '—';
+      $('r_timezone').textContent = data.timezone || '—';
+      $('r_isp').textContent = data.isp || '—';
+      $('r_org').textContent = data.org || '—';
+      $('r_coords').textContent = (data.latitude && data.longitude) ? data.latitude + ', ' + data.longitude : '—';
+      $('r_as').textContent = data.as || '—';
+    }
+
+    async function safeFetch(url) {
+      try {
+        const res = await fetch(url);
+        if (!res.ok) return null;
+        return await res.json();
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function formatCountry(data) {
+      let name = data.country_name || data.country || '—';
+      if (data.country_code) name += ' (' + data.country_code + ')';
+      return name;
+    }
+
+    async function lookup(ip) {
+      if (isLoading) return;
+      currentQueryIp = ip;
+      showError(null);
+      $('results').style.display = 'none';
+      setLoading(true);
+
+      try {
+        const lang = getLang() === 'zh' ? 'zh' : 'en';
+
+        if (ip) {
+          // Lookup a specific IP
+          const data = await safeFetch('https://ipapi.co/' + encodeURIComponent(ip) + '/json/?lang=' + lang);
+          if (!data || data.error) {
+            showError('err_ip_invalid');
+            setLoading(false);
+            return;
+          }
+          const result = {
+            ipv4: isIPv4(data.ip) ? data.ip : '—',
+            ipv6: isIPv6(data.ip) ? data.ip : '—',
+            country: formatCountry(data),
+            region: data.region || '—',
+            city: data.city || '—',
+            timezone: data.timezone || '—',
+            isp: data.org || '—',
+            org: data.org || '—',
+            latitude: data.latitude,
+            longitude: data.longitude,
+            as: data.asn || '—',
+          };
+          renderResults(result);
+        } else {
+          // Auto-detect: get own IP and geo info
+          const data = await safeFetch('https://ipapi.co/json/?lang=' + lang);
+          if (!data || data.error) {
+            showError('err_ip_fail');
+            setLoading(false);
+            return;
+          }
+
+          let ipv4 = '—';
+          let ipv6 = '—';
+
+          if (isIPv4(data.ip)) {
+            ipv4 = data.ip;
+            // Try to get IPv6 too
+            const v6Data = await safeFetch('https://api64.ipify.org?format=json');
+            if (v6Data && v6Data.ip) ipv6 = v6Data.ip;
+          } else if (isIPv6(data.ip)) {
+            ipv6 = data.ip;
+            // Try to get IPv4 too
+            const v4Data = await safeFetch('https://api.ipify.org?format=json');
+            if (v4Data && v4Data.ip) ipv4 = v4Data.ip;
+          }
+
+          renderResults({
+            ipv4, ipv6,
+            country: formatCountry(data),
+            region: data.region || '—',
+            city: data.city || '—',
+            timezone: data.timezone || '—',
+            isp: data.org || '—',
+            org: data.org || '—',
+            latitude: data.latitude,
+            longitude: data.longitude,
+            as: data.asn || '—',
+          });
+        }
+      } catch (e) {
+        showError('err_ip_fail');
+      }
+
+      setLoading(false);
+    }
+
+    $('lookupBtn').addEventListener('click', () => lookup($('ipInput').value.trim()));
+    $('ipInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') lookup($('ipInput').value.trim()); });
+    $('myIpBtn').addEventListener('click', () => { $('ipInput').value = ''; lookup(''); });
+
+    document.getElementById('langBtn').addEventListener('click', () => {
+      setTimeout(() => {
+        if (currentError) showError(currentError);
+        if ($('results').style.display !== 'none') lookup(currentQueryIp);
+      }, 20);
+    });
+
+    lookup('');
+  </script>
+</BaseLayout>

@@ -1,0 +1,182 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Regex Tester" description="Test regular expressions with real-time matching and highlighting. Free online tool.">
+  <div class="tool-page">
+    <div class="tool-header">
+      <h1 data-t="regex_title">Regex Tester</h1>
+      <p data-t="regex_desc">Test regular expressions with real-time matching and highlighting.</p>
+    </div>
+
+    <div class="regex-pattern-row">
+      <span class="regex-slash">/</span>
+      <input type="text" id="pattern" placeholder="e.g. hello" data-t-ph="ph_regex_pattern" spellcheck="false" autocomplete="off" />
+      <span class="regex-slash">/</span>
+      <div class="regex-flags">
+        <label class="regex-flag"><input type="checkbox" id="flagG" checked /><span>g</span></label>
+        <label class="regex-flag"><input type="checkbox" id="flagI" /><span>i</span></label>
+        <label class="regex-flag"><input type="checkbox" id="flagM" /><span>m</span></label>
+        <label class="regex-flag"><input type="checkbox" id="flagS" /><span>s</span></label>
+      </div>
+    </div>
+    <div id="error" class="error-msg"></div>
+
+    <div style="margin-top:16px;">
+      <div class="editor-label" data-t="lbl_test_string">Test String</div>
+      <textarea id="testString" placeholder="Type or paste your test string here..." data-t-ph="ph_regex_test" spellcheck="false" style="min-height:180px"></textarea>
+    </div>
+
+    <div id="highlightResult" class="regex-highlight-box"></div>
+
+    <div class="stats" id="matchStats" style="display:none;">
+      <div class="stat-item">
+        <div class="stat-value" id="matchCount">0</div>
+        <div class="stat-label" data-t="lbl_match_count">Matches</div>
+      </div>
+    </div>
+    <div id="noMatch" class="regex-no-match" style="display:none;"></div>
+
+    <div id="matchDetails" class="regex-details"></div>
+
+    <section class="tool-info">
+      <h2 data-t="regex_about">About Regular Expressions</h2>
+      <p data-t="regex_about_text">A regular expression (regex) is a sequence of characters that defines a search pattern. This tool tests your regex pattern in real time and shows all matches with their positions and captured groups.</p>
+    </section>
+  </div>
+
+  <script is:inline>
+  (function(){
+    var RE = {};
+
+    RE.getLang = function() {
+      return (window.__devtools && window.__devtools.getLang) ? window.__devtools.getLang() : 'en';
+    };
+
+    RE.getDict = function(key) {
+      return (window.__devtools && window.__devtools.dict) ? window.__devtools.dict[RE.getLang()][key] || '' : '';
+    };
+
+    RE.init = function() {
+      RE.patternEl = document.getElementById('pattern');
+      RE.testEl = document.getElementById('testString');
+      RE.errorEl = document.getElementById('error');
+      RE.highlightEl = document.getElementById('highlightResult');
+      RE.statsEl = document.getElementById('matchStats');
+      RE.noMatchEl = document.getElementById('noMatch');
+      RE.countEl = document.getElementById('matchCount');
+      RE.detailsEl = document.getElementById('matchDetails');
+
+      RE.patternEl.oninput = RE.run;
+      RE.testEl.oninput = RE.run;
+      document.getElementById('flagG').onchange = RE.run;
+      document.getElementById('flagI').onchange = RE.run;
+      document.getElementById('flagM').onchange = RE.run;
+      document.getElementById('flagS').onchange = RE.run;
+
+      document.getElementById('langBtn').onclick = function() {
+        setTimeout(function() {
+          RE.run();
+        }, 20);
+      };
+    };
+
+    RE.esc = function(s) {
+      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    };
+
+    RE.run = function() {
+      var p = RE.patternEl.value;
+      var t = RE.testEl.value;
+
+      RE.detailsEl.innerHTML = '';
+      RE.statsEl.style.display = 'none';
+      RE.noMatchEl.style.display = 'none';
+      RE.noMatchEl.textContent = '';
+      RE.highlightEl.innerHTML = '';
+      RE.highlightEl.style.display = 'none';
+      RE.errorEl.textContent = '';
+
+      if (!p) return;
+
+if (!t) {
+  var z = RE.getLang() === 'zh';
+  RE.errorEl.textContent = z ? '请在下方输入测试文本' : 'Please enter test string below';
+  return;
+}
+
+
+
+      var flags = '';
+      if (document.getElementById('flagG').checked) flags += 'g';
+      if (document.getElementById('flagI').checked) flags += 'i';
+      if (document.getElementById('flagM').checked) flags += 'm';
+      if (document.getElementById('flagS').checked) flags += 's';
+
+
+      var re;
+      try { re = new RegExp(p, flags); } catch(e) {
+        RE.errorEl.textContent = RE.getDict('err_regex_invalid') || 'Invalid regex';
+        return;
+      }
+
+      var matches = [];
+      if (flags.indexOf('g') >= 0) {
+        var m, r2 = new RegExp(p, flags);
+        while ((m = r2.exec(t)) !== null) {
+          matches.push({v:m[0], i:m.index, g:m.slice(1)});
+          if (m[0].length === 0) r2.lastIndex++;
+          if (matches.length > 5000) break;
+        }
+      } else {
+        var m = re.exec(t);
+        if (m) matches.push({v:m[0], i:m.index, g:m.slice(1)});
+      }
+
+      RE.countEl.textContent = matches.length;
+      RE.statsEl.style.display = matches.length > 0 ? 'flex' : 'none';
+
+      if (matches.length === 0) {
+        var z = RE.getLang() === 'zh';
+        RE.noMatchEl.textContent = z ? '未找到匹配项' : 'No matches found';
+        RE.noMatchEl.style.display = 'block';
+      }
+
+      if (matches.length > 0) {
+        var html = '', last = 0;
+        for (var x = 0; x < matches.length; x++) {
+          if (matches[x].i < last) continue;
+          html += RE.esc(t.slice(last, matches[x].i));
+          html += '<mark>' + RE.esc(matches[x].v) + '</mark>';
+          last = matches[x].i + matches[x].v.length;
+        }
+        html += RE.esc(t.slice(last));
+        RE.highlightEl.innerHTML = html;
+        RE.highlightEl.style.display = 'block';
+
+        var z = RE.getLang() === 'zh';
+        var dh = '';
+        for (var x = 0; x < matches.length; x++) {
+          var mm = matches[x];
+          dh += '<div class="regex-detail-card">';
+          dh += '<div class="regex-detail-header">';
+          dh += '<span class="regex-detail-idx">#' + (x+1) + '</span>';
+          dh += '<span class="regex-detail-pos">' + (z ? '位置' : 'Position') + ': ' + mm.i + ' – ' + (mm.i + mm.v.length) + '</span>';
+          dh += '</div>';
+          dh += '<div class="regex-detail-match"><span class="regex-detail-key">' + (z ? '匹配' : 'Match') + ':</span> <code>' + RE.esc(mm.v) + '</code></div>';
+          for (var gi = 0; gi < mm.g.length; gi++) {
+            dh += '<div class="regex-detail-match"><span class="regex-detail-key">' + (z ? '分组' : 'Group') + ' ' + (gi+1) + ':</span> <code>' + (mm.g[gi] !== undefined ? RE.esc(mm.g[gi]) : 'undefined') + '</code></div>';
+          }
+          dh += '</div>';
+        }
+        RE.detailsEl.innerHTML = dh;
+      }
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', RE.init);
+    } else {
+      RE.init();
+    }
+  })();
+  </script>
+</BaseLayout>

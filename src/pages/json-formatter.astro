@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="JSON Formatter" description="Free online JSON formatter, validator, and beautifier. Format and minify JSON data instantly.">
+  <div class="tool-page">
+    <div class="tool-header">
+      <h1 data-t="json_title">JSON Formatter</h1>
+      <p data-t="json_desc">Paste your JSON to format, validate, and minify it.</p>
+    </div>
+
+    <div class="editor-row">
+      <div>
+        <div class="editor-label" data-t="input_label">Input</div>
+        <textarea id="input" placeholder='{"name": "DevTools", "version": 1}' data-t-ph="ph_input"></textarea>
+      </div>
+      <div>
+        <div class="editor-label" data-t="output_label">Output</div>
+        <textarea id="output" readonly placeholder="Formatted result..." data-t-ph="ph_output"></textarea>
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn" id="formatBtn" data-t="btn_format">Format</button>
+      <button class="btn" id="minifyBtn" data-t="btn_minify">Minify</button>
+      <button class="btn" id="copyBtn" data-t="btn_copy">Copy Output</button>
+      <button class="btn" id="clearBtn" data-t="btn_clear">Clear</button>
+    </div>
+    <div id="error" class="error-msg"></div>
+
+    <section class="tool-info">
+      <h2 data-t="json_about">About JSON Formatter</h2>
+      <p data-t="json_about_text">JSON (JavaScript Object Notation) is a lightweight data interchange format. This tool formats (beautifies) or minifies JSON data instantly. All processing happens in your browser — your data never leaves your device.</p>
+      <h3 data-t="json_features">Features</h3>
+      <p data-t="json_features_text">Format JSON with proper indentation, minify to reduce file size, validate syntax with detailed error messages, and copy output with one click.</p>
+    </section>
+  </div>
+
+  <script is:inline>
+    const $ = id => document.getElementById(id);
+    const getLang = () => (window.__devtools && window.__devtools.getLang) ? window.__devtools.getLang() : 'en';
+    const getDict = (key) => (window.__devtools && window.__devtools.dict) ? window.__devtools.dict[getLang()][key] || '' : '';
+    const toast = () => {
+      const t = $('toast');
+      t.textContent = getDict('copied');
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2000);
+    };
+
+    let currentError = null;
+    function showError(key, detail) {
+      if (key === null) { $('error').textContent = ''; currentError = null; return; }
+      currentError = { key, detail };
+      let text = getDict(key) || key;
+      if (detail) text += ': ' + detail;
+      $('error').textContent = text;
+    }
+
+    document.getElementById('langBtn').addEventListener('click', () => {
+      setTimeout(() => { if (currentError) showError(currentError.key, currentError.detail); }, 20);
+    });
+
+    $('formatBtn').addEventListener('click', () => {
+      showError(null);
+      const val = $('input').value.trim();
+      if (!val) { showError('err_empty'); return; }
+      try { $('output').value = JSON.stringify(JSON.parse(val), null, 2); }
+      catch (e) { showError('err_invalid_json', e.message); }
+    });
+
+    $('minifyBtn').addEventListener('click', () => {
+      showError(null);
+      const val = $('input').value.trim();
+      if (!val) { showError('err_empty'); return; }
+      try { $('output').value = JSON.stringify(JSON.parse(val)); }
+      catch (e) { showError('err_invalid_json', e.message); }
+    });
+
+    $('copyBtn').addEventListener('click', () => { if ($('output').value) { navigator.clipboard.writeText($('output').value); toast(); } });
+    $('clearBtn').addEventListener('click', () => { $('input').value = ''; $('output').value = ''; showError(null); });
+  </script>
+</BaseLayout>

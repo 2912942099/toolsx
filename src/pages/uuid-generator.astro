@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="UUID Generator" description="Generate random UUID v4 identifiers. Single or batch generation, one click copy.">
+  <div class="tool-page">
+    <div class="tool-header">
+      <h1 data-t="uuid_title">UUID Generator</h1>
+      <p data-t="uuid_desc">Generate RFC 4122 compliant UUID v4 identifiers.</p>
+    </div>
+
+    <div style="display:flex; gap:12px; align-items:center; margin-bottom:16px; flex-wrap:wrap;">
+      <div class="editor-label" style="margin:0;" data-t="quantity">Quantity</div>
+      <input type="number" id="count" value="5" min="1" max="200" style="width:100px" />
+      <button class="btn" id="genBtn" data-t="btn_generate">Generate</button>
+      <button class="btn" id="copyBtn" data-t="btn_copy_all">Copy All</button>
+    </div>
+
+    <textarea id="output" readonly placeholder="Generated UUIDs..." style="min-height:240px; font-size:15px; line-height:2;" data-t-ph="ph_uuid_output"></textarea>
+
+    <section class="tool-info">
+      <h2 data-t="uuid_about">What is a UUID?</h2>
+      <p data-t="uuid_about_text">A UUID (Universally Unique Identifier) is a 128-bit value used to uniquely identify information. UUID v4 is randomly generated and is the most common version.</p>
+    </section>
+  </div>
+
+  <script is:inline>
+    const $ = id => document.getElementById(id);
+    const getDict = (key) => (window.__devtools && window.__devtools.dict) ? window.__devtools.dict[(window.__devtools.getLang())][key] || '' : '';
+    const toast = () => {
+      const t = $('toast');
+      t.textContent = getDict('copied');
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2000);
+    };
+
+    function uuid() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+        const r = crypto.getRandomValues(new Uint8Array(1))[0] % 16;
+        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+      });
+    }
+
+    $('genBtn').addEventListener('click', () => {
+      const n = Math.min(200, Math.max(1, parseInt($('count').value) || 1));
+      $('output').value = Array.from({length:n}, uuid).join('\n');
+    });
+
+    $('copyBtn').addEventListener('click', () => {
+      if ($('output').value) { navigator.clipboard.writeText($('output').value); toast(); }
+    });
+
+    $('genBtn').click();
+  </script>
+</BaseLayout>

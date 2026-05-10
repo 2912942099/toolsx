@@ -1,0 +1,131 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Hex Converter" description="Convert between hexadecimal, decimal, octal, and binary number systems. Free online tool.">
+  <div class="tool-page">
+    <div class="tool-header">
+      <h1 data-t="hex_title">Hex Converter</h1>
+      <p data-t="hex_desc">Convert between hexadecimal, decimal, octal, and binary number systems.</p>
+    </div>
+
+    <div class="hex-grid">
+      <div class="hex-field">
+        <div class="hex-field-header">
+          <div class="hex-label" data-t="lbl_hex">HEX</div>
+          <button class="hex-copy" data-target="hex" data-t="btn_copy">Copy</button>
+        </div>
+        <input type="text" id="hex" placeholder="FF" data-t-ph="ph_hex_input" />
+      </div>
+
+      <div class="hex-field">
+        <div class="hex-field-header">
+          <div class="hex-label" data-t="lbl_dec">DEC</div>
+          <button class="hex-copy" data-target="dec" data-t="btn_copy">Copy</button>
+        </div>
+        <input type="text" id="dec" placeholder="255" data-t-ph="ph_hex_input" />
+      </div>
+
+      <div class="hex-field">
+        <div class="hex-field-header">
+          <div class="hex-label" data-t="lbl_oct">OCT</div>
+          <button class="hex-copy" data-target="oct" data-t="btn_copy">Copy</button>
+        </div>
+        <input type="text" id="oct" placeholder="377" data-t-ph="ph_hex_input" />
+      </div>
+
+      <div class="hex-field">
+        <div class="hex-field-header">
+          <div class="hex-label" data-t="lbl_bin">BIN</div>
+          <button class="hex-copy" data-target="bin" data-t="btn_copy">Copy</button>
+        </div>
+        <input type="text" id="bin" placeholder="11111111" data-t-ph="ph_hex_input" />
+      </div>
+    </div>
+
+    <div id="error" class="error-msg"></div>
+
+    <section class="tool-info">
+      <h2 data-t="hex_about">About Number Systems</h2>
+      <p data-t="hex_about_text">Hexadecimal (base-16) uses digits 0–9 and letters A–F. Decimal (base-10) is the standard number system. Octal (base-8) uses digits 0–7. Binary (base-2) uses only 0 and 1. Computers internally use binary; hex is a compact way to represent binary data.</p>
+    </section>
+  </div>
+
+<script is:inline>
+  const $ = id => document.getElementById(id);
+  const getDict = (key) => (window.__devtools && window.__devtools.dict) ? window.__devtools.dict[(window.__devtools.getLang())][key] || '' : '';
+  const toast = () => {
+    const t = $('toast');
+    t.textContent = getDict('copied');
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+  };
+
+  const fields = { hex: $('hex'), dec: $('dec'), oct: $('oct'), bin: $('bin') };
+  const bases = { hex: 16, dec: 10, oct: 8, bin: 2 };
+  const patterns = {
+    hex: /^[0-9A-Fa-f]*$/,
+    dec: /^[0-9]*$/,
+    oct: /^[0-7]*$/,
+    bin: /^[01]*$/,
+  };
+
+  let updating = false;
+  let currentError = null;
+
+  function showError(key) {
+    currentError = key;
+    $('error').textContent = key ? getDict(key) : '';
+  }
+
+  function updateAll(source) {
+    if (updating) return;
+    updating = true;
+
+    const val = fields[source].value.trim();
+    if (!val) {
+      Object.keys(fields).forEach(k => { if (k !== source) fields[k].value = ''; });
+      showError(null);
+      updating = false;
+      return;
+    }
+
+    if (!patterns[source].test(val)) {
+      showError('err_' + source);
+      Object.keys(fields).forEach(k => { if (k !== source) fields[k].value = ''; });
+      updating = false;
+      return;
+    }
+
+    showError(null);
+    const num = parseInt(val, bases[source]);
+
+    Object.keys(fields).forEach(k => {
+      if (k !== source) {
+        fields[k].value = num.toString(bases[k]).toUpperCase();
+      }
+    });
+
+    updating = false;
+  }
+
+  Object.keys(fields).forEach(k => {
+    fields[k].addEventListener('input', () => updateAll(k));
+  });
+
+  document.querySelectorAll('.hex-copy').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.getAttribute('data-target');
+      const val = fields[target].value;
+      if (val) { navigator.clipboard.writeText(val); toast(); }
+    });
+  });
+
+  document.getElementById('langBtn').addEventListener('click', () => {
+    setTimeout(() => { if (currentError) showError(currentError); }, 20);
+  });
+</script>
+
+
+
+
+</BaseLayout>

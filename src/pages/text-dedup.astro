@@ -1,0 +1,167 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Text Dedup" description="Remove duplicate lines from text. Free online tool.">
+  <div class="tool-page">
+    <div class="tool-header">
+      <h1 data-t="dedup_title">Text Dedup</h1>
+      <p data-t="dedup_desc">Remove duplicate lines from text. Keep unique lines only.</p>
+    </div>
+
+    <div class="editor-row">
+      <div>
+        <div class="editor-label" data-t="input_label">Input</div>
+        <textarea id="input" placeholder="Paste text with duplicate lines here..." data-t-ph="ph_dedup_input" style="min-height:240px"></textarea>
+      </div>
+      <div>
+        <div class="editor-label" data-t="output_label">Output</div>
+        <textarea id="output" readonly placeholder="Result..." data-t-ph="ph_dedup_output" style="min-height:240px"></textarea>
+      </div>
+    </div>
+
+    <div class="dedup-options">
+      <div class="option-row">
+        <input type="checkbox" id="optTrim" checked />
+        <label for="optTrim" data-t="opt_trim">Ignore leading/trailing whitespace</label>
+      </div>
+      <div class="option-row">
+        <input type="checkbox" id="optCase" />
+        <label for="optCase" data-t="opt_case">Case insensitive</label>
+      </div>
+      <div class="option-row">
+        <input type="checkbox" id="optEmpty" />
+        <label for="optEmpty" data-t="opt_empty">Remove empty lines</label>
+      </div>
+      <div class="option-row">
+        <span class="dedup-keep-label" data-t="lbl_keep">Keep</span>
+        <label class="dedup-radio">
+          <input type="radio" name="keep" value="first" checked />
+          <span data-t="opt_first">First occurrence</span>
+        </label>
+        <label class="dedup-radio">
+          <input type="radio" name="keep" value="last" />
+          <span data-t="opt_last">Last occurrence</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn btn-primary" id="dedupBtn" data-t="btn_dedup">Remove Duplicates</button>
+      <button class="btn" id="copyBtn" data-t="btn_copy">Copy Output</button>
+      <button class="btn" id="clearBtn" data-t="btn_clear">Clear</button>
+    </div>
+
+    <div id="stats" class="stats" style="display:none;">
+      <div class="stat-item">
+        <div class="stat-value" id="sOriginal">0</div>
+        <div class="stat-label" data-t="lbl_original">Original</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="sResult">0</div>
+        <div class="stat-label" data-t="lbl_result">Result</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="sRemoved">0</div>
+        <div class="stat-label" data-t="lbl_removed">Removed</div>
+      </div>
+    </div>
+
+    <section class="tool-info">
+      <h2 data-t="dedup_about">About Text Dedup</h2>
+      <p data-t="dedup_about_text">This tool removes duplicate lines from your text. It compares each line and keeps only unique entries. You can choose to keep the first or last occurrence of each duplicate, and whether to ignore leading/trailing whitespace and case when comparing.</p>
+    </section>
+  </div>
+
+  <script is:inline>
+    const $ = id => document.getElementById(id);
+    const getLang = () => (window.__devtools && window.__devtools.getLang) ? window.__devtools.getLang() : 'en';
+    const getDict = (key) => (window.__devtools && window.__devtools.dict) ? window.__devtools.dict[getLang()][key] || '' : '';
+    const toast = () => {
+      const t = $('toast');
+      t.textContent = getDict('copied');
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2000);
+    };
+
+    function doDedup() {
+      const text = $('input').value;
+      if (!text) { $('output').value = ''; $('stats').style.display = 'none'; return; }
+
+      const trim = $('optTrim').checked;
+      const ignoreCase = $('optCase').checked;
+      const removeEmpty = $('optEmpty').checked;
+      const keepLast = document.querySelector('input[name="keep"]:checked').value === 'last';
+
+      const cleanText = text.replace(/\n+$/, '');
+const lines = cleanText.split('\n');
+const originalCount = lines.length;
+
+
+      // Build canonical key for comparison
+      function key(line) {
+        let k = line;
+        if (trim) k = k.trim();
+        if (ignoreCase) k = k.toLowerCase();
+        return k;
+      }
+
+      let result;
+
+      if (keepLast) {
+        // Keep last occurrence: reverse, dedup keeping first, reverse back
+        const seen = new Map();
+        const reversed = [...lines].reverse();
+        for (let i = 0; i < reversed.length; i++) {
+          const k = key(reversed[i]);
+          if (!seen.has(k)) seen.set(k, reversed[i]);
+        }
+        result = [...seen.values()].reverse();
+      } else {
+        // Keep first occurrence
+        const seen = new Set();
+        result = [];
+        for (let i = 0; i < lines.length; i++) {
+          const k = key(lines[i]);
+          if (!seen.has(k)) {
+            seen.add(k);
+            result.push(lines[i]);
+          }
+        }
+      }
+
+      if (removeEmpty) {
+        result = result.filter(line => line.trim() !== '');
+      }
+
+      $('output').value = result.join('\n');
+
+      const resultCount = result.length;
+      const removedCount = originalCount - resultCount;
+
+      $('sOriginal').textContent = originalCount;
+      $('sResult').textContent = resultCount;
+      $('sRemoved').textContent = removedCount;
+      $('stats').style.display = 'flex';
+    }
+
+    $('dedupBtn').addEventListener('click', doDedup);
+
+    $('copyBtn').addEventListener('click', () => {
+      if ($('output').value) { navigator.clipboard.writeText($('output').value); toast(); }
+    });
+
+    $('clearBtn').addEventListener('click', () => {
+      $('input').value = '';
+      $('output').value = '';
+      $('stats').style.display = 'none';
+    });
+
+    document.getElementById('langBtn').addEventListener('click', () => {
+      setTimeout(() => {
+        if ($('stats').style.display !== 'none') {
+          $('dedupBtn').textContent = getDict('btn_dedup');
+        }
+      }, 20);
+    });
+  </script>
+</BaseLayout>

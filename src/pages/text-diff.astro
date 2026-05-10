@@ -1,0 +1,177 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Text Diff" description="Compare two texts and highlight differences line by line. Free online tool.">
+  <div class="tool-page">
+    <div class="tool-header">
+      <h1 data-t="diff_title">Text Diff</h1>
+      <p data-t="diff_desc">Compare two texts and highlight differences line by line.</p>
+    </div>
+
+    <!-- Input Areas -->
+    <div class="editor-row">
+      <div>
+        <div class="editor-label" data-t="lbl_old_text">Original Text</div>
+        <textarea id="oldText" placeholder="Paste original text here..." data-t-ph="ph_diff_old" style="min-height:220px"></textarea>
+      </div>
+      <div>
+        <div class="editor-label" data-t="lbl_new_text">Modified Text</div>
+        <textarea id="newText" placeholder="Paste modified text here..." data-t-ph="ph_diff_new" style="min-height:220px"></textarea>
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn btn-primary" id="compareBtn" data-t="btn_compare">Compare</button>
+      <button class="btn" id="swapBtn" data-t="btn_swap">Swap</button>
+      <button class="btn" id="clearBtn" data-t="btn_clear">Clear</button>
+    </div>
+
+    <!-- Stats -->
+    <div id="stats" class="stats" style="display:none;">
+      <div class="stat-item">
+        <div class="stat-value" id="sAdded" style="color:#16a34a;">0</div>
+        <div class="stat-label" data-t="lbl_added">Added</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="sRemoved" style="color:#dc2626;">0</div>
+        <div class="stat-label" data-t="lbl_removed">Removed</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="sUnchanged">0</div>
+        <div class="stat-label" data-t="lbl_unchanged">Unchanged</div>
+      </div>
+    </div>
+
+    <!-- Result -->
+    <div id="noDiff" class="diff-no-diff" style="display:none;" data-t="lbl_no_diff">The two texts are identical</div>
+    <div id="diffResult" class="diff-result"></div>
+
+    <section class="tool-info">
+      <h2 data-t="diff_about">About Text Diff</h2>
+      <p data-t="diff_about_text">This tool compares two texts line by line and highlights the differences. Green lines indicate additions (present in the new text but not the old), red lines indicate deletions (present in the old text but not the new), and plain lines are unchanged. All processing happens in your browser.</p>
+    </section>
+  </div>
+
+  <script is:inline>
+    const $ = id => document.getElementById(id);
+    const getDict = (key) => (window.__devtools && window.__devtools.dict) ? window.__devtools.dict[(window.__devtools.getLang())][key] || '' : '';
+
+    function escapeHtml(s) {
+      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    // LCS-based diff
+    function computeDiff(oldLines, newLines) {
+      const m = oldLines.length;
+      const n = newLines.length;
+
+      // Build LCS table
+      const dp = [];
+      for (let i = 0; i <= m; i++) {
+        dp[i] = new Array(n + 1).fill(0);
+      }
+      for (let i = 1; i <= m; i++) {
+        for (let j = 1; j <= n; j++) {
+          if (oldLines[i - 1] === newLines[j - 1]) {
+            dp[i][j] = dp[i - 1][j - 1] + 1;
+          } else {
+            dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+          }
+        }
+      }
+
+      // Backtrack to produce diff
+      const result = [];
+      let i = m, j = n;
+      while (i > 0 || j > 0) {
+        if (i > 0 && j > 0 && oldLines[i - 1] === newLines[j - 1]) {
+          result.unshift({ type: 'equal', oldLine: i, newLine: j, text: oldLines[i - 1] });
+          i--; j--;
+        } else if (j > 0 && (i === 0 || dp[i][j - 1] >= dp[i - 1][j])) {
+          result.unshift({ type: 'add', oldLine: null, newLine: j, text: newLines[j - 1] });
+          j--;
+        } else {
+          result.unshift({ type: 'remove', oldLine: i, newLine: null, text: oldLines[i - 1] });
+          i--;
+        }
+      }
+
+      return result;
+    }
+
+    function doDiff() {
+      const oldText = $('oldText').value;
+      const newText = $('newText').value;
+
+      $('diffResult').innerHTML = '';
+      $('stats').style.display = 'none';
+      $('noDiff').style.display = 'none';
+
+      if (!oldText && !newText) return;
+
+      const oldLines = oldText.split('\n');
+      const newLines = newText.split('\n');
+      const diff = computeDiff(oldLines, newLines);
+
+      let added = 0, removed = 0, unchanged = 0;
+      diff.forEach(d => {
+        if (d.type === 'add') added++;
+        else if (d.type === 'remove') removed++;
+        else unchanged++;
+      });
+
+      // Stats
+      $('sAdded').textContent = added;
+      $('sRemoved').textContent = removed;
+      $('sUnchanged').textContent = unchanged;
+      $('stats').style.display = 'flex';
+
+      if (added === 0 && removed === 0) {
+        $('noDiff').style.display = 'block';
+        return;
+      }
+
+      // Render
+      let html = '';
+      diff.forEach(d => {
+        const cls = d.type === 'add' ? 'diff-line-add' : d.type === 'remove' ? 'diff-line-remove' : 'diff-line-equal';
+        const prefix = d.type === 'add' ? '+' : d.type === 'remove' ? '-' : ' ';
+        const oldNum = d.oldLine !== null ? d.oldLine : '';
+        const newNum = d.newLine !== null ? d.newLine : '';
+
+        html += '<div class="diff-line ' + cls + '">';
+        html += '<span class="diff-line-num diff-line-old">' + oldNum + '</span>';
+        html += '<span class="diff-line-num diff-line-new">' + newNum + '</span>';
+        html += '<span class="diff-line-prefix">' + prefix + '</span>';
+        html += '<span class="diff-line-text">' + escapeHtml(d.text) + '</span>';
+        html += '</div>';
+      });
+
+      $('diffResult').innerHTML = html;
+    }
+
+    $('compareBtn').addEventListener('click', doDiff);
+
+    $('swapBtn').addEventListener('click', () => {
+      const tmp = $('oldText').value;
+      $('oldText').value = $('newText').value;
+      $('newText').value = tmp;
+      doDiff();
+    });
+
+    $('clearBtn').addEventListener('click', () => {
+      $('oldText').value = '';
+      $('newText').value = '';
+      $('diffResult').innerHTML = '';
+      $('stats').style.display = 'none';
+      $('noDiff').style.display = 'none';
+    });
+
+    // Language switch
+    document.getElementById('langBtn').addEventListener('click', () => {
+      setTimeout(() => {
+        if ($('stats').style.display !== 'none') doDiff();
+      }, 20);
+    });
+  </script>
+</BaseLayout>

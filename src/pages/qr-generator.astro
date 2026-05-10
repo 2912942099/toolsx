@@ -1,0 +1,215 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="QR Code Generator" description="Generate QR codes from text or URLs. Download as PNG or SVG. Free online tool.">
+  <div class="tool-page">
+    <div class="tool-header">
+      <h1 data-t="qr_title">QR Code Generator</h1>
+      <p data-t="qr_desc">Generate QR codes from text or URLs. Download as PNG or SVG.</p>
+    </div>
+
+    <div class="qr-layout">
+      <div class="qr-controls">
+        <div class="editor-label" data-t="input_label">Input</div>
+        <textarea id="qrInput" placeholder="Enter text or URL (e.g. https://example.com)" data-t-ph="ph_qr_input" style="min-height:100px"></textarea>
+
+        <div class="qr-options">
+          <div class="option-row">
+            <label style="min-width:60px;" data-t="lbl_size">Size</label>
+            <span id="sizeVal" style="font-family:var(--font-mono); font-size:14px; font-weight:600; min-width:40px; text-align:center;">256</span>
+            <input type="range" id="qrSize" min="128" max="1024" step="32" value="256" />
+          </div>
+          <div class="option-row">
+            <label style="min-width:60px;" data-t="lbl_fg">Foreground</label>
+            <input type="color" id="qrFg" value="#000000" style="width:36px; height:36px; border:1px solid var(--border); border-radius:6px; padding:2px; cursor:pointer; background:var(--surface);" />
+            <span id="fgVal" style="font-family:var(--font-mono); font-size:12px; color:var(--text-muted);">#000000</span>
+          </div>
+          <div class="option-row">
+            <label style="min-width:60px;" data-t="lbl_bg">Background</label>
+            <input type="color" id="qrBg" value="#ffffff" style="width:36px; height:36px; border:1px solid var(--border); border-radius:6px; padding:2px; cursor:pointer; background:var(--surface);" />
+            <span id="bgVal" style="font-family:var(--font-mono); font-size:12px; color:var(--text-muted);">#ffffff</span>
+          </div>
+        </div>
+
+        <div class="btn-group">
+          <button class="btn btn-primary" id="genBtn" data-t="btn_generate">Generate</button>
+          <button class="btn" id="dlPng" data-t="btn_download_png">Download PNG</button>
+          <button class="btn" id="dlSvg" data-t="btn_download_svg">Download SVG</button>
+          <button class="btn" id="copyBtn" data-t="btn_copy">Copy Output</button>
+        </div>
+      </div>
+
+      <div class="qr-preview" id="qrPreview">
+        <div class="qr-placeholder" id="qrPlaceholder">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:0.25">
+            <rect x="3" y="3" width="7" height="7" rx="1"/>
+            <rect x="14" y="3" width="7" height="7" rx="1"/>
+            <rect x="3" y="14" width="7" height="7" rx="1"/>
+            <rect x="14" y="14" width="3" height="3" rx="0.5"/>
+            <line x1="21" y1="14" x2="21" y2="14.01"/>
+            <line x1="21" y1="17.5" x2="21" y2="17.51"/>
+            <line x1="17.5" y1="21" x2="17.5" y2="21.01"/>
+            <line x1="21" y1="21" x2="21" y2="21.01"/>
+          </svg>
+        </div>
+<canvas id="qrCanvas" style="display:none;"></canvas>
+
+      </div>
+    </div>
+
+    <section class="tool-info">
+      <h2 data-t="qr_about">About QR Codes</h2>
+      <p data-t="qr_about_text">A QR (Quick Response) code is a two-dimensional barcode that can encode text, URLs, contact info, and more. Scannable by any smartphone camera. This tool generates QR codes entirely in your browser using the qrcode-generator library. No data is sent to any server.</p>
+    </section>
+  </div>
+
+  <script is:inline src="/qrcode.js"></script>
+  <script is:inline>
+    const $ = id => document.getElementById(id);
+    const getDict = (key) => (window.__devtools && window.__devtools.dict) ? window.__devtools.dict[(window.__devtools.getLang())][key] || '' : '';
+    const toast = () => {
+      const t = $('toast');
+      t.textContent = getDict('copied');
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2000);
+    };
+
+    $('qrSize').addEventListener('input', () => { $('sizeVal').textContent = $('qrSize').value; });
+    $('qrFg').addEventListener('input', () => { $('fgVal').textContent = $('qrFg').value; });
+    $('qrBg').addEventListener('input', () => { $('bgVal').textContent = $('qrBg').value; });
+
+    function generate() {
+      const text = $('qrInput').value.trim();
+      if (!text) return;
+
+      if (typeof qrcode === 'undefined') {
+        alert('QR library failed to load. Check your network and refresh.');
+        return;
+      }
+
+      const size = parseInt($('qrSize').value);
+      const fg = $('qrFg').value;
+      const bg = $('qrBg').value;
+      const canvas = $('qrCanvas');
+      const ctx = canvas.getContext('2d');
+
+      // Generate QR data
+      const typeNumber = 0; // auto detect
+      const errorCorrection = 'M';
+      const qr = qrcode(typeNumber, errorCorrection);
+      qr.addData(text);
+      qr.make();
+
+      const modules = qr.getModuleCount();
+      const margin = 4; // quiet zone in modules
+      const totalModules = modules + margin * 2;
+      const cellSize = size / totalModules;
+
+      canvas.width = size;
+canvas.height = size;
+canvas.removeAttribute('style');
+canvas.style.display = 'block';
+canvas.style.maxWidth = '100%';
+canvas.style.height = 'auto';
+canvas.style.borderRadius = '8px';
+
+
+      // Draw background
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, size, size);
+
+      // Draw QR modules
+      ctx.fillStyle = fg;
+      for (let row = 0; row < modules; row++) {
+        for (let col = 0; col < modules; col++) {
+          if (qr.isDark(row, col)) {
+            const x = (col + margin) * cellSize;
+            const y = (row + margin) * cellSize;
+            ctx.fillRect(x, y, cellSize + 0.5, cellSize + 0.5);
+          }
+        }
+      }
+
+      canvas.style.display = 'block';
+      $('qrPlaceholder').style.display = 'none';
+    }
+
+    function getSvgString() {
+      const text = $('qrInput').value.trim();
+      if (!text || typeof qrcode === 'undefined') return '';
+
+      const size = parseInt($('qrSize').value);
+      const fg = $('qrFg').value;
+      const bg = $('qrBg').value;
+
+      const qr = qrcode(0, 'M');
+      qr.addData(text);
+      qr.make();
+
+      const modules = qr.getModuleCount();
+      const margin = 4;
+      const totalModules = modules + margin * 2;
+      const cellSize = size / totalModules;
+
+      let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">`;
+      svg += `<rect width="${size}" height="${size}" fill="${bg}"/>`;
+
+      for (let row = 0; row < modules; row++) {
+        for (let col = 0; col < modules; col++) {
+          if (qr.isDark(row, col)) {
+            const x = ((col + margin) * cellSize).toFixed(2);
+            const y = ((row + margin) * cellSize).toFixed(2);
+            const w = (cellSize + 0.5).toFixed(2);
+            svg += `<rect x="${x}" y="${y}" width="${w}" height="${w}" fill="${fg}"/>`;
+          }
+        }
+      }
+
+      svg += '</svg>';
+      return svg;
+    }
+
+    $('genBtn').addEventListener('click', generate);
+
+    $('qrInput').addEventListener('input', () => {
+      if ($('qrInput').value.trim()) generate();
+    });
+    $('qrSize').addEventListener('change', () => { if ($('qrInput').value.trim()) generate(); });
+    $('qrFg').addEventListener('change', () => { if ($('qrInput').value.trim()) generate(); });
+    $('qrBg').addEventListener('change', () => { if ($('qrInput').value.trim()) generate(); });
+
+    $('dlPng').addEventListener('click', () => {
+      const canvas = $('qrCanvas');
+      if (canvas.style.display === 'none') return;
+      const link = document.createElement('a');
+      link.download = 'qrcode.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    });
+
+    $('dlSvg').addEventListener('click', () => {
+      const svgStr = getSvgString();
+      if (!svgStr) return;
+      const blob = new Blob([svgStr], { type: 'image/svg+xml' });
+      const link = document.createElement('a');
+      link.download = 'qrcode.svg';
+      link.href = URL.createObjectURL(blob);
+      link.click();
+      URL.revokeObjectURL(link.href);
+    });
+
+    $('copyBtn').addEventListener('click', () => {
+      const canvas = $('qrCanvas');
+      if (canvas.style.display === 'none') return;
+      canvas.toBlob(function (blob) {
+        try {
+          navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+          toast();
+        } catch (e) {
+          navigator.clipboard.writeText($('qrInput').value.trim());
+          toast();
+        }
+      });
+    });
+  </script>
+</BaseLayout>

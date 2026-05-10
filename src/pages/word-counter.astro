@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Word Counter" description="Count words, characters, sentences, and paragraphs in real time.">
+  <div class="tool-page">
+    <div class="tool-header">
+      <h1 data-t="wc_title">Word & Character Counter</h1>
+      <p data-t="wc_desc">Real-time counting — just start typing or paste your text.</p>
+    </div>
+
+    <textarea id="input" placeholder="Start typing or paste your text here..." style="min-height:280px" data-t-ph="ph_wc_input"></textarea>
+
+    <div class="stats">
+      <div class="stat-item"><div class="stat-value" id="words">0</div><div class="stat-label" data-t="words">Words</div></div>
+      <div class="stat-item"><div class="stat-value" id="chars">0</div><div class="stat-label" data-t="characters">Characters</div></div>
+      <div class="stat-item"><div class="stat-value" id="noSpace">0</div><div class="stat-label" data-t="no_spaces">No Spaces</div></div>
+      <div class="stat-item"><div class="stat-value" id="sentences">0</div><div class="stat-label" data-t="sentences">Sentences</div></div>
+      <div class="stat-item"><div class="stat-value" id="paragraphs">0</div><div class="stat-label" data-t="paragraphs">Paragraphs</div></div>
+    </div>
+
+    <section class="tool-info">
+      <h2 data-t="wc_about">About Word Counter</h2>
+      <p data-t="wc_about_text">This tool counts words, characters (with and without spaces), sentences, and paragraphs in real time. Reading time is estimated at 225 words per minute, the average adult reading speed.</p>
+    </section>
+  </div>
+
+<script is:inline>
+  const input = document.getElementById('input');
+  input.addEventListener('input', () => {
+    const t = input.value;
+
+    // 分开匹配：英文单词 + 每个汉字（严格排除标点）
+    const englishWords = t.match(/[a-zA-Z0-9]+(?:['-][a-zA-Z0-9]+)*/g) || [];
+    const cjkChars = t.match(/[\u4e00-\u9fff\u3400-\u4dbf]/g) || [];
+    const words = englishWords.length + cjkChars.length;
+
+    document.getElementById('words').textContent = words;
+    document.getElementById('chars').textContent = t.length;
+    document.getElementById('noSpace').textContent = t.replace(/\s/g,'').length;
+    document.getElementById('sentences').textContent = t.trim() ? (t.match(/[.!?。！？]+/g)||[]).length : 0;
+    document.getElementById('paragraphs').textContent = t.trim() ? t.split(/\n\s*\n/).filter(p=>p.trim()).length : 0;
+  });
+</script>
+
+</BaseLayout>

@@ -1,0 +1,240 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Timestamp Converter" description="Convert between Unix timestamps and human-readable dates. Free online tool.">
+  <div class="tool-page">
+    <div class="tool-header">
+      <h1 data-t="ts_title">Timestamp Converter</h1>
+      <p data-t="ts_desc">Convert between Unix timestamps and human-readable dates.</p>
+    </div>
+
+    <!-- Current Time -->
+    <div class="ts-now-card">
+      <div class="ts-now-header">
+        <span class="ts-now-label" data-t="lbl_now">Current Time</span>
+        <button class="ts-refresh" id="refreshBtn" data-t="btn_now">Refresh</button>
+      </div>
+      <div class="ts-now-grid">
+        <div class="ts-now-item">
+          <span class="ts-now-sub" data-t="lbl_seconds">Seconds</span>
+          <span class="ts-now-val ts-now-mono" id="nowSec">—</span>
+        </div>
+        <div class="ts-now-item">
+          <span class="ts-now-sub" data-t="lbl_milliseconds">Milliseconds</span>
+          <span class="ts-now-val ts-now-mono" id="nowMs">—</span>
+        </div>
+        <div class="ts-now-item" style="grid-column: 1 / -1;">
+          <span class="ts-now-sub">ISO 8601</span>
+          <span class="ts-now-val ts-now-mono" id="nowIso">—</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timestamp → Date -->
+    <div class="ts-section">
+      <h2 class="section-title" data-t="lbl_to_date">Timestamp → Date</h2>
+      <div class="ts-convert-row">
+        <div class="ts-convert-input">
+          <input type="text" id="tsInput" placeholder="e.g. 1700000000" data-t-ph="ph_ts_input" spellcheck="false" />
+        </div>
+        <button class="btn btn-primary" id="tsToDateBtn" data-t="btn_convert">Convert</button>
+      </div>
+      <div id="tsError" class="error-msg"></div>
+      <div id="tsResults" class="ts-results" style="display:none;">
+        <div class="ts-result-item">
+          <div class="ts-result-label">ISO 8601</div>
+          <div class="ts-result-value ts-now-mono" id="tsR_iso">—</div>
+          <button class="hex-copy" data-target="tsR_iso" data-t="btn_copy">Copy</button>
+        </div>
+        <div class="ts-result-item">
+          <div class="ts-result-label" data-t="fmt_utc">UTC</div>
+          <div class="ts-result-value ts-now-mono" id="tsR_utc">—</div>
+          <button class="hex-copy" data-target="tsR_utc" data-t="btn_copy">Copy</button>
+        </div>
+        <div class="ts-result-item">
+          <div class="ts-result-label" data-t="fmt_local">Local Time</div>
+          <div class="ts-result-value ts-now-mono" id="tsR_local">—</div>
+          <button class="hex-copy" data-target="tsR_local" data-t="btn_copy">Copy</button>
+        </div>
+        <div class="ts-result-item">
+          <div class="ts-result-label" data-t="fmt_relative">Relative</div>
+          <div class="ts-result-value" id="tsR_relative">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Date → Timestamp -->
+    <div class="ts-section">
+      <h2 class="section-title" data-t="lbl_to_ts">Date → Timestamp</h2>
+      <div class="ts-convert-row">
+        <div class="ts-convert-input">
+          <input type="datetime-local" id="dateInput" step="1" />
+        </div>
+        <button class="btn btn-primary" id="dateToTsBtn" data-t="btn_convert">Convert</button>
+      </div>
+      <div id="dateError" class="error-msg"></div>
+      <div id="dateResults" class="ts-results" style="display:none;">
+        <div class="ts-result-item">
+          <div class="ts-result-label" data-t="lbl_seconds">Seconds</div>
+          <div class="ts-result-value ts-now-mono" id="dateR_sec">—</div>
+          <button class="hex-copy" data-target="dateR_sec" data-t="btn_copy">Copy</button>
+        </div>
+        <div class="ts-result-item">
+          <div class="ts-result-label" data-t="lbl_milliseconds">Milliseconds</div>
+          <div class="ts-result-value ts-now-mono" id="dateR_ms">—</div>
+          <button class="hex-copy" data-target="dateR_ms" data-t="btn_copy">Copy</button>
+        </div>
+        <div class="ts-result-item">
+          <div class="ts-result-label">ISO 8601</div>
+          <div class="ts-result-value ts-now-mono" id="dateR_iso">—</div>
+          <button class="hex-copy" data-target="dateR_iso" data-t="btn_copy">Copy</button>
+        </div>
+      </div>
+    </div>
+
+    <section class="tool-info">
+      <h2 data-t="ts_about">About Unix Timestamps</h2>
+      <p data-t="ts_about_text">A Unix timestamp is the number of seconds since January 1, 1970 00:00:00 UTC (the Unix Epoch). It's widely used in programming, databases, and APIs to represent a specific point in time. This tool supports second-precision (10 digits) and millisecond-precision (13 digits) timestamps.</p>
+    </section>
+  </div>
+
+  <script is:inline>
+    const $ = id => document.getElementById(id);
+    const getDict = (key) => (window.__devtools && window.__devtools.dict) ? window.__devtools.dict[(window.__devtools.getLang())][key] || '' : '';
+    const toast = () => {
+      const t = $('toast');
+      t.textContent = getDict('copied');
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2000);
+    };
+
+    let currentErrors = { ts: null, date: null };
+
+    function showError(panel, key) {
+      currentErrors[panel] = key;
+      $(panel + 'Error').textContent = key ? getDict(key) : '';
+    }
+
+    // -- Current Time --
+    function updateNow() {
+      const now = new Date();
+      const sec = Math.floor(now.getTime() / 1000);
+      $('nowSec').textContent = sec;
+      $('nowMs').textContent = now.getTime();
+      $('nowIso').textContent = now.toISOString();
+    }
+    updateNow();
+    setInterval(updateNow, 1000);
+    $('refreshBtn').addEventListener('click', updateNow);
+
+    // -- Relative Time --
+    function relativeTime(date) {
+      const now = new Date();
+      const diffMs = now - date;
+      const absDiff = Math.abs(diffMs);
+      const future = diffMs < 0;
+
+      const lang = (window.__devtools && window.__devtools.getLang) ? window.__devtools.getLang() : 'en';
+      const z = lang === 'zh';
+
+      const seconds = Math.floor(absDiff / 1000);
+      const minutes = Math.floor(seconds / 60);
+      const hours = Math.floor(minutes / 60);
+      const days = Math.floor(hours / 24);
+      const months = Math.floor(days / 30);
+      const years = Math.floor(days / 365);
+
+      let text;
+      if (seconds < 60) text = z ? `${seconds} 秒` : `${seconds} second${seconds !== 1 ? 's' : ''}`;
+      else if (minutes < 60) text = z ? `${minutes} 分钟` : `${minutes} minute${minutes !== 1 ? 's' : ''}`;
+      else if (hours < 24) text = z ? `${hours} 小时` : `${hours} hour${hours !== 1 ? 's' : ''}`;
+      else if (days < 30) text = z ? `${days} 天` : `${days} day${days !== 1 ? 's' : ''}`;
+      else if (months < 12) text = z ? `${months} 个月` : `${months} month${months !== 1 ? 's' : ''}`;
+      else text = z ? `${years} 年` : `${years} year${years !== 1 ? 's' : ''}`;
+
+      return future
+        ? (z ? `${text} 后` : `in ${text}`)
+        : (z ? `${text} 前` : `${text} ago`);
+    }
+
+    // -- Timestamp → Date --
+    function tsToDate() {
+      const val = $('tsInput').value.trim();
+      if (!val || !/^\d+$/.test(val)) {
+        showError('ts', 'err_ts_invalid');
+        $('tsResults').style.display = 'none';
+        return;
+      }
+
+      showError('ts', null);
+      let ms = parseInt(val);
+      if (val.length <= 10) ms = ms * 1000;
+
+      const date = new Date(ms);
+      if (isNaN(date.getTime())) {
+        showError('ts', 'err_ts_invalid');
+        $('tsResults').style.display = 'none';
+        return;
+      }
+
+      $('tsR_iso').textContent = date.toISOString();
+      $('tsR_utc').textContent = date.toUTCString();
+      $('tsR_local').textContent = date.toLocaleString();
+      $('tsR_relative').textContent = relativeTime(date);
+      $('tsResults').style.display = 'grid';
+    }
+
+    $('tsToDateBtn').addEventListener('click', tsToDate);
+    $('tsInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') tsToDate(); });
+
+    // -- Date → Timestamp --
+    function dateToTs() {
+      const val = $('dateInput').value;
+      if (!val) {
+        showError('date', 'err_date_invalid');
+        $('dateResults').style.display = 'none';
+        return;
+      }
+
+      showError('date', null);
+      const date = new Date(val);
+      if (isNaN(date.getTime())) {
+        showError('date', 'err_date_invalid');
+        $('dateResults').style.display = 'none';
+        return;
+      }
+
+      const sec = Math.floor(date.getTime() / 1000);
+      $('dateR_sec').textContent = sec;
+      $('dateR_ms').textContent = date.getTime();
+      $('dateR_iso').textContent = date.toISOString();
+      $('dateResults').style.display = 'grid';
+    }
+
+    $('dateToTsBtn').addEventListener('click', dateToTs);
+    $('dateInput').addEventListener('change', dateToTs);
+
+    // Set default datetime-local to now
+    const now = new Date();
+    const pad = n => String(n).padStart(2, '0');
+    $('dateInput').value = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+
+    // Copy buttons
+    document.querySelectorAll('.hex-copy').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-target');
+        const el = $(target);
+        if (el && el.textContent && el.textContent !== '—') { navigator.clipboard.writeText(el.textContent); toast(); }
+      });
+    });
+
+    // Language switch
+    document.getElementById('langBtn').addEventListener('click', () => {
+      setTimeout(() => {
+        if (currentErrors.ts) showError('ts', currentErrors.ts);
+        if (currentErrors.date) showError('date', currentErrors.date);
+        updateNow();
+      }, 20);
+    });
+  </script>
+</BaseLayout>
