@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://toolsx-teal.vercel.app/sitemap-index.xml
+Sitemap: https://www.kongbyte.top/sitemap-index.xml
+
