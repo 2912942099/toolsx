@@ -74,145 +74,144 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   </div>
 
   <script is:inline>
-    const $ = id => document.getElementById(id);
-    const getLang = () => (window.__devtools && window.__devtools.getLang) ? window.__devtools.getLang() : 'en';
-    const getDict = (key) => (window.__devtools && window.__devtools.dict) ? window.__devtools.dict[getLang()][key] || '' : '';
+  const $ = id => document.getElementById(id);
+  const getLang = () => (window.__devtools && window.__devtools.getLang) ? window.__devtools.getLang() : 'en';
+  const getDict = (key) => (window.__devtools && window.__devtools.dict) ? window.__devtools.dict[getLang()][key] || '' : '';
 
-    let currentError = null;
-    let currentQueryIp = '';
-    let isLoading = false;
+  let currentError = null;
+  let currentQueryIp = '';
+  let isLoading = false;
 
-    function showError(key) {
-      currentError = key;
-      $('error').textContent = key ? getDict(key) : '';
+  function showError(key) {
+    currentError = key;
+    $('error').textContent = key ? getDict(key) : '';
+  }
+
+  function setLoading(on) {
+    isLoading = on;
+    $('lookupBtn').textContent = on ? getDict('lbl_loading') : getDict('btn_lookup');
+    $('lookupBtn').disabled = on;
+  }
+
+  function renderResults(data) {
+    $('results').style.display = 'block';
+    $('r_ipv4').textContent = data.ipv4 || '—';
+    $('r_ipv6').textContent = data.ipv6 || '—';
+    $('r_country').textContent = data.country || '—';
+    $('r_region').textContent = data.region || '—';
+    $('r_city').textContent = data.city || '—';
+    $('r_timezone').textContent = data.timezone || '—';
+    $('r_isp').textContent = data.isp || '—';
+    $('r_org').textContent = data.org || '—';
+    $('r_coords').textContent = (data.latitude && data.longitude) ? data.latitude + ', ' + data.longitude : '—';
+    $('r_as').textContent = data.as || '—';
+  }
+
+  async function safeFetch(url) {
+    try {
+      const res = await fetch(url);
+      if (!res.ok) return null;
+      return await res.json();
+    } catch (e) {
+      return null;
     }
+  }
 
-    function setLoading(on) {
-      isLoading = on;
-      $('lookupBtn').textContent = on ? getDict('lbl_loading') : getDict('btn_lookup');
-      $('lookupBtn').disabled = on;
-    }
+  // CORS proxy wrapper: tries direct first, falls back to proxy
+  async function proxyFetch(apiUrl) {
+    // Try direct
+    var data = await safeFetch(apiUrl);
+    if (data) return data;
+    // Fallback: CORS proxy
+    var proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(apiUrl);
+    data = await safeFetch(proxyUrl);
+    return data;
+  }
 
-    function isIPv6(ip) { return ip.indexOf(':') !== -1; }
-    function isIPv4(ip) { return ip.indexOf('.') !== -1 && !isIPv6(ip); }
+  async function lookup(ip) {
+    if (isLoading) return;
+    currentQueryIp = ip;
+    showError(null);
+    $('results').style.display = 'none';
+    setLoading(true);
 
-    function renderResults(data) {
-      $('results').style.display = 'block';
-      $('r_ipv4').textContent = data.ipv4 || '—';
-      $('r_ipv6').textContent = data.ipv6 || '—';
-      $('r_country').textContent = data.country || '—';
-      $('r_region').textContent = data.region || '—';
-      $('r_city').textContent = data.city || '—';
-      $('r_timezone').textContent = data.timezone || '—';
-      $('r_isp').textContent = data.isp || '—';
-      $('r_org').textContent = data.org || '—';
-      $('r_coords').textContent = (data.latitude && data.longitude) ? data.latitude + ', ' + data.longitude : '—';
-      $('r_as').textContent = data.as || '—';
-    }
-
-    async function safeFetch(url) {
-      try {
-        const res = await fetch(url);
-        if (!res.ok) return null;
-        return await res.json();
-      } catch (e) {
-        return null;
-      }
-    }
-
-    function formatCountry(data) {
-      let name = data.country_name || data.country || '—';
-      if (data.country_code) name += ' (' + data.country_code + ')';
-      return name;
-    }
-
-    async function lookup(ip) {
-      if (isLoading) return;
-      currentQueryIp = ip;
-      showError(null);
-      $('results').style.display = 'none';
-      setLoading(true);
-
-      try {
-        const lang = getLang() === 'zh' ? 'zh' : 'en';
-
-        if (ip) {
-          // Lookup a specific IP
-          const data = await safeFetch('https://ipapi.co/' + encodeURIComponent(ip) + '/json/?lang=' + lang);
-          if (!data || data.error) {
-            showError('err_ip_invalid');
-            setLoading(false);
-            return;
-          }
-          const result = {
-            ipv4: isIPv4(data.ip) ? data.ip : '—',
-            ipv6: isIPv6(data.ip) ? data.ip : '—',
-            country: formatCountry(data),
-            region: data.region || '—',
-            city: data.city || '—',
-            timezone: data.timezone || '—',
-            isp: data.org || '—',
-            org: data.org || '—',
-            latitude: data.latitude,
-            longitude: data.longitude,
-            as: data.asn || '—',
-          };
-          renderResults(result);
-        } else {
-          // Auto-detect: get own IP and geo info
-          const data = await safeFetch('https://ipapi.co/json/?lang=' + lang);
-          if (!data || data.error) {
-            showError('err_ip_fail');
-            setLoading(false);
-            return;
-          }
-
-          let ipv4 = '—';
-          let ipv6 = '—';
-
-          if (isIPv4(data.ip)) {
-            ipv4 = data.ip;
-            // Try to get IPv6 too
-            const v6Data = await safeFetch('https://api64.ipify.org?format=json');
-            if (v6Data && v6Data.ip) ipv6 = v6Data.ip;
-          } else if (isIPv6(data.ip)) {
-            ipv6 = data.ip;
-            // Try to get IPv4 too
-            const v4Data = await safeFetch('https://api.ipify.org?format=json');
-            if (v4Data && v4Data.ip) ipv4 = v4Data.ip;
-          }
-
-          renderResults({
-            ipv4, ipv6,
-            country: formatCountry(data),
-            region: data.region || '—',
-            city: data.city || '—',
-            timezone: data.timezone || '—',
-            isp: data.org || '—',
-            org: data.org || '—',
-            latitude: data.latitude,
-            longitude: data.longitude,
-            as: data.asn || '—',
-          });
+    try {
+      if (ip) {
+        var data = await proxyFetch('https://ipinfo.io/' + encodeURIComponent(ip) + '/json');
+        if (!data || data.error) {
+          showError('err_ip_invalid');
+          setLoading(false);
+          return;
         }
-      } catch (e) {
-        showError('err_ip_fail');
+        var loc = data.loc ? data.loc.split(',') : [];
+        var isV6 = ip.indexOf(':') !== -1;
+        renderResults({
+          ipv4: isV6 ? '—' : data.ip,
+          ipv6: isV6 ? data.ip : '—',
+          country: data.country || '—',
+          region: data.region || '—',
+          city: data.city || '—',
+          timezone: data.timezone || '—',
+          isp: data.org || '—',
+          org: data.org || '—',
+          latitude: loc[0] || null,
+          longitude: loc[1] || null,
+          as: data.org || '—',
+        });
+      } else {
+        var data = await proxyFetch('https://ipinfo.io/json');
+        if (!data || data.error) {
+          showError('err_ip_fail');
+          setLoading(false);
+          return;
+        }
+        var loc = data.loc ? data.loc.split(',') : [];
+        var myIp = data.ip || '';
+        var isV6 = myIp.indexOf(':') !== -1;
+        var ipv4 = '—';
+        var ipv6 = '—';
+        if (isV6) {
+          ipv6 = myIp;
+          var v4 = await proxyFetch('https://api.ipify.org?format=json');
+          if (v4 && v4.ip) ipv4 = v4.ip;
+        } else {
+          ipv4 = myIp;
+          var v6 = await proxyFetch('https://api64.ipify.org?format=json');
+          if (v6 && v6.ip) ipv6 = v6.ip;
+        }
+        renderResults({
+          ipv4, ipv6,
+          country: data.country || '—',
+          region: data.region || '—',
+          city: data.city || '—',
+          timezone: data.timezone || '—',
+          isp: data.org || '—',
+          org: data.org || '—',
+          latitude: loc[0] || null,
+          longitude: loc[1] || null,
+          as: data.org || '—',
+        });
       }
-
-      setLoading(false);
+    } catch (e) {
+      showError('err_ip_fail');
     }
+    setLoading(false);
+  }
 
-    $('lookupBtn').addEventListener('click', () => lookup($('ipInput').value.trim()));
-    $('ipInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') lookup($('ipInput').value.trim()); });
-    $('myIpBtn').addEventListener('click', () => { $('ipInput').value = ''; lookup(''); });
+  $('lookupBtn').addEventListener('click', () => lookup($('ipInput').value.trim()));
+  $('ipInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') lookup($('ipInput').value.trim()); });
+  $('myIpBtn').addEventListener('click', () => { $('ipInput').value = ''; lookup(''); });
 
-    document.getElementById('langBtn').addEventListener('click', () => {
-      setTimeout(() => {
-        if (currentError) showError(currentError);
-        if ($('results').style.display !== 'none') lookup(currentQueryIp);
-      }, 20);
-    });
+  document.getElementById('langBtn').addEventListener('click', () => {
+    setTimeout(() => {
+      if (currentError) showError(currentError);
+      if ($('results').style.display !== 'none') lookup(currentQueryIp);
+    }, 20);
+  });
 
-    lookup('');
-  </script>
+  lookup('');
+</script>
+
+
+
 </BaseLayout>
