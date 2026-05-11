@@ -108,16 +108,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 
   async function callApi(ip) {
-  try {
-    var url = ip ? '/api/ip?ip=' + encodeURIComponent(ip) : '/api/ip';
-    var res = await fetch(url);
-    if (!res.ok) return null;
-    return await res.json();
-  } catch (e) {
-    return null;
+    try {
+      var url = ip ? '/api/ip?ip=' + encodeURIComponent(ip) : '/api/ip';
+      var res = await fetch(url);
+      if (!res.ok) return null;
+      return await res.json();
+    } catch (e) {
+      return null;
+    }
   }
-}
 
+  function isIPv6(ip) { return ip.indexOf(':') !== -1; }
+  function isIPv4(ip) { return ip.indexOf('.') !== -1 && !isIPv6(ip); }
 
   async function lookup(ip) {
     if (isLoading) return;
@@ -127,18 +129,23 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     setLoading(true);
 
     try {
+      var data = await callApi(ip || null);
+      if (!data || data.error) {
+        showError('err_ip_invalid');
+        setLoading(false);
+        return;
+      }
+
+      var loc = data.loc ? data.loc.split(',') : [];
+      var resultIp = data.ip || data._clientIp || '';
+      var isV6 = isIPv6(resultIp);
+      var isV4 = isIPv4(resultIp);
+
       if (ip) {
-        var data = await callApi(ip);
-        if (!data || data.error) {
-          showError('err_ip_invalid');
-          setLoading(false);
-          return;
-        }
-        var loc = data.loc ? data.loc.split(',') : [];
-        var isV6 = ip.indexOf(':') !== -1;
+        // User searched a specific IP
         renderResults({
-          ipv4: isV6 ? '—' : data.ip,
-          ipv6: isV6 ? data.ip : '—',
+          ipv4: isV4 ? resultIp : '—',
+          ipv6: isV6 ? resultIp : '—',
           country: data.country || '—',
           region: data.region || '—',
           city: data.city || '—',
@@ -150,24 +157,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           as: data.org || '—',
         });
       } else {
-        var data = await callApi(null);
-        if (!data || data.error) {
-          showError('err_ip_fail');
-          setLoading(false);
-          return;
-        }
-        var loc = data.loc ? data.loc.split(',') : [];
-        var myIp = data.ip || '';
-        var isV6 = myIp.indexOf(':') !== -1;
-        var ipv4 = '—';
-        var ipv6 = '—';
-        if (isV6) {
-          ipv6 = myIp;
-        } else {
-          ipv4 = myIp;
-        }
+        // Auto-detect
         renderResults({
-          ipv4, ipv6,
+          ipv4: isV4 ? resultIp : '—',
+          ipv6: isV6 ? resultIp : '—',
           country: data.country || '—',
           region: data.region || '—',
           city: data.city || '—',
@@ -198,6 +191,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   lookup('');
 </script>
+
 
 
 
