@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://toolsx-teal.vercel.app/sitemap-index.xml
