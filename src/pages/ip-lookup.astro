@@ -108,15 +108,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 
   async function callApi(ip) {
-    try {
-      var url = ip ? '/api/ip?ip=' + encodeURIComponent(ip) : '/api/ip';
-      var res = await fetch(url);
-      if (!res.ok) return null;
-      return await res.json();
-    } catch (e) {
-      return null;
-    }
+  try {
+    var url = ip ? '/api/ip?ip=' + encodeURIComponent(ip) : '/api/ip';
+    var res = await fetch(url);
+    if (!res.ok) return null;
+    return await res.json();
+  } catch (e) {
+    return null;
   }
+}
+
 
   async function lookup(ip) {
     if (isLoading) return;
