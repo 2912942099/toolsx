@@ -107,25 +107,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     $('r_as').textContent = data.as || '—';
   }
 
-  async function safeFetch(url) {
+  async function callApi(ip) {
     try {
-      const res = await fetch(url);
+      var url = ip ? '/api/ip?ip=' + encodeURIComponent(ip) : '/api/ip';
+      var res = await fetch(url);
       if (!res.ok) return null;
       return await res.json();
     } catch (e) {
       return null;
     }
-  }
-
-  // CORS proxy wrapper: tries direct first, falls back to proxy
-  async function proxyFetch(apiUrl) {
-    // Try direct
-    var data = await safeFetch(apiUrl);
-    if (data) return data;
-    // Fallback: CORS proxy
-    var proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(apiUrl);
-    data = await safeFetch(proxyUrl);
-    return data;
   }
 
   async function lookup(ip) {
@@ -137,7 +127,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
     try {
       if (ip) {
-        var data = await proxyFetch('https://ipinfo.io/' + encodeURIComponent(ip) + '/json');
+        var data = await callApi(ip);
         if (!data || data.error) {
           showError('err_ip_invalid');
           setLoading(false);
@@ -159,7 +149,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           as: data.org || '—',
         });
       } else {
-        var data = await proxyFetch('https://ipinfo.io/json');
+        var data = await callApi(null);
         if (!data || data.error) {
           showError('err_ip_fail');
           setLoading(false);
@@ -172,12 +162,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         var ipv6 = '—';
         if (isV6) {
           ipv6 = myIp;
-          var v4 = await proxyFetch('https://api.ipify.org?format=json');
-          if (v4 && v4.ip) ipv4 = v4.ip;
         } else {
           ipv4 = myIp;
-          var v6 = await proxyFetch('https://api64.ipify.org?format=json');
-          if (v6 && v6.ip) ipv6 = v6.ip;
         }
         renderResults({
           ipv4, ipv6,
