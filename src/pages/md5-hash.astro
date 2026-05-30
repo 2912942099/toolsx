@@ -67,6 +67,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <section class="tool-info">
       <h2 data-t="md5_about">About Hash Functions</h2>
       <p data-t="md5_about_text">A hash function converts input data into a fixed-size string of characters. MD5 produces a 128-bit hash (32 hex chars). SHA-1 produces a 160-bit hash (40 hex chars). SHA-256 produces a 256-bit hash (64 hex chars). SHA-512 produces a 512-bit hash (128 hex chars). These are one-way functions — you cannot reverse a hash back to the original text. Common uses include file integrity checks, password storage, and digital signatures.</p>
+    
+      <h3 data-t="md5_how_title">How to Use</h3>
+<p data-t="md5_how_text">Enter or paste your text in the input field. The tool automatically generates MD5, SHA-1, SHA-256, and SHA-512 hashes simultaneously. Click the copy button next to any hash to copy it to your clipboard. Use the compare feature to verify a hash against a known value.</p>
+<h3 data-t="md5_what_title">What is a Hash Function?</h3>
+<p data-t="md5_what_text">A hash function takes input data of any size and produces a fixed-size string of characters. The same input always produces the same hash, but you cannot reverse the process to get the original data from the hash. This makes hash functions ideal for data integrity verification and password storage.</p>
+<h3 data-t="md5_choosing_title">Which Hash to Choose?</h3>
+<p data-t="md5_choosing_text">MD5 (32 chars): Fast but not collision-resistant. Use for checksums and non-security purposes. SHA-1 (40 chars): Stronger than MD5 but deprecated for security use. SHA-256 (64 chars): Industry standard for security. Used in SSL certificates and blockchain. SHA-512 (128 chars): Strongest option with highest collision resistance.</p>
+
     </section>
   </div>
 

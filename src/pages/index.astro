@@ -3,13 +3,23 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const categories = [
   {
+    titleEn: 'Developer Utilities',
+    titleZh: '实用开发工具',
+    tools: [
+      { name: 'Timestamp', nameZh: '时间戳转换', slug: 'timestamp', en: 'Convert between timestamps and dates', zh: '时间戳与日期互转', icon: '⏱', color: '#0d9488', ready: true },
+      { name: 'Regex Tester', nameZh: '正则测试', slug: 'regex-tester', en: 'Test regular expressions with live matching', zh: '正则表达式实时匹配测试', icon: '.*', color: '#7c3aed', ready: true },
+      { name: 'Text Diff', nameZh: '文本对比', slug: 'text-diff', en: 'Compare two texts and highlight differences', zh: '对比两段文本并高亮差异', icon: '≠', color: '#b45309', ready: true },
+      { name: 'IP Lookup', nameZh: 'IP 查询', slug: 'ip-lookup', en: 'Lookup your IP address and geolocation', zh: '查询 IP 地址和地理位置', icon: 'IP', color: '#2563eb', ready: true },
+      { name: 'MD5 Hash', nameZh: 'MD5 加密', slug: 'md5-hash', en: 'Generate MD5, SHA-1, SHA-256 hashes', zh: '生成 MD5、SHA-1、SHA-256 哈希值', icon: '#', color: '#64748b', ready: true },
+    ]
+  },
+  {
     titleEn: 'Encoding & Conversion',
     titleZh: '编解码转换区',
     tools: [
       { name: 'Base64', nameZh: 'Base64 编解码', slug: 'base64', en: 'Encode and decode Base64 strings', zh: 'Base64 字符串编解码', icon: 'B64', color: '#8b5cf6', ready: true },
       { name: 'URL Encoder', nameZh: 'URL 编解码', slug: 'url-encoder', en: 'Encode and decode URLs', zh: 'URL 编解码', icon: '%20', color: '#f59e0b', ready: true },
       { name: 'Hex Converter', nameZh: '十六进制转换', slug: 'hex-converter', en: 'Convert between hex, decimal, octal, binary', zh: '十六进制、十进制、八进制、二进制互转', icon: '0x', color: '#0ea5e9', ready: true },
-    
     ]
   },
   {
@@ -33,18 +43,8 @@ const categories = [
       { name: 'QR Code Generator', nameZh: '二维码生成', slug: 'qr-generator', en: 'Generate QR codes from text or URLs', zh: '从文本或 URL 生成二维码', icon: '▦', color: '#171717', ready: true },
     ]
   },
-  {
-    titleEn: 'Developer Utilities',
-    titleZh: '实用开发工具',
-    tools: [
-      { name: 'Timestamp', nameZh: '时间戳转换', slug: 'timestamp', en: 'Convert between timestamps and dates', zh: '时间戳与日期互转', icon: '⏱', color: '#0d9488', ready: true },
-      { name: 'Regex Tester', nameZh: '正则测试', slug: 'regex-tester', en: 'Test regular expressions with live matching', zh: '正则表达式实时匹配测试', icon: '.*', color: '#7c3aed', ready: true },
-      { name: 'Text Diff', nameZh: '文本对比', slug: 'text-diff', en: 'Compare two texts and highlight differences', zh: '对比两段文本并高亮差异', icon: '≠', color: '#b45309', ready: true },
-      { name: 'IP Lookup', nameZh: 'IP 查询', slug: 'ip-lookup', en: 'Lookup your IP address and geolocation', zh: '查询 IP 地址和地理位置', icon: 'IP', color: '#2563eb', ready: true },
-      { name: 'MD5 Hash', nameZh: 'MD5 加密', slug: 'md5-hash', en: 'Generate MD5, SHA-1, SHA-256 hashes', zh: '生成 MD5、SHA-1、SHA-256 哈希值', icon: '#', color: '#64748b', ready: true },
-    ]
-  },
 ];
+
 ---
 <BaseLayout>
   {categories.map(cat => (

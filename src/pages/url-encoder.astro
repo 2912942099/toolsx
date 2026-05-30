@@ -31,6 +31,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <section class="tool-info">
       <h2 data-t="url_about">About URL Encoding</h2>
       <p data-t="url_about_text">URL encoding replaces unsafe ASCII characters with a percent sign followed by two hexadecimal digits. Encode URI preserves URL structure. Encode Component encodes everything — useful for query parameter values.</p>
+    
+      <h3 data-t="url_how_title">How to Use</h3>
+<p data-t="url_how_text">Enter or paste a URL in the input field. Use "Encode URI" to encode special characters while preserving the URL structure, or "Encode Component" to encode everything. Use "Decode" to convert an encoded URL back to its original form.</p>
+<h3 data-t="url_what_title">What is URL Encoding?</h3>
+<p data-t="url_what_text">URL encoding (also called percent-encoding) converts characters into a format that can be safely transmitted over the Internet. Unsafe characters are replaced with a percent sign (%) followed by two hexadecimal digits. For example, a space becomes %20.</p>
+<h3 data-t="url_diff_title">Encode URI vs Encode Component</h3>
+<p data-t="url_diff_text">Encode URI preserves the structure of a URL (keeps :, /, ?, #, etc.) and is suitable for encoding a complete URL. Encode Component encodes everything including special URL characters, making it ideal for encoding individual parameter values in a query string.</p>
+
     </section>
   </div>
 
