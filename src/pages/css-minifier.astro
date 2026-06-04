@@ -1,0 +1,204 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="CSS Minifier" description="Free online CSS minifier and beautifier. Compress or format CSS code instantly.">
+  <div class="tool-page">
+    <div class="tool-header">
+      <h1 data-t="css_title">CSS Minifier & Beautifier</h1>
+      <p data-t="css_desc">Paste your CSS to minify or beautify it instantly.</p>
+    </div>
+
+    <div class="editor-row">
+      <div>
+        <div class="editor-label" data-t="input_label">Input</div>
+        <textarea id="input" placeholder="body { color: red; margin: 0; }" data-t-ph="ph_css_input"></textarea>
+      </div>
+      <div>
+        <div class="editor-label" data-t="output_label">Output</div>
+        <textarea id="output" readonly placeholder="Result..." data-t-ph="ph_css_output"></textarea>
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn" id="formatBtn" data-t="btn_format">Format</button>
+      <button class="btn" id="minifyBtn" data-t="btn_minify">Minify</button>
+      <button class="btn" id="copyBtn" data-t="btn_copy">Copy Output</button>
+      <button class="btn" id="clearBtn" data-t="btn_clear">Clear</button>
+    </div>
+    <div id="error" class="error-msg"></div>
+
+    <div class="stats" id="stats" style="display:none;">
+      <div class="stat-item">
+        <div class="stat-value" id="originalSize">0</div>
+        <div class="stat-label" data-t="lbl_original">Original</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="resultSize">0</div>
+        <div class="stat-label" data-t="lbl_result">Result</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="savedSize">0%</div>
+        <div class="stat-label" data-t="lbl_saved">Saved</div>
+      </div>
+    </div>
+
+    <section class="tool-info">
+      <h2 data-t="css_about">About CSS Minifier</h2>
+      <p data-t="css_about_text">A CSS minifier removes unnecessary characters from CSS code — whitespace, comments, newlines, and redundant semicolons — to reduce file size. A beautifier reformats messy CSS with proper indentation and line breaks for readability. All processing happens in your browser.</p>
+      <h3 data-t="css_how_title">How to Use</h3>
+      <p data-t="css_how_text">Paste your CSS code into the input field. Click "Minify" to compress it for production use, or "Format" to beautify it with proper indentation for development. The size comparison stats show how much file size was saved.</p>
+      <h3 data-t="css_why_title">Why Minify CSS?</h3>
+      <p data-t="css_why_text">Minifying CSS reduces file size by 30-60%, which makes your website load faster. Faster websites rank higher in Google search results and provide a better user experience. Minified CSS is the standard for production websites and is required by Google PageSpeed Insights.</p>
+      <h3 data-t="css_tips_title">CSS Optimization Tips</h3>
+      <p data-t="css_tips_text">Remove unused CSS rules to further reduce file size. Combine similar selectors where possible. Use shorthand properties (margin, padding, background) instead of individual properties. Consider using CSS variables (custom properties) for repeated values. Load critical CSS inline and defer non-critical CSS.</p>
+    </section>
+  </div>
+
+  <script is:inline>
+    const $ = id => document.getElementById(id);
+    const getLang = () => (window.__devtools && window.__devtools.getLang) ? window.__devtools.getLang() : 'en';
+    const getDict = (key) => (window.__devtools && window.__devtools.dict) ? window.__devtools.dict[getLang()][key] || '' : '';
+    const toast = () => {
+      const t = $('toast');
+      t.textContent = getDict('copied');
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2000);
+    };
+
+    let currentError = null;
+    function showError(key) {
+      if (key === null) { $('error').textContent = ''; currentError = null; return; }
+      currentError = { key };
+      $('error').textContent = getDict(key) || key;
+    }
+
+    function showStats(original, result) {
+      $('stats').style.display = 'flex';
+      $('originalSize').textContent = formatBytes(original);
+      $('resultSize').textContent = formatBytes(result);
+      const saved = original > 0 ? Math.round((1 - result / original) * 100) : 0;
+      $('savedSize').textContent = saved + '%';
+    }
+
+    function formatBytes(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      return (bytes / 1024).toFixed(1) + ' KB';
+    }
+
+    function removeComments(css) {
+      return css.replace(/\/\*[\s\S]*?\*\//g, '');
+    }
+
+    function beautifyCSS(css) {
+      css = removeComments(css);
+      css = css.replace(/\s+/g, ' ').trim();
+      let result = '';
+      let indent = 0;
+      let inString = false;
+      let stringChar = '';
+
+      for (let i = 0; i < css.length; i++) {
+        const c = css[i];
+
+        if (inString) {
+          result += c;
+          if (c === stringChar && css[i - 1] !== '\\') inString = false;
+          continue;
+        }
+
+        if (c === '"' || c === "'") {
+          inString = true;
+          stringChar = c;
+          result += c;
+          continue;
+        }
+
+        if (c === '{') {
+          result = result.trimEnd() + ' ';
+          result += '{\n';
+          indent++;
+          result += '  '.repeat(indent);
+          continue;
+        }
+
+        if (c === '}') {
+          result = result.trimEnd();
+          if (result.endsWith(';')) {
+            // keep semicolon
+          }
+          result += '\n';
+          indent = Math.max(0, indent - 1);
+          result += '  '.repeat(indent) + '}\n';
+          if (indent === 0) result += '\n';
+          continue;
+        }
+
+        if (c === ';') {
+          result += ';\n';
+          result += '  '.repeat(indent);
+          continue;
+        }
+
+        if (c === ' ') {
+          if (result.length > 0 && !result.endsWith(' ') && !result.endsWith('\n')) {
+            result += c;
+          }
+          continue;
+        }
+
+        result += c;
+      }
+
+      result = result.replace(/\n\s*\n\s*\n/g, '\n\n');
+      return result.trim();
+    }
+
+    function minifyCSS(css) {
+      css = removeComments(css);
+      css = css.replace(/\s+/g, ' ');
+      css = css.replace(/\s*{\s*/g, '{');
+      css = css.replace(/\s*}\s*/g, '}');
+      css = css.replace(/\s*;\s*/g, ';');
+      css = css.replace(/\s*:\s*/g, ':');
+      css = css.replace(/\s*,\s*/g, ',');
+      css = css.replace(/;}/g, '}');
+      css = css.replace(/\s*>\s*/g, '>');
+      css = css.replace(/\s*\+\s*/g, '+');
+      css = css.replace(/\s*~\s*/g, '~');
+      return css.trim();
+    }
+
+    $('formatBtn').addEventListener('click', () => {
+      showError(null);
+      const val = $('input').value;
+      if (!val.trim()) { showError('err_empty'); return; }
+      try {
+        const result = beautifyCSS(val);
+        $('output').value = result;
+        showStats(val.length, result.length);
+      } catch (e) {
+        showError('err_css_format');
+      }
+    });
+
+    $('minifyBtn').addEventListener('click', () => {
+      showError(null);
+      const val = $('input').value;
+      if (!val.trim()) { showError('err_empty'); return; }
+      try {
+        const result = minifyCSS(val);
+        $('output').value = result;
+        showStats(val.length, result.length);
+      } catch (e) {
+        showError('err_css_format');
+      }
+    });
+
+    $('copyBtn').addEventListener('click', () => { if ($('output').value) { navigator.clipboard.writeText($('output').value); toast(); } });
+    $('clearBtn').addEventListener('click', () => { $('input').value = ''; $('output').value = ''; $('stats').style.display = 'none'; showError(null); });
+
+    document.getElementById('langBtn').addEventListener('click', () => {
+      setTimeout(() => { if (currentError) showError(currentError.key); }, 20);
+    });
+  </script>
+</BaseLayout>
