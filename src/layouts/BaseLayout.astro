@@ -28,12 +28,22 @@ const desc =
       })();
     </script>
 
-    <script>(function(s){s.dataset.zone='11116451',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+    <script>
+      (function (s) {
+        ((s.dataset.zone = "11116451"),
+          (s.src = "https://nap5k.com/tag.min.js"));
+      })(
+        [document.documentElement, document.body]
+          .filter(Boolean)
+          .pop()
+          .appendChild(document.createElement("script")),
+      );
+    </script>
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{pageTitle}</title>
-    <meta name="monetag" content="5b71a13eb2d4f672a96df68b07f716cf">
+    <meta name="monetag" content="5b71a13eb2d4f672a96df68b07f716cf" />
     <meta name="description" content={desc} />
     <meta name="robots" content="index, follow" />
     <meta name="baidu-site-verification" content="codeva-3jNkyGby9R" />
@@ -80,7 +90,8 @@ const desc =
         <p>
           &copy; {new Date().getFullYear()} ToolsX. <a
             href="/privacy"
-            data-t="nav_privacy">Privacy Policy</a>
+            data-t="nav_privacy">Privacy Policy</a
+          >
         </p>
       </div>
     </footer>
@@ -1050,7 +1061,12 @@ const desc =
         };
 
         function getLang() {
-          return localStorage.getItem(KEY) || "en";
+          var saved = localStorage.getItem(KEY);
+          if (saved) return saved;
+          var browserLang =
+            navigator.language || navigator.userLanguage || "en";
+          if (browserLang.toLowerCase().indexOf("zh") === 0) return "zh";
+          return "en";
         }
 
         function applyLang(lang) {
