@@ -32,7 +32,6 @@ const categories = [
       { name: 'Text Dedup', nameZh: '文本去重', slug: 'text-dedup', en: 'Remove duplicate lines from text', zh: '去除文本中的重复行', icon: '≡', color: '#14b8a6', ready: true },
       { name: 'YAML Converter', nameZh: 'YAML 转换', slug: 'yaml-converter', en: 'Convert between YAML and JSON', zh: 'YAML 与 JSON 互转', icon: 'Y', color: '#a855f7', ready: true },
       { name: 'CSS Minifier', nameZh: 'CSS 压缩', slug: 'css-minifier', en: 'Minify and beautify CSS code', zh: '压缩和美化 CSS 代码', icon: 'CSS', color: '#1e40af', ready: true },
-      
     ]
   },
   {
@@ -46,22 +45,34 @@ const categories = [
     ]
   },
 ];
-
 ---
 <BaseLayout>
+  <div class="search-section">
+    <div class="search-row">
+      <input type="text" id="searchInput" placeholder="Search tools..." data-t-ph="ph_search" spellcheck="false" autocomplete="off" />
+      <button id="searchBtn" class="btn search-btn" data-t="search_btn">Search</button>
+    </div>
+    <div class="search-engines">
+      <label class="engine-label"><input type="radio" name="searchEngine" value="bing" checked /><span>Bing</span></label>
+      <label class="engine-label"><input type="radio" name="searchEngine" value="baidu" /><span data-t="search_baidu">百度</span></label>
+      <label class="engine-label"><input type="radio" name="searchEngine" value="google" /><span>Google</span></label>
+      <label class="engine-label"><input type="radio" name="searchEngine" value="site" /><span data-t="search_site">Site</span></label>
+    </div>
+  </div>
+
   {categories.map(cat => (
     <section class="tool-section">
       <h2 class="section-title" data-t-en={cat.titleEn} data-t-zh={cat.titleZh}>{cat.titleEn}</h2>
       <div class="tools-grid">
         {cat.tools.map(tool => (
           tool.ready ? (
-            <a href={`/${tool.slug}`} class="tool-card">
+            <a href={`/${tool.slug}`} class="tool-card" data-search={`${tool.name} ${tool.nameZh} ${tool.en} ${tool.zh}`}>
               <div class="tool-card-icon" style={`background:${tool.color}12; color:${tool.color}`}>{tool.icon}</div>
               <h3 data-t-en={tool.name} data-t-zh={tool.nameZh}>{tool.name}</h3>
               <p data-t-en={tool.en} data-t-zh={tool.zh}>{tool.en}</p>
             </a>
           ) : (
-            <div class="tool-card">
+            <div class="tool-card" data-search={`${tool.name} ${tool.nameZh} ${tool.en} ${tool.zh}`}>
               <div class="tool-card-icon" style={`background:${tool.color}12; color:${tool.color}`}>{tool.icon}</div>
               <h3 data-t-en={tool.name} data-t-zh={tool.nameZh}>{tool.name}</h3>
               <p data-t-en={tool.en} data-t-zh={tool.zh}>{tool.en}</p>
@@ -71,4 +82,69 @@ const categories = [
       </div>
     </section>
   ))}
+
+  <script is:inline>
+    (function() {
+      var searchInput = document.getElementById('searchInput');
+      var searchBtn = document.getElementById('searchBtn');
+
+      function getEngine() {
+        var checked = document.querySelector('input[name="searchEngine"]:checked');
+        return checked ? checked.value : 'bing';
+      }
+
+      function doSearch() {
+        var keyword = searchInput.value.trim();
+        if (!keyword) {
+          clearHighlight();
+          return;
+        }
+
+        var engine = getEngine();
+
+        if (engine === 'site') {
+          highlightCards(keyword);
+        } else {
+          var url = '';
+          if (engine === 'bing') url = 'https://www.bing.com/search?q=' + encodeURIComponent(keyword);
+          if (engine === 'baidu') url = 'https://www.baidu.com/s?wd=' + encodeURIComponent(keyword);
+          if (engine === 'google') url = 'https://www.google.com/search?q=' + encodeURIComponent(keyword);
+          window.open(url, '_blank');
+        }
+      }
+
+      function highlightCards(keyword) {
+        var cards = document.querySelectorAll('.tool-card');
+        var lowerKeyword = keyword.toLowerCase();
+        cards.forEach(function(card) {
+          card.classList.remove('search-highlight');
+        });
+        var found = false;
+        cards.forEach(function(card) {
+          var text = (card.getAttribute('data-search') || '').toLowerCase();
+          if (text.indexOf(lowerKeyword) !== -1) {
+            card.classList.add('search-highlight');
+            if (!found) {
+              found = true;
+              card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+          }
+        });
+      }
+
+      function clearHighlight() {
+        document.querySelectorAll('.tool-card').forEach(function(card) {
+          card.classList.remove('search-highlight');
+        });
+      }
+
+      searchBtn.addEventListener('click', doSearch);
+      searchInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') doSearch();
+      });
+      searchInput.addEventListener('input', function() {
+        if (searchInput.value.trim() === '') clearHighlight();
+      });
+    })();
+  </script>
 </BaseLayout>
