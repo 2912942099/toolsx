@@ -76,6 +76,7 @@
 
   .site-logo {
     flex: 1;
+    order: 1;
   }
 
   .lang-btn {
@@ -90,6 +91,22 @@
     gap: 20px;
     padding-top: 4px;
     border-top: 1px solid var(--border);
+  }
+}
+
+/* Desktop */
+@media (min-width: 641px) {
+  .site-logo {
+    order: 1;
+  }
+
+  .site-nav {
+    order: 2;
+    margin-left: auto;
+  }
+
+  .lang-btn {
+    order: 3;
   }
 }
 
