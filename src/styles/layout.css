@@ -65,26 +65,34 @@
   background: #22c55e;
 }
 
-/* Mobile header: logo and nav on separate rows */
+
+
+/* Mobile header */
 @media (max-width: 640px) {
   .site-header .container {
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 12px;
   }
 
   .site-logo {
-    width: 100%;
-    text-align: center;
+    flex: 1;
+  }
+
+  .lang-btn {
+    order: 2;
+    margin-left: auto;
   }
 
   .site-nav {
+    order: 3;
     width: 100%;
     justify-content: center;
-    gap: 16px;
-    flex-wrap: wrap;
+    gap: 20px;
+    padding-top: 4px;
+    border-top: 1px solid var(--border);
   }
 }
+
 
 
 /* Footer */
