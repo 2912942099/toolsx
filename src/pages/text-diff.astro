@@ -8,7 +8,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <p data-t="diff_desc">Compare two texts and highlight differences line by line.</p>
     </div>
 
-    <!-- Input Areas -->
     <div class="editor-row">
       <div>
         <div class="editor-label" data-t="lbl_old_text">Original Text</div>
@@ -26,7 +25,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <button class="btn" id="clearBtn" data-t="btn_clear">Clear</button>
     </div>
 
-    <!-- Stats -->
     <div id="stats" class="stats" style="display:none;">
       <div class="stat-item">
         <div class="stat-value" id="sAdded" style="color:#16a34a;">0</div>
@@ -42,24 +40,63 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
     </div>
 
-    <!-- Result -->
     <div id="noDiff" class="diff-no-diff" style="display:none;" data-t="lbl_no_diff">The two texts are identical</div>
     <div id="diffResult" class="diff-result"></div>
 
     <section class="tool-info">
       <h2 data-t="diff_about">About Text Diff</h2>
-      <p data-t="diff_about_text">This tool compares two texts line by line and highlights the differences. Green lines indicate additions (present in the new text but not the old), red lines indicate deletions (present in the old text but not the new), and plain lines are unchanged. All processing happens in your browser.</p>
-    
+      <p data-t="diff_about_text">This tool compares two texts line by line and highlights the differences. Green lines indicate additions, red lines indicate deletions, and plain lines are unchanged. All processing happens in your browser.</p>
       <h3 data-t="diff_how_title">How to Use</h3>
-<p data-t="diff_how_text">Paste the original text on the left and the modified text on the right. Click "Compare" to see the differences highlighted. Green lines indicate additions, red lines indicate deletions, and plain lines are unchanged.</p>
-<h3 data-t="diff_what_title">What is Text Diff?</h3>
-<p data-t="diff_what_text">Text diff (difference) is a comparison algorithm that analyzes two texts line by line and identifies what has been added, removed, or changed. It is one of the most fundamental tools in software development and document editing, used to track changes and review code modifications.</p>
-<h3 data-t="diff_uses_title">Common Use Cases</h3>
-<p data-t="diff_uses_text">Code review: compare versions of source code files. Document editing: track changes between draft versions. Configuration management: find differences between config files. Data comparison: compare CSV or log file outputs. Legal and academic: compare versions of contracts or research papers.</p>
-
+      <p data-t="diff_how_text">Paste the original text on the left and the modified text on the right. Click "Compare" to see the differences highlighted. Green lines indicate additions, red lines indicate deletions, and plain lines are unchanged.</p>
+      <h3 data-t="diff_what_title">What is Text Diff?</h3>
+      <p data-t="diff_what_text">Text diff (difference) is a comparison algorithm that analyzes two texts line by line and identifies what has been added, removed, or changed. It is one of the most fundamental tools in software development and document editing, used to track changes and review code modifications.</p>
+      <h3 data-t="diff_uses_title">Common Use Cases</h3>
+      <p data-t="diff_uses_text">Code review: compare versions of source code files. Document editing: track changes between draft versions. Configuration management: find differences between config files. Data comparison: compare CSV or log file outputs. Legal and academic: compare versions of contracts or research papers.</p>
     </section>
   </div>
 
+  <!-- Text Diff 页面专属翻译 -->
+  <script is:inline>
+    (function() {
+      if (window.__devtoolsMergeDict) {
+        window.__devtoolsMergeDict({
+          en: {
+            diff_title: 'Text Diff',
+            diff_desc: 'Compare two texts and highlight differences line by line.',
+            diff_about: 'About Text Diff',
+            diff_about_text: 'This tool compares two texts line by line and highlights the differences. Green lines indicate additions, red lines indicate deletions, and plain lines are unchanged. All processing happens in your browser.',
+            diff_how_title: 'How to Use',
+            diff_how_text: 'Paste the original text on the left and the modified text on the right. Click "Compare" to see the differences highlighted. Green lines indicate additions, red lines indicate deletions, and plain lines are unchanged.',
+            diff_what_title: 'What is Text Diff?',
+            diff_what_text: 'Text diff (difference) is a comparison algorithm that analyzes two texts line by line and identifies what has been added, removed, or changed. It is one of the most fundamental tools in software development and document editing, used to track changes and review code modifications.',
+            diff_uses_title: 'Common Use Cases',
+            diff_uses_text: 'Code review: compare versions of source code files. Document editing: track changes between draft versions. Configuration management: find differences between config files. Data comparison: compare CSV or log file outputs. Legal and academic: compare versions of contracts or research papers.',
+            ph_diff_old: 'Paste original text here...',
+            ph_diff_new: 'Paste modified text here...',
+          },
+          zh: {
+            diff_title: '文本对比',
+            diff_desc: '逐行对比两段文本并高亮差异。',
+            diff_about: '关于文本对比',
+            diff_about_text: '此工具逐行对比两段文本并高亮差异。绿色行表示新增（新文本中有，旧文本中没有），红色行表示删除（旧文本中有，新文本中没有），普通行表示未改变。所有处理在浏览器端完成。',
+            diff_how_title: '如何使用',
+            diff_how_text: '在左侧粘贴原始文本，在右侧粘贴修改后的文本。点击「开始对比」查看高亮显示的差异。绿色行表示新增，红色行表示删除，普通行表示未改变。',
+            diff_what_title: '什么是文本对比？',
+            diff_what_text: '文本对比（差异分析）是一种逐行比较算法，分析两段文本并识别哪些内容被添加、删除或修改。它是软件开发和文档编辑中最基本的工具之一，用于跟踪变更和审查代码修改。',
+            diff_uses_title: '常见用途',
+            diff_uses_text: '代码审查：比较源代码文件的不同版本。文档编辑：跟踪草稿版本之间的变化。配置管理：找出配置文件之间的差异。数据比较：比较 CSV 或日志文件输出。法律和学术：比较合同或研究论文的不同版本。',
+            ph_diff_old: '粘贴原始文本...',
+            ph_diff_new: '粘贴修改后文本...',
+          }
+        });
+        if (window.__devtools && window.__devtools.applyLang) {
+          window.__devtools.applyLang(window.__devtools.getLang());
+        }
+      }
+    })();
+  </script>
+
+  <!-- 功能逻辑 -->
   <script is:inline>
     const $ = id => document.getElementById(id);
     const getDict = (key) => (window.__devtools && window.__devtools.dict) ? window.__devtools.dict[(window.__devtools.getLang())][key] || '' : '';
@@ -68,12 +105,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     }
 
-    // LCS-based diff
     function computeDiff(oldLines, newLines) {
       const m = oldLines.length;
       const n = newLines.length;
 
-      // Build LCS table
       const dp = [];
       for (let i = 0; i <= m; i++) {
         dp[i] = new Array(n + 1).fill(0);
@@ -88,7 +123,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         }
       }
 
-      // Backtrack to produce diff
       const result = [];
       let i = m, j = n;
       while (i > 0 || j > 0) {
@@ -128,7 +162,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         else unchanged++;
       });
 
-      // Stats
       $('sAdded').textContent = added;
       $('sRemoved').textContent = removed;
       $('sUnchanged').textContent = unchanged;
@@ -139,7 +172,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         return;
       }
 
-      // Render
       let html = '';
       diff.forEach(d => {
         const cls = d.type === 'add' ? 'diff-line-add' : d.type === 'remove' ? 'diff-line-remove' : 'diff-line-equal';
@@ -175,7 +207,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       $('noDiff').style.display = 'none';
     });
 
-    // Language switch
     document.getElementById('langBtn').addEventListener('click', () => {
       setTimeout(() => {
         if ($('stats').style.display !== 'none') doDiff();

@@ -18,7 +18,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
     </div>
 
-    <!-- Hash Results -->
     <div id="hashResults" class="hash-list">
       <div class="hash-item">
         <div class="hash-algo">MD5</div>
@@ -50,7 +49,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
     </div>
 
-    <!-- Compare -->
     <div class="hash-compare">
       <div class="option-row" style="margin-bottom:12px;">
         <input type="checkbox" id="compareToggle" />
@@ -66,21 +64,60 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
     <section class="tool-info">
       <h2 data-t="md5_about">About Hash Functions</h2>
-      <p data-t="md5_about_text">A hash function converts input data into a fixed-size string of characters. MD5 produces a 128-bit hash (32 hex chars). SHA-1 produces a 160-bit hash (40 hex chars). SHA-256 produces a 256-bit hash (64 hex chars). SHA-512 produces a 512-bit hash (128 hex chars). These are one-way functions — you cannot reverse a hash back to the original text. Common uses include file integrity checks, password storage, and digital signatures.</p>
-    
+      <p data-t="md5_about_text">A hash function converts input data into a fixed-size string of characters. MD5 produces a 128-bit hash (32 hex chars). SHA-1 produces a 160-bit hash (40 hex chars). SHA-256 produces a 256-bit hash (64 hex chars). SHA-512 produces a 512-bit hash (128 hex chars). These are one-way functions — you cannot reverse a hash back to the original text.</p>
       <h3 data-t="md5_how_title">How to Use</h3>
-<p data-t="md5_how_text">Enter or paste your text in the input field. The tool automatically generates MD5, SHA-1, SHA-256, and SHA-512 hashes simultaneously. Click the copy button next to any hash to copy it to your clipboard. Use the compare feature to verify a hash against a known value.</p>
-<h3 data-t="md5_what_title">What is a Hash Function?</h3>
-<p data-t="md5_what_text">A hash function takes input data of any size and produces a fixed-size string of characters. The same input always produces the same hash, but you cannot reverse the process to get the original data from the hash. This makes hash functions ideal for data integrity verification and password storage.</p>
-<h3 data-t="md5_choosing_title">Which Hash to Choose?</h3>
-<p data-t="md5_choosing_text">MD5 (32 chars): Fast but not collision-resistant. Use for checksums and non-security purposes. SHA-1 (40 chars): Stronger than MD5 but deprecated for security use. SHA-256 (64 chars): Industry standard for security. Used in SSL certificates and blockchain. SHA-512 (128 chars): Strongest option with highest collision resistance.</p>
-
+      <p data-t="md5_how_text">Enter or paste your text in the input field. The tool automatically generates MD5, SHA-1, SHA-256, and SHA-512 hashes simultaneously. Click the copy button next to any hash to copy it to your clipboard. Use the compare feature to verify a hash against a known value.</p>
+      <h3 data-t="md5_what_title">What is a Hash Function?</h3>
+      <p data-t="md5_what_text">A hash function takes input data of any size and produces a fixed-size string of characters. The same input always produces the same hash, but you cannot reverse the process to get the original data from the hash. This makes hash functions ideal for data integrity verification and password storage.</p>
+      <h3 data-t="md5_choosing_title">Which Hash to Choose?</h3>
+      <p data-t="md5_choosing_text">MD5 (32 chars): Fast but not collision-resistant. Use for checksums and non-security purposes. SHA-1 (40 chars): Stronger than MD5 but deprecated for security use. SHA-256 (64 chars): Industry standard for security. Used in SSL certificates and blockchain. SHA-512 (128 chars): Strongest option with highest collision resistance.</p>
     </section>
   </div>
 
+  <!-- Hash Generator 页面专属翻译 -->
   <script is:inline>
-    // ==================== MD5 Implementation (RFC 1321) ====================
-    // Minimal pure-JS MD5 by wrapping the standard algorithm
+    (function() {
+      if (window.__devtoolsMergeDict) {
+        window.__devtoolsMergeDict({
+          en: {
+            md5_title: 'Hash Generator',
+            md5_desc: 'Generate MD5, SHA-1, SHA-256, SHA-512 hashes from text.',
+            md5_about: 'About Hash Functions',
+            md5_about_text: 'A hash function converts input data into a fixed-size string of characters. MD5 produces a 128-bit hash (32 hex chars). SHA-1 produces a 160-bit hash (40 hex chars). SHA-256 produces a 256-bit hash (64 hex chars). SHA-512 produces a 512-bit hash (128 hex chars). These are one-way functions — you cannot reverse a hash back to the original text.',
+            md5_how_title: 'How to Use',
+            md5_how_text: 'Enter or paste your text in the input field. The tool automatically generates MD5, SHA-1, SHA-256, and SHA-512 hashes simultaneously. Click the copy button next to any hash to copy it to your clipboard. Use the compare feature to verify a hash against a known value.',
+            md5_what_title: 'What is a Hash Function?',
+            md5_what_text: 'A hash function takes input data of any size and produces a fixed-size string of characters. The same input always produces the same hash, but you cannot reverse the process to get the original data from the hash. This makes hash functions ideal for data integrity verification and password storage.',
+            md5_choosing_title: 'Which Hash to Choose?',
+            md5_choosing_text: 'MD5 (32 chars): Fast but not collision-resistant. Use for checksums and non-security purposes. SHA-1 (40 chars): Stronger than MD5 but deprecated for security use. SHA-256 (64 chars): Industry standard for security. Used in SSL certificates and blockchain. SHA-512 (128 chars): Strongest option with highest collision resistance.',
+            ph_md5_input: 'Enter text to hash...',
+            ph_md5_compare: 'Paste a hash to compare...',
+          },
+          zh: {
+            md5_title: 'MD5 / SHA 哈希生成',
+            md5_desc: '生成 MD5、SHA-1、SHA-256、SHA-512 哈希值。',
+            md5_about: '关于哈希函数',
+            md5_about_text: '哈希函数将输入数据转换为固定长度的字符串。MD5 生成 128 位哈希值（32个十六进制字符）。SHA-1 生成 160 位哈希值（40个字符）。SHA-256 生成 256 位哈希值（64个字符）。SHA-512 生成 512 位哈希值（128个字符）。这些都是单向函数——无法从哈希值反推出原始文本。',
+            md5_how_title: '如何使用',
+            md5_how_text: '在输入框中输入或粘贴文本。工具会同时自动生成 MD5、SHA-1、SHA-256 和 SHA-512 哈希值。点击任意哈希值旁边的复制按钮将其复制到剪贴板。使用对比功能验证哈希值是否与已知值匹配。',
+            md5_what_title: '什么是哈希函数？',
+            md5_what_text: '哈希函数接收任意大小的输入数据，生成固定长度的字符串。相同的输入总是产生相同的哈希值，但无法从哈希值反向推导出原始数据。这使得哈希函数非常适合用于数据完整性验证和密码存储。',
+            md5_choosing_title: '应该选择哪种哈希？',
+            md5_choosing_text: 'MD5（32 字符）：速度快但不抗碰撞。用于校验和非安全场景。SHA-1（40 字符）：比 MD5 更强但已不推荐用于安全场景。SHA-256（64 字符）：安全行业标准，用于 SSL 证书和区块链。SHA-512（128 字符）：最强选项，碰撞抗性最高。',
+            ph_md5_input: '输入要哈希的文本...',
+            ph_md5_compare: '粘贴哈希值进行对比...',
+          }
+        });
+        if (window.__devtools && window.__devtools.applyLang) {
+          window.__devtools.applyLang(window.__devtools.getLang());
+        }
+      }
+    })();
+  </script>
+
+  <!-- 功能逻辑 -->
+  <script is:inline>
+    // MD5 Implementation (RFC 1321)
     var MD5 = (function() {
       function safeAdd(x, y) {
         var lsw = (x & 0xFFFF) + (y & 0xFFFF);
@@ -145,7 +182,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       };
     })();
 
-    // ==================== Main Logic ====================
     const $ = id => document.getElementById(id);
     const getDict = (key) => (window.__devtools && window.__devtools.dict) ? window.__devtools.dict[(window.__devtools.getLang())][key] || '' : '';
     const toast = () => {
@@ -177,10 +213,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       const encoder = new TextEncoder();
       const data = encoder.encode(text);
 
-      // MD5 (pure JS)
       $('h_md5').textContent = formatHash(MD5(text));
 
-      // SHA-1, SHA-256, SHA-512 (Web Crypto API)
       const [sha1Buf, sha256Buf, sha512Buf] = await Promise.all([
         crypto.subtle.digest('SHA-1', data),
         crypto.subtle.digest('SHA-256', data),
@@ -214,7 +248,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         if (h !== '—' && h === compareHash) matched = true;
       });
 
-      const lang = (window.__devtools && window.__devtools.getLang) ? window.__devtools.getLang() : 'en';
       if (matched) {
         resultEl.textContent = '✓ ' + getDict('lbl_match');
         resultEl.className = 'hash-compare-result hash-match';
@@ -234,7 +267,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
     $('compareHash').addEventListener('input', compareHashes);
 
-    // Copy buttons
     document.querySelectorAll('.hex-copy').forEach(btn => {
       btn.addEventListener('click', () => {
         const target = btn.getAttribute('data-target');
@@ -243,7 +275,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       });
     });
 
-    // Language switch
     document.getElementById('langBtn').addEventListener('click', () => {
       setTimeout(() => { compareHashes(); }, 20);
     });

@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const linkCategories = [
+  {
+    titleEn: 'Developer Tools',
+    titleZh: '开发工具',
+    links: [
+      { name: 'GitHub', url: 'https://github.com', desc: 'Code hosting and collaboration platform', descZh: '代码托管和协作平台', icon: 'GH' },
+      { name: 'VS Code', url: 'https://code.visualstudio.com', desc: 'Free code editor by Microsoft', descZh: '微软免费代码编辑器', icon: 'VS' },
+      { name: 'CodePen', url: 'https://codepen.io', desc: 'Online code editor and playground', descZh: '在线代码编辑器和演练场', icon: 'CP' },
+      { name: 'Stack Overflow', url: 'https://stackoverflow.com', desc: 'Q&A for programmers', descZh: '程序员问答社区', icon: 'SO' },
+    ]
+  },
+  {
+    titleEn: 'Design Resources',
+    titleZh: '设计资源',
+    links: [
+      { name: 'Figma', url: 'https://figma.com', desc: 'Collaborative design tool', descZh: '协作设计工具', icon: 'FG' },
+      { name: 'Canva', url: 'https://canva.com', desc: 'Easy graphic design platform', descZh: '简易平面设计平台', icon: 'CV' },
+      { name: 'Dribbble', url: 'https://dribbble.com', desc: 'Design inspiration and showcase', descZh: '设计灵感和作品展示', icon: 'DB' },
+      { name: 'Unsplash', url: 'https://unsplash.com', desc: 'Free high-resolution photos', descZh: '免费高清图片素材', icon: 'US' },
+    ]
+  },
+  {
+    titleEn: 'Hosting & Domains',
+    titleZh: '托管与域名',
+    links: [
+      { name: 'Vercel', url: 'https://vercel.com', desc: 'Frontend deployment platform', descZh: '前端部署平台', icon: 'VL' },
+      { name: 'Cloudflare', url: 'https://cloudflare.com', desc: 'CDN, DNS, and security services', descZh: 'CDN、DNS 和安全服务', icon: 'CF' },
+      { name: 'Netlify', url: 'https://netlify.com', desc: 'Modern web hosting platform', descZh: '现代网站托管平台', icon: 'NL' },
+      { name: 'Namecheap', url: 'https://namecheap.com', desc: 'Domain registration and hosting', descZh: '域名注册和托管', icon: 'NC' },
+    ]
+  },
+  {
+    titleEn: 'Learning',
+    titleZh: '学习平台',
+    links: [
+      { name: 'MDN Web Docs', url: 'https://developer.mozilla.org', desc: 'Web development documentation', descZh: 'Web 开发文档', icon: 'MD' },
+      { name: 'freeCodeCamp', url: 'https://freecodecamp.org', desc: 'Learn to code for free', descZh: '免费学习编程', icon: 'FC' },
+      { name: 'W3Schools', url: 'https://w3schools.com', desc: 'Web development tutorials', descZh: 'Web 开发教程', icon: 'W3' },
+      { name: 'LeetCode', url: 'https://leetcode.com', desc: 'Coding challenges and practice', descZh: '编程挑战和练习', icon: 'LC' },
+    ]
+  },
+];
+---
+<BaseLayout title="Links" description="Curated collection of useful websites for developers, designers, and creators.">
+  <div class="tool-page">
+    <div class="tool-header">
+      <h1 data-t="links_title">Recommended Links</h1>
+      <p data-t="links_desc">Curated collection of useful websites for developers, designers, and creators.</p>
+    </div>
+
+    {linkCategories.map(cat => (
+      <section class="tool-section">
+        <h2 class="section-title" data-t-en={cat.titleEn} data-t-zh={cat.titleZh}>{cat.titleEn}</h2>
+        <div class="tools-grid">
+          {cat.links.map(link => (
+            <a href={link.url} target="_blank" rel="noopener" class="tool-card">
+              <div class="tool-card-icon" style="background:#22c55e12; color:#22c55e">{link.icon}</div>
+              <h3>{link.name}</h3>
+              <p data-t-en={link.desc} data-t-zh={link.descZh}>{link.desc}</p>
+            </a>
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
+</BaseLayout>

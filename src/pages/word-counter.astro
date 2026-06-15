@@ -21,33 +21,69 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <section class="tool-info">
       <h2 data-t="wc_about">About Word Counter</h2>
       <p data-t="wc_about_text">This tool counts words, characters (with and without spaces), sentences, and paragraphs in real time. Reading time is estimated at 225 words per minute, the average adult reading speed.</p>
-    
       <h3 data-t="wc_how_title">How to Use</h3>
-<p data-t="wc_how_text">Start typing or paste your text into the input field. The statistics update instantly in real time as you type. No need to click any button — just paste and see the results immediately.</p>
-<h3 data-t="wc_method_title">Counting Method</h3>
-<p data-t="wc_method_text">English words are counted by word (Hello World = 2 words). Chinese characters are counted individually (你好世界 = 4 words). This hybrid approach ensures accurate counting for mixed Chinese-English text, which is common in bilingual documents and technical writing.</p>
-<h3 data-t="wc_uses_title">Common Use Cases</h3>
-<p data-t="wc_uses_text">Writers and bloggers use word counters to meet article length requirements. Students use it to check essay and report word counts. Social media managers use it to stay within character limits for posts. Translators use it to estimate project scope and pricing based on word count.</p>
-
+      <p data-t="wc_how_text">Start typing or paste your text into the input field. The statistics update instantly in real time as you type. No need to click any button — just paste and see the results immediately.</p>
+      <h3 data-t="wc_method_title">Counting Method</h3>
+      <p data-t="wc_method_text">English words are counted by word (Hello World = 2 words). Chinese characters are counted individually (你好世界 = 4 words). This hybrid approach ensures accurate counting for mixed Chinese-English text, which is common in bilingual documents and technical writing.</p>
+      <h3 data-t="wc_uses_title">Common Use Cases</h3>
+      <p data-t="wc_uses_text">Writers and bloggers use word counters to meet article length requirements. Students use it to check essay and report word counts. Social media managers use it to stay within character limits for posts. Translators use it to estimate project scope and pricing based on word count.</p>
     </section>
   </div>
 
-<script is:inline>
-  const input = document.getElementById('input');
-  input.addEventListener('input', () => {
-    const t = input.value;
+  <!-- Word Counter 页面专属翻译 -->
+  <script is:inline>
+    (function() {
+      if (window.__devtoolsMergeDict) {
+        window.__devtoolsMergeDict({
+          en: {
+            wc_title: 'Word & Character Counter',
+            wc_desc: 'Real-time counting — just start typing or paste your text.',
+            wc_about: 'About Word Counter',
+            wc_about_text: 'This tool counts words, characters (with and without spaces), sentences, and paragraphs in real time. Reading time is estimated at 225 words per minute, the average adult reading speed.',
+            wc_how_title: 'How to Use',
+            wc_how_text: 'Start typing or paste your text into the input field. The statistics update instantly in real time as you type. No need to click any button — just paste and see the results immediately.',
+            wc_method_title: 'Counting Method',
+            wc_method_text: 'English words are counted by word (Hello World = 2 words). Chinese characters are counted individually (你好世界 = 4 words). This hybrid approach ensures accurate counting for mixed Chinese-English text, which is common in bilingual documents and technical writing.',
+            wc_uses_title: 'Common Use Cases',
+            wc_uses_text: 'Writers and bloggers use word counters to meet article length requirements. Students use it to check essay and report word counts. Social media managers use it to stay within character limits for posts. Translators use it to estimate project scope and pricing based on word count.',
+            ph_wc_input: 'Start typing or paste your text here...',
+          },
+          zh: {
+            wc_title: '字数统计',
+            wc_desc: '实时统计——直接开始输入或粘贴文本即可。',
+            wc_about: '关于字数统计',
+            wc_about_text: '此工具实时统计字数、字符数（含/不含空格）、句子数和段落数。英文按单词计数（Hello World = 2），中文按单字计数（你好世界 = 4）。',
+            wc_how_title: '如何使用',
+            wc_how_text: '开始输入或粘贴文本到输入框中。统计数据会实时更新。无需点击任何按钮——粘贴后立即查看结果。',
+            wc_method_title: '计数方式',
+            wc_method_text: '英文按单词计数（Hello World = 2 个字）。中文按单字计数（你好世界 = 4 个字）。这种混合方式确保中英混合文本的准确计数，常见于双语文档和技术写作。',
+            wc_uses_title: '常见用途',
+            wc_uses_text: '作家和博主使用字数统计来满足文章长度要求。学生用它检查论文和报告的字数。社交媒体管理员用它来控制帖子的字符限制。译者用它根据字数估算项目范围和定价。',
+            ph_wc_input: '开始输入或粘贴文本...',
+          }
+        });
+        if (window.__devtools && window.__devtools.applyLang) {
+          window.__devtools.applyLang(window.__devtools.getLang());
+        }
+      }
+    })();
+  </script>
 
-    // 分开匹配：英文单词 + 每个汉字（严格排除标点）
-    const englishWords = t.match(/[a-zA-Z0-9]+(?:['-][a-zA-Z0-9]+)*/g) || [];
-    const cjkChars = t.match(/[\u4e00-\u9fff\u3400-\u4dbf]/g) || [];
-    const words = englishWords.length + cjkChars.length;
+  <!-- 功能逻辑 -->
+  <script is:inline>
+    const input = document.getElementById('input');
+    input.addEventListener('input', () => {
+      const t = input.value;
 
-    document.getElementById('words').textContent = words;
-    document.getElementById('chars').textContent = t.length;
-    document.getElementById('noSpace').textContent = t.replace(/\s/g,'').length;
-    document.getElementById('sentences').textContent = t.trim() ? (t.match(/[.!?。！？]+/g)||[]).length : 0;
-    document.getElementById('paragraphs').textContent = t.trim() ? t.split(/\n\s*\n/).filter(p=>p.trim()).length : 0;
-  });
-</script>
+      const englishWords = t.match(/[a-zA-Z0-9]+(?:['-][a-zA-Z0-9]+)*/g) || [];
+      const cjkChars = t.match(/[\u4e00-\u9fff\u3400-\u4dbf]/g) || [];
+      const words = englishWords.length + cjkChars.length;
 
+      document.getElementById('words').textContent = words;
+      document.getElementById('chars').textContent = t.length;
+      document.getElementById('noSpace').textContent = t.replace(/\s/g,'').length;
+      document.getElementById('sentences').textContent = t.trim() ? (t.match(/[.!?。！？]+/g)||[]).length : 0;
+      document.getElementById('paragraphs').textContent = t.trim() ? t.split(/\n\s*\n/).filter(p=>p.trim()).length : 0;
+    });
+  </script>
 </BaseLayout>

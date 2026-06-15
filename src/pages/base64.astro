@@ -30,17 +30,61 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <section class="tool-info">
       <h2 data-t="b64_about">About Base64</h2>
       <p data-t="b64_about_text">Base64 is a binary-to-text encoding scheme that represents binary data using 64 printable ASCII characters. It's commonly used for embedding data in HTML/CSS, encoding email attachments, and transmitting data over HTTP.</p>
-
       <h3 data-t="b64_how_title">How to Use</h3>
-<p data-t="b64_how_text">Enter your text in the input field and click "Encode" to convert it to Base64, or paste a Base64 string and click "Decode" to convert it back to plain text. The result appears instantly in the output field.</p>
-<h3 data-t="b64_what_title">What is Base64?</h3>
-<p data-t="b64_what_text">Base64 is a binary-to-text encoding scheme that represents binary data using 64 printable ASCII characters (A-Z, a-z, 0-9, +, /). It is widely used in email systems, data URLs, HTTP authentication, and embedding binary data in text-based formats like HTML, CSS, XML, and JSON.</p>
-<h3 data-t="b64_uses_title">Common Use Cases</h3>
-<p data-t="b64_uses_text">Embedding images directly in HTML using data URIs, encoding credentials for HTTP Basic Authentication, transmitting binary data over text-only protocols like email, storing complex data in JSON or XML, and encoding file attachments in API requests.</p>
-
+      <p data-t="b64_how_text">Enter your text in the input field and click "Encode" to convert it to Base64, or paste a Base64 string and click "Decode" to convert it back to plain text. The result appears instantly in the output field.</p>
+      <h3 data-t="b64_what_title">What is Base64?</h3>
+      <p data-t="b64_what_text">Base64 is a binary-to-text encoding scheme that represents binary data using 64 printable ASCII characters (A-Z, a-z, 0-9, +, /). It is widely used in email systems, data URLs, HTTP authentication, and embedding binary data in text-based formats like HTML, CSS, XML, and JSON.</p>
+      <h3 data-t="b64_uses_title">Common Use Cases</h3>
+      <p data-t="b64_uses_text">Embedding images directly in HTML using data URIs, encoding credentials for HTTP Basic Authentication, transmitting binary data over text-only protocols like email, storing complex data in JSON or XML, and encoding file attachments in API requests.</p>
     </section>
   </div>
 
+  <!-- Base64 页面专属翻译，合并到全局字典 -->
+<!-- Base64 页面专属翻译，合并到全局字典 -->
+<script is:inline>
+  (function() {
+    if (window.__devtoolsMergeDict) {
+      window.__devtoolsMergeDict({
+        en: {
+          b64_title: 'Base64 Encoder / Decoder',
+          b64_desc: 'Encode text to Base64 or decode Base64 back to text.',
+          b64_about: 'About Base64',
+          b64_about_text: 'Base64 is a binary-to-text encoding scheme that represents binary data using 64 printable ASCII characters. It\'s commonly used for embedding data in HTML/CSS, encoding email attachments, and transmitting data over HTTP.',
+          b64_how_title: 'How to Use',
+          b64_how_text: 'Enter your text in the input field and click "Encode" to convert it to Base64, or paste a Base64 string and click "Decode" to convert it back to plain text. The result appears instantly in the output field.',
+          b64_what_title: 'What is Base64?',
+          b64_what_text: 'Base64 is a binary-to-text encoding scheme that represents binary data using 64 printable ASCII characters (A-Z, a-z, 0-9, +, /). It is widely used in email systems, data URLs, HTTP authentication, and embedding binary data in text-based formats like HTML, CSS, XML, and JSON.',
+          b64_uses_title: 'Common Use Cases',
+          b64_uses_text: 'Embedding images directly in HTML using data URIs, encoding credentials for HTTP Basic Authentication, transmitting binary data over text-only protocols like email, storing complex data in JSON or XML, and encoding file attachments in API requests.',
+          ph_base64_input: 'Enter text or Base64 string...',
+          ph_base64_output: 'Result...',
+        },
+        zh: {
+          b64_title: 'Base64 编解码',
+          b64_desc: '将文本编码为 Base64，或将 Base64 解码为文本。',
+          b64_about: '关于 Base64',
+          b64_about_text: 'Base64 是一种用 64 个可打印 ASCII 字符表示二进制数据的编码方式。常用于 HTML/CSS 中嵌入数据、编码邮件附件、以及 HTTP 数据传输。',
+          b64_how_title: '如何使用',
+          b64_how_text: '在输入框中输入文本，点击「编码」转换为 Base64；或粘贴 Base64 字符串，点击「解码」转换为纯文本。结果会即时显示在输出框中。',
+          b64_what_title: '什么是 Base64？',
+          b64_what_text: 'Base64 是一种用 64 个可打印 ASCII 字符（A-Z、a-z、0-9、+、/）表示二进制数据的编码方案。它广泛用于电子邮件系统、数据 URL、HTTP 认证，以及在 HTML、CSS、XML 和 JSON 等文本格式中嵌入二进制数据。',
+          b64_uses_title: '常见用途',
+          b64_uses_text: '在 HTML 中使用 data URI 直接嵌入图片、为 HTTP 基本身份验证编码凭据、通过纯文本协议（如电子邮件）传输二进制数据、在 JSON 或 XML 中存储复杂数据、以及在 API 请求中编码文件附件。',
+          ph_base64_input: '输入文本或 Base64 字符串...',
+          ph_base64_output: '结果...',
+        }
+      });
+
+      // 关键：合并后重新应用当前语言
+      if (window.__devtools && window.__devtools.applyLang) {
+        window.__devtools.applyLang(window.__devtools.getLang());
+      }
+    }
+  })();
+</script>
+
+
+  <!-- 功能逻辑 -->
   <script is:inline>
     const $ = id => document.getElementById(id);
     const getLang = () => (window.__devtools && window.__devtools.getLang) ? window.__devtools.getLang() : 'en';

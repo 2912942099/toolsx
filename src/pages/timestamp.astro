@@ -95,17 +95,75 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <section class="tool-info">
       <h2 data-t="ts_about">About Unix Timestamps</h2>
       <p data-t="ts_about_text">A Unix timestamp is the number of seconds since January 1, 1970 00:00:00 UTC (the Unix Epoch). It's widely used in programming, databases, and APIs to represent a specific point in time. This tool supports second-precision (10 digits) and millisecond-precision (13 digits) timestamps.</p>
-    
       <h3 data-t="ts_how_title">How to Use</h3>
-<p data-t="ts_how_text">Enter a Unix timestamp (10 digits for seconds, 13 digits for milliseconds) in the timestamp field to convert it to human-readable date. Or select a date and time to convert it to a Unix timestamp. Click "Refresh" to get the current timestamp.</p>
-<h3 data-t="ts_what_title">What is a Unix Timestamp?</h3>
-<p data-t="ts_what_text">A Unix timestamp is the total number of seconds elapsed since January 1, 1970 00:00:00 UTC, known as the Unix Epoch. It is the standard way computers represent time and is used in virtually all operating systems, programming languages, databases, and APIs.</p>
-<h3 data-t="ts_formats_title">Timestamp Formats</h3>
-<p data-t="ts_formats_text">Seconds (10 digits): 1700000000 represents November 14, 2023. Milliseconds (13 digits): 1700000000000 represents the same moment with higher precision. ISO 8601 format (2023-11-14T00:00:00Z) is the international standard for date-time representation.</p>
-
+      <p data-t="ts_how_text">Enter a Unix timestamp (10 digits for seconds, 13 digits for milliseconds) in the timestamp field to convert it to human-readable date. Or select a date and time to convert it to a Unix timestamp. Click "Refresh" to get the current timestamp.</p>
+      <h3 data-t="ts_what_title">What is a Unix Timestamp?</h3>
+      <p data-t="ts_what_text">A Unix timestamp is the total number of seconds elapsed since January 1, 1970 00:00:00 UTC, known as the Unix Epoch. It is the standard way computers represent time and is used in virtually all operating systems, programming languages, databases, and APIs.</p>
+      <h3 data-t="ts_formats_title">Timestamp Formats</h3>
+      <p data-t="ts_formats_text">Seconds (10 digits): 1700000000 represents November 14, 2023. Milliseconds (13 digits): 1700000000000 represents the same moment with higher precision. ISO 8601 format (2023-11-14T00:00:00Z) is the international standard for date-time representation.</p>
     </section>
   </div>
 
+  <!-- Timestamp Converter 页面专属翻译 -->
+  <script is:inline>
+    (function() {
+      if (window.__devtoolsMergeDict) {
+        window.__devtoolsMergeDict({
+          en: {
+            ts_title: 'Timestamp Converter',
+            ts_desc: 'Convert between Unix timestamps and human-readable dates.',
+            ts_about: 'About Unix Timestamps',
+            ts_about_text: 'A Unix timestamp is the number of seconds since January 1, 1970 00:00:00 UTC (the Unix Epoch). It\'s widely used in programming, databases, and APIs to represent a specific point in time. This tool supports second-precision (10 digits) and millisecond-precision (13 digits) timestamps.',
+            ts_how_title: 'How to Use',
+            ts_how_text: 'Enter a Unix timestamp (10 digits for seconds, 13 digits for milliseconds) in the timestamp field to convert it to human-readable date. Or select a date and time to convert it to a Unix timestamp. Click "Refresh" to get the current timestamp.',
+            ts_what_title: 'What is a Unix Timestamp?',
+            ts_what_text: 'A Unix timestamp is the total number of seconds elapsed since January 1, 1970 00:00:00 UTC, known as the Unix Epoch. It is the standard way computers represent time and is used in virtually all operating systems, programming languages, databases, and APIs.',
+            ts_formats_title: 'Timestamp Formats',
+            ts_formats_text: 'Seconds (10 digits): 1700000000 represents November 14, 2023. Milliseconds (13 digits): 1700000000000 represents the same moment with higher precision. ISO 8601 format (2023-11-14T00:00:00Z) is the international standard for date-time representation.',
+            ph_ts_input: 'e.g. 1700000000',
+            lbl_to_date: 'Timestamp → Date',
+            lbl_to_ts: 'Date → Timestamp',
+            fmt_iso: 'ISO 8601',
+            fmt_utc: 'UTC',
+            fmt_local: 'Local Time',
+            fmt_relative: 'Relative',
+            lbl_seconds: 'Seconds',
+            lbl_milliseconds: 'Milliseconds',
+            err_ts_invalid: 'Please enter a valid timestamp (numbers only)',
+            err_date_invalid: 'Please select a valid date',
+          },
+          zh: {
+            ts_title: '时间戳转换',
+            ts_desc: '时间戳与日期互转。',
+            ts_about: '关于 Unix 时间戳',
+            ts_about_text: 'Unix 时间戳是指从 1970 年 1 月 1 日 00:00:00 UTC（Unix 纪元）起经过的秒数。在编程、数据库和 API 中被广泛使用，用于表示特定的时间点。此工具支持秒级（10位）和毫秒级（13位）时间戳。',
+            ts_how_title: '如何使用',
+            ts_how_text: '在时间戳字段中输入 Unix 时间戳（10 位为秒，13 位为毫秒）转换为可读日期。或选择日期时间转换为 Unix 时间戳。点击「刷新」获取当前时间戳。',
+            ts_what_title: '什么是 Unix 时间戳？',
+            ts_what_text: 'Unix 时间戳是指从 1970 年 1 月 1 日 00:00:00 UTC（Unix 纪元）起经过的总秒数。它是计算机表示时间的标准方式，几乎所有操作系统、编程语言、数据库和 API 都使用它。',
+            ts_formats_title: '时间戳格式',
+            ts_formats_text: '秒级（10 位）：1700000000 表示 2023 年 11 月 14 日。毫秒级（13 位）：1700000000000 表示同一时刻但精度更高。ISO 8601 格式（2023-11-14T00:00:00Z）是日期时间表示的国际标准。',
+            ph_ts_input: '例如 1700000000',
+            lbl_to_date: '时间戳 → 日期',
+            lbl_to_ts: '日期 → 时间戳',
+            fmt_iso: 'ISO 8601',
+            fmt_utc: 'UTC',
+            fmt_local: '本地时间',
+            fmt_relative: '相对时间',
+            lbl_seconds: '秒',
+            lbl_milliseconds: '毫秒',
+            err_ts_invalid: '请输入有效的时间戳（纯数字）',
+            err_date_invalid: '请选择有效的日期',
+          }
+        });
+        if (window.__devtools && window.__devtools.applyLang) {
+          window.__devtools.applyLang(window.__devtools.getLang());
+        }
+      }
+    })();
+  </script>
+
+  <!-- 功能逻辑 -->
   <script is:inline>
     const $ = id => document.getElementById(id);
     const getDict = (key) => (window.__devtools && window.__devtools.dict) ? window.__devtools.dict[(window.__devtools.getLang())][key] || '' : '';
@@ -153,16 +211,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       const years = Math.floor(days / 365);
 
       let text;
-      if (seconds < 60) text = z ? `${seconds} 秒` : `${seconds} second${seconds !== 1 ? 's' : ''}`;
-      else if (minutes < 60) text = z ? `${minutes} 分钟` : `${minutes} minute${minutes !== 1 ? 's' : ''}`;
-      else if (hours < 24) text = z ? `${hours} 小时` : `${hours} hour${hours !== 1 ? 's' : ''}`;
-      else if (days < 30) text = z ? `${days} 天` : `${days} day${days !== 1 ? 's' : ''}`;
-      else if (months < 12) text = z ? `${months} 个月` : `${months} month${months !== 1 ? 's' : ''}`;
-      else text = z ? `${years} 年` : `${years} year${years !== 1 ? 's' : ''}`;
+      if (seconds < 60) text = z ? seconds + ' 秒' : seconds + ' second' + (seconds !== 1 ? 's' : '');
+      else if (minutes < 60) text = z ? minutes + ' 分钟' : minutes + ' minute' + (minutes !== 1 ? 's' : '');
+      else if (hours < 24) text = z ? hours + ' 小时' : hours + ' hour' + (hours !== 1 ? 's' : '');
+      else if (days < 30) text = z ? days + ' 天' : days + ' day' + (days !== 1 ? 's' : '');
+      else if (months < 12) text = z ? months + ' 个月' : months + ' month' + (months !== 1 ? 's' : '');
+      else text = z ? years + ' 年' : years + ' year' + (years !== 1 ? 's' : '');
 
       return future
-        ? (z ? `${text} 后` : `in ${text}`)
-        : (z ? `${text} 前` : `${text} ago`);
+        ? (z ? text + ' 后' : 'in ' + text)
+        : (z ? text + ' 前' : text + ' ago');
     }
 
     // -- Timestamp → Date --
@@ -225,7 +283,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     // Set default datetime-local to now
     const now = new Date();
     const pad = n => String(n).padStart(2, '0');
-    $('dateInput').value = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+    $('dateInput').value = now.getFullYear() + '-' + pad(now.getMonth()+1) + '-' + pad(now.getDate()) + 'T' + pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds());
 
     // Copy buttons
     document.querySelectorAll('.hex-copy').forEach(btn => {

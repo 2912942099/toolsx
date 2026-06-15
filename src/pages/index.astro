@@ -1,52 +1,54 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const categories = [
-  {
-    titleEn: 'Developer Utilities',
-    titleZh: '实用开发工具',
-    tools: [
-      { name: 'Timestamp', nameZh: '时间戳转换', slug: 'timestamp', en: 'Convert between timestamps and dates', zh: '时间戳与日期互转', icon: '⏱', color: '#0d9488', ready: true },
-      { name: 'Regex Tester', nameZh: '正则测试', slug: 'regex-tester', en: 'Test regular expressions with live matching', zh: '正则表达式实时匹配测试', icon: '.*', color: '#7c3aed', ready: true },
-      { name: 'Text Diff', nameZh: '文本对比', slug: 'text-diff', en: 'Compare two texts and highlight differences', zh: '对比两段文本并高亮差异', icon: '≠', color: '#b45309', ready: true },
-      { name: 'IP Lookup', nameZh: 'IP 查询', slug: 'ip-lookup', en: 'Lookup your IP address and geolocation', zh: '查询 IP 地址和地理位置', icon: 'IP', color: '#2563eb', ready: true },
-      { name: 'MD5 Hash', nameZh: 'MD5 加密', slug: 'md5-hash', en: 'Generate MD5, SHA-1, SHA-256 hashes', zh: '生成 MD5、SHA-1、SHA-256 哈希值', icon: '#', color: '#64748b', ready: true },
-    ]
-  },
-  {
-    titleEn: 'Encoding & Conversion',
-    titleZh: '编解码转换区',
-    tools: [
-      { name: 'Base64', nameZh: 'Base64 编解码', slug: 'base64', en: 'Encode and decode Base64 strings', zh: 'Base64 字符串编解码', icon: 'B64', color: '#8b5cf6', ready: true },
-      { name: 'URL Encoder', nameZh: 'URL 编解码', slug: 'url-encoder', en: 'Encode and decode URLs', zh: 'URL 编解码', icon: '%20', color: '#f59e0b', ready: true },
-      { name: 'Hex Converter', nameZh: '十六进制转换', slug: 'hex-converter', en: 'Convert between hex, decimal, octal, binary', zh: '十六进制、十进制、八进制、二进制互转', icon: '0x', color: '#0ea5e9', ready: true },
-    ]
-  },
-  {
-    titleEn: 'Text & Data Formatting',
-    titleZh: '文本 & 数据格式化',
-    tools: [
-      { name: 'JSON Formatter', nameZh: 'JSON 格式化', slug: 'json-formatter', en: 'Format, validate, minify JSON', zh: '格式化、校验、压缩 JSON', icon: '{ }', color: '#3b82f6', ready: true },
-      { name: 'Text Case', nameZh: '大小写转换', slug: 'text-case', en: 'Convert between case formats', zh: '大小写格式转换', icon: 'Aa', color: '#06b6d4', ready: true },
-      { name: 'Word Counter', nameZh: '文本统计', slug: 'word-counter', en: 'Count words and characters', zh: '字数和字符统计', icon: '#', color: '#22c55e', ready: true },
-      { name: 'Text Dedup', nameZh: '文本去重', slug: 'text-dedup', en: 'Remove duplicate lines from text', zh: '去除文本中的重复行', icon: '≡', color: '#14b8a6', ready: true },
-      { name: 'YAML Converter', nameZh: 'YAML 转换', slug: 'yaml-converter', en: 'Convert between YAML and JSON', zh: 'YAML 与 JSON 互转', icon: 'Y', color: '#a855f7', ready: true },
-      { name: 'CSS Minifier', nameZh: 'CSS 压缩', slug: 'css-minifier', en: 'Minify and beautify CSS code', zh: '压缩和美化 CSS 代码', icon: 'CSS', color: '#1e40af', ready: true },
-    ]
-  },
-  {
-    titleEn: 'Style & Generation',
-    titleZh: '样式 & 生成工具',
-    tools: [
-      { name: 'Color Converter', nameZh: '颜色转换', slug: 'color-converter', en: 'Convert HEX, RGB, HSL colors', zh: 'HEX、RGB、HSL 颜色转换', icon: '#', color: '#ec4899', ready: true },
-      { name: 'UUID Generator', nameZh: 'UUID 生成', slug: 'uuid-generator', en: 'Generate UUID v4 identifiers', zh: '生成 UUID v4 标识符', icon: 'ID', color: '#f97316', ready: true },
-      { name: 'Password Generator', nameZh: '密码生成', slug: 'password-generator', en: 'Generate secure passwords', zh: '生成安全密码', icon: '🔑', color: '#ef4444', ready: true },
-      { name: 'QR Code Generator', nameZh: '二维码生成', slug: 'qr-generator', en: 'Generate QR codes from text or URLs', zh: '从文本或 URL 生成二维码', icon: '▦', color: '#171717', ready: true },
-    ]
-  },
+const tools = [
+  { name: 'Timestamp', nameZh: '时间戳转换', slug: 'timestamp', en: 'Convert between timestamps and dates', zh: '时间戳与日期互转', icon: '⏱', color: '#0d9488', ready: true },
+  { name: 'Regex Tester', nameZh: '正则测试', slug: 'regex-tester', en: 'Test regular expressions with live matching', zh: '正则表达式实时匹配测试', icon: '.*', color: '#7c3aed', ready: true },
+  { name: 'Text Diff', nameZh: '文本对比', slug: 'text-diff', en: 'Compare two texts and highlight differences', zh: '对比两段文本并高亮差异', icon: '≠', color: '#b45309', ready: true },
+  { name: 'IP Lookup', nameZh: 'IP 查询', slug: 'ip-lookup', en: 'Lookup your IP address and geolocation', zh: '查询 IP 地址和地理位置', icon: 'IP', color: '#2563eb', ready: true },
+  { name: 'MD5 Hash', nameZh: 'MD5 加密', slug: 'md5-hash', en: 'Generate MD5, SHA-1, SHA-256 hashes', zh: '生成 MD5、SHA-1、SHA-256 哈希值', icon: '#', color: '#64748b', ready: true },
+  { name: 'Base64', nameZh: 'Base64 编解码', slug: 'base64', en: 'Encode and decode Base64 strings', zh: 'Base64 字符串编解码', icon: 'B64', color: '#8b5cf6', ready: true },
+  { name: 'URL Encoder', nameZh: 'URL 编解码', slug: 'url-encoder', en: 'Encode and decode URLs', zh: 'URL 编解码', icon: '%20', color: '#f59e0b', ready: true },
+  { name: 'Hex Converter', nameZh: '十六进制转换', slug: 'hex-converter', en: 'Convert between hex, decimal, octal, binary', zh: '十六进制、十进制、八进制、二进制互转', icon: '0x', color: '#0ea5e9', ready: true },
+  { name: 'JSON Formatter', nameZh: 'JSON 格式化', slug: 'json-formatter', en: 'Format, validate, minify JSON', zh: '格式化、校验、压缩 JSON', icon: '{ }', color: '#3b82f6', ready: true },
+  { name: 'Text Case', nameZh: '大小写转换', slug: 'text-case', en: 'Convert between case formats', zh: '大小写格式转换', icon: 'Aa', color: '#06b6d4', ready: true },
+  { name: 'Word Counter', nameZh: '文本统计', slug: 'word-counter', en: 'Count words and characters', zh: '字数和字符统计', icon: '#', color: '#22c55e', ready: true },
+  { name: 'Text Dedup', nameZh: '文本去重', slug: 'text-dedup', en: 'Remove duplicate lines from text', zh: '去除文本中的重复行', icon: '≡', color: '#14b8a6', ready: true },
+  { name: 'YAML Converter', nameZh: 'YAML 转换', slug: 'yaml-converter', en: 'Convert between YAML and JSON', zh: 'YAML 与 JSON 互转', icon: 'Y', color: '#a855f7', ready: true },
+  { name: 'CSS Minifier', nameZh: 'CSS 压缩', slug: 'css-minifier', en: 'Minify and beautify CSS code', zh: '压缩和美化 CSS 代码', icon: 'CSS', color: '#1e40af', ready: true },
+  { name: 'Color Converter', nameZh: '颜色转换', slug: 'color-converter', en: 'Convert HEX, RGB, HSL colors', zh: 'HEX、RGB、HSL 颜色转换', icon: '#', color: '#ec4899', ready: true },
+  { name: 'UUID Generator', nameZh: 'UUID 生成', slug: 'uuid-generator', en: 'Generate UUID v4 identifiers', zh: '生成 UUID v4 标识符', icon: 'ID', color: '#f97316', ready: true },
+  { name: 'Password Generator', nameZh: '密码生成', slug: 'password-generator', en: 'Generate secure passwords', zh: '生成安全密码', icon: '🔑', color: '#ef4444', ready: true },
+  { name: 'QR Code Generator', nameZh: '二维码生成', slug: 'qr-generator', en: 'Generate QR codes from text or URLs', zh: '从文本或 URL 生成二维码', icon: '▦', color: '#171717', ready: true },
 ];
+
+const games = [
+  { name: '2048', slug: '2048', en: 'Classic number puzzle game', zh: '经典数字拼图游戏', color: '#22c55e' },
+];
+
+const links = [
+  { name: 'GitHub', url: 'https://github.com', en: 'Code hosting and collaboration platform', zh: '代码托管和协作平台', icon: 'GH', color: '#171717' },
+  { name: 'VS Code', url: 'https://code.visualstudio.com', en: 'Free code editor by Microsoft', zh: '微软免费代码编辑器', icon: 'VS', color: '#2563eb' },
+  { name: 'CodePen', url: 'https://codepen.io', en: 'Online code editor and playground', zh: '在线代码编辑器和演练场', icon: 'CP', color: '#171717' },
+  { name: 'Stack Overflow', url: 'https://stackoverflow.com', en: 'Q&A for programmers', zh: '程序员问答社区', icon: 'SO', color: '#f97316' },
+  { name: 'Figma', url: 'https://figma.com', en: 'Collaborative design tool', zh: '协作设计工具', icon: 'FG', color: '#ec4899' },
+  { name: 'Canva', url: 'https://canva.com', en: 'Easy graphic design platform', zh: '简易平面设计平台', icon: 'CV', color: '#7c3aed' },
+  { name: 'Dribbble', url: 'https://dribbble.com', en: 'Design inspiration and showcase', zh: '设计灵感和作品展示', icon: 'DB', color: '#ec4899' },
+  { name: 'Unsplash', url: 'https://unsplash.com', en: 'Free high-resolution photos', zh: '免费高清图片素材', icon: 'US', color: '#171717' },
+  { name: 'Vercel', url: 'https://vercel.com', en: 'Frontend deployment platform', zh: '前端部署平台', icon: 'VL', color: '#171717' },
+  { name: 'Cloudflare', url: 'https://cloudflare.com', en: 'CDN, DNS, and security services', zh: 'CDN、DNS 和安全服务', icon: 'CF', color: '#f59e0b' },
+  { name: 'Netlify', url: 'https://netlify.com', en: 'Modern web hosting platform', zh: '现代网站托管平台', icon: 'NL', color: '#22c55e' },
+  { name: 'Namecheap', url: 'https://namecheap.com', en: 'Domain registration and hosting', zh: '域名注册和托管', icon: 'NC', color: '#f97316' },
+  { name: 'MDN Web Docs', url: 'https://developer.mozilla.org', en: 'Web development documentation', zh: 'Web 开发文档', icon: 'MD', color: '#0d9488' },
+  { name: 'freeCodeCamp', url: 'https://freecodecamp.org', en: 'Learn to code for free', zh: '免费学习编程', icon: 'FC', color: '#171717' },
+  { name: 'W3Schools', url: 'https://w3schools.com', en: 'Web development tutorials', zh: 'Web 开发教程', icon: 'W3', color: '#2563eb' },
+  { name: 'LeetCode', url: 'https://leetcode.com', en: 'Coding challenges and practice', zh: '编程挑战和练习', icon: 'LC', color: '#f97316' },
+];
+
+
 ---
 <BaseLayout>
+  <!-- 搜索框 -->
   <div class="search-section">
     <div class="search-row">
       <input type="text" id="searchInput" placeholder="Search tools..." data-t-ph="ph_search" spellcheck="false" autocomplete="off" />
@@ -60,28 +62,64 @@ const categories = [
     </div>
   </div>
 
-  {categories.map(cat => (
-    <section class="tool-section">
-      <h2 class="section-title" data-t-en={cat.titleEn} data-t-zh={cat.titleZh}>{cat.titleEn}</h2>
-      <div class="tools-grid">
-        {cat.tools.map(tool => (
-          tool.ready ? (
-            <a href={`/${tool.slug}`} class="tool-card" data-search={`${tool.name} ${tool.nameZh} ${tool.en} ${tool.zh}`}>
-              <div class="tool-card-icon" style={`background:${tool.color}12; color:${tool.color}`}>{tool.icon}</div>
-              <h3 data-t-en={tool.name} data-t-zh={tool.nameZh}>{tool.name}</h3>
-              <p data-t-en={tool.en} data-t-zh={tool.zh}>{tool.en}</p>
-            </a>
-          ) : (
-            <div class="tool-card" data-search={`${tool.name} ${tool.nameZh} ${tool.en} ${tool.zh}`}>
-              <div class="tool-card-icon" style={`background:${tool.color}12; color:${tool.color}`}>{tool.icon}</div>
-              <h3 data-t-en={tool.name} data-t-zh={tool.nameZh}>{tool.name}</h3>
-              <p data-t-en={tool.en} data-t-zh={tool.zh}>{tool.en}</p>
-            </div>
-          )
-        ))}
-      </div>
-    </section>
-  ))}
+    <!-- 工具（全部合一） -->
+  <section class="tool-section">
+    <h2 class="section-title" data-t="home_tools">Tools</h2>
+    <div class="tools-grid">
+      {tools.map(tool => (
+        tool.ready ? (
+          <a href={`/${tool.slug}`} class="tool-card" data-search={`${tool.name} ${tool.nameZh} ${tool.en} ${tool.zh}`}>
+            <div class="tool-card-icon" style={`background:${tool.color}12; color:${tool.color}`}>{tool.icon}</div>
+            <h3 data-t-en={tool.name} data-t-zh={tool.nameZh}>{tool.name}</h3>
+            <p data-t-en={tool.en} data-t-zh={tool.zh}>{tool.en}</p>
+          </a>
+        ) : (
+          <div class="tool-card" data-search={`${tool.name} ${tool.nameZh} ${tool.en} ${tool.zh}`}>
+            <div class="tool-card-icon" style={`background:${tool.color}12; color:${tool.color}`}>{tool.icon}</div>
+            <h3 data-t-en={tool.name} data-t-zh={tool.nameZh}>{tool.name}</h3>
+            <p data-t-en={tool.en} data-t-zh={tool.zh}>{tool.en}</p>
+          </div>
+        )
+      ))}
+    </div>
+  </section>
+
+
+  <!-- 小游戏 -->
+  <section class="tool-section">
+    <h2 class="section-title" data-t="home_games">Games</h2>
+    <div class="tools-grid">
+      {games.map(game => (
+        <a href={`/games/${game.slug}`} class="tool-card" data-search={`${game.name} ${game.en} ${game.zh}`}>
+          <div class="tool-card-icon" style={`background:${game.color}12; color:${game.color}`}>🎮</div>
+          <h3>{game.name}</h3>
+          <p data-t-en={game.en} data-t-zh={game.zh}>{game.en}</p>
+        </a>
+      ))}
+      <a href="https://omg10.com/4/11126351" target="_blank" rel="noopener sponsored" class="tool-card tool-card-ad" data-search="">
+        <div class="tool-card-icon" style="background:#f59e0b12; color:#f59e0b">⭐</div>
+        <h3 data-t="ad_title">Sponsored</h3>
+        <p data-t="ad_desc">Support our site</p>
+        <span class="ad-tag">广告</span>
+      </a>
+    </div>
+  </section>
+
+
+  <!-- 推荐网站 -->
+<section class="tool-section">
+  <h2 class="section-title" data-t="home_links">Recommended Links</h2>
+  <div class="tools-grid">
+    {links.map(link => (
+      <a href={link.url} target="_blank" rel="noopener" class="tool-card" data-search={`${link.name} ${link.en} ${link.zh}`}>
+        <div class="tool-card-icon" style={`background:${link.color}12; color:${link.color}`}>{link.icon}</div>
+        <h3>{link.name}</h3>
+        <p data-t-en={link.en} data-t-zh={link.zh}>{link.en}</p>
+      </a>
+    ))}
+  </div>
+</section>
+
 
   <script is:inline>
     (function() {
@@ -95,16 +133,10 @@ const categories = [
 
       function doSearch() {
         var keyword = searchInput.value.trim();
-        if (!keyword) {
-          clearHighlight();
-          return;
-        }
-
+        if (!keyword) { clearHighlight(); return; }
         var engine = getEngine();
-
-        if (engine === 'site') {
-          highlightCards(keyword);
-        } else {
+        if (engine === 'site') { highlightCards(keyword); }
+        else {
           var url = '';
           if (engine === 'bing') url = 'https://www.bing.com/search?q=' + encodeURIComponent(keyword);
           if (engine === 'baidu') url = 'https://www.baidu.com/s?wd=' + encodeURIComponent(keyword);
@@ -116,35 +148,24 @@ const categories = [
       function highlightCards(keyword) {
         var cards = document.querySelectorAll('.tool-card');
         var lowerKeyword = keyword.toLowerCase();
-        cards.forEach(function(card) {
-          card.classList.remove('search-highlight');
-        });
+        cards.forEach(function(card) { card.classList.remove('search-highlight'); });
         var found = false;
         cards.forEach(function(card) {
           var text = (card.getAttribute('data-search') || '').toLowerCase();
           if (text.indexOf(lowerKeyword) !== -1) {
             card.classList.add('search-highlight');
-            if (!found) {
-              found = true;
-              card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
+            if (!found) { found = true; card.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
           }
         });
       }
 
       function clearHighlight() {
-        document.querySelectorAll('.tool-card').forEach(function(card) {
-          card.classList.remove('search-highlight');
-        });
+        document.querySelectorAll('.tool-card').forEach(function(card) { card.classList.remove('search-highlight'); });
       }
 
       searchBtn.addEventListener('click', doSearch);
-      searchInput.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') doSearch();
-      });
-      searchInput.addEventListener('input', function() {
-        if (searchInput.value.trim() === '') clearHighlight();
-      });
+      searchInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') doSearch(); });
+      searchInput.addEventListener('input', function() { if (searchInput.value.trim() === '') clearHighlight(); });
     })();
   </script>
 </BaseLayout>

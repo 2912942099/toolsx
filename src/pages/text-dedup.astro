@@ -69,17 +69,57 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <section class="tool-info">
       <h2 data-t="dedup_about">About Text Dedup</h2>
       <p data-t="dedup_about_text">This tool removes duplicate lines from your text. It compares each line and keeps only unique entries. You can choose to keep the first or last occurrence of each duplicate, and whether to ignore leading/trailing whitespace and case when comparing.</p>
-    
       <h3 data-t="dedup_how_title">How to Use</h3>
-<p data-t="dedup_how_text">Paste your text containing duplicate lines into the input field. Configure options such as ignoring leading/trailing whitespace, case insensitive comparison, and removing empty lines. Click "Remove Duplicates" to get the deduplicated result.</p>
-<h3 data-t="dedup_options_title">Understanding Options</h3>
-<p data-t="dedup_options_text">"Ignore whitespace" trims spaces from the start and end of each line before comparing. "Case insensitive" treats "Apple" and "apple" as the same. "Remove empty lines" filters out blank lines. "Keep first occurrence" preserves the original order while "Keep last occurrence" keeps the most recent duplicate.</p>
-<h3 data-t="dedup_uses_title">Common Use Cases</h3>
-<p data-t="dedup_uses_text">Data cleaning removes duplicate entries from CSV files, email lists, and log files. Developers deduplicate configuration lists and dependency arrays. Content managers clean up keyword lists and URL lists. Researchers remove duplicate entries from survey responses and datasets.</p>
-
+      <p data-t="dedup_how_text">Paste your text containing duplicate lines into the input field. Configure options such as ignoring leading/trailing whitespace, case insensitive comparison, and removing empty lines. Click "Remove Duplicates" to get the deduplicated result.</p>
+      <h3 data-t="dedup_options_title">Understanding Options</h3>
+      <p data-t="dedup_options_text">"Ignore whitespace" trims spaces from the start and end of each line before comparing. "Case insensitive" treats "Apple" and "apple" as the same. "Remove empty lines" filters out blank lines. "Keep first occurrence" preserves the original order while "Keep last occurrence" keeps the most recent duplicate.</p>
+      <h3 data-t="dedup_uses_title">Common Use Cases</h3>
+      <p data-t="dedup_uses_text">Data cleaning removes duplicate entries from CSV files, email lists, and log files. Developers deduplicate configuration lists and dependency arrays. Content managers clean up keyword lists and URL lists. Researchers remove duplicate entries from survey responses and datasets.</p>
     </section>
   </div>
 
+  <!-- Text Dedup 页面专属翻译 -->
+  <script is:inline>
+    (function() {
+      if (window.__devtoolsMergeDict) {
+        window.__devtoolsMergeDict({
+          en: {
+            dedup_title: 'Text Dedup',
+            dedup_desc: 'Remove duplicate lines from text. Keep unique lines only.',
+            dedup_about: 'About Text Dedup',
+            dedup_about_text: 'This tool removes duplicate lines from your text. It compares each line and keeps only unique entries. You can choose to keep the first or last occurrence of each duplicate, and whether to ignore leading/trailing whitespace and case when comparing.',
+            dedup_how_title: 'How to Use',
+            dedup_how_text: 'Paste your text containing duplicate lines into the input field. Configure options such as ignoring leading/trailing whitespace, case insensitive comparison, and removing empty lines. Click "Remove Duplicates" to get the deduplicated result.',
+            dedup_options_title: 'Understanding Options',
+            dedup_options_text: '"Ignore whitespace" trims spaces from the start and end of each line before comparing. "Case insensitive" treats "Apple" and "apple" as the same. "Remove empty lines" filters out blank lines. "Keep first occurrence" preserves the original order while "Keep last occurrence" keeps the most recent duplicate.',
+            dedup_uses_title: 'Common Use Cases',
+            dedup_uses_text: 'Data cleaning removes duplicate entries from CSV files, email lists, and log files. Developers deduplicate configuration lists and dependency arrays. Content managers clean up keyword lists and URL lists. Researchers remove duplicate entries from survey responses and datasets.',
+            ph_dedup_input: 'Paste text with duplicate lines here...',
+            ph_dedup_output: 'Result...',
+          },
+          zh: {
+            dedup_title: '文本去重',
+            dedup_desc: '去除文本中的重复行，只保留唯一内容。',
+            dedup_about: '关于文本去重',
+            dedup_about_text: '此工具去除文本中的重复行。逐行比较，仅保留唯一内容。你可以选择保留每组重复项的首次或末次出现，以及在比较时是否忽略首尾空格和大小写。',
+            dedup_how_title: '如何使用',
+            dedup_how_text: '将包含重复行的文本粘贴到输入框中。配置选项，如忽略首尾空格、忽略大小写、去除空行等。点击「去除重复」即可得到去重后的结果。',
+            dedup_options_title: '理解选项',
+            dedup_options_text: '「忽略空格」会在比较前去掉每行首尾的空格。「忽略大小写」会将 "Apple" 和 "apple" 视为相同。「去除空行」会过滤掉空白行。「保留首次出现」保持原始顺序，「保留末次出现」保留最近的重复项。',
+            dedup_uses_title: '常见用途',
+            dedup_uses_text: '数据清洗从 CSV 文件、邮件列表和日志文件中移除重复条目。开发者去重配置列表和依赖数组。内容管理员清理关键词列表和 URL 列表。研究人员从调查回复和数据集中移除重复条目。',
+            ph_dedup_input: '粘贴包含重复行的文本...',
+            ph_dedup_output: '结果...',
+          }
+        });
+        if (window.__devtools && window.__devtools.applyLang) {
+          window.__devtools.applyLang(window.__devtools.getLang());
+        }
+      }
+    })();
+  </script>
+
+  <!-- 功能逻辑 -->
   <script is:inline>
     const $ = id => document.getElementById(id);
     const getLang = () => (window.__devtools && window.__devtools.getLang) ? window.__devtools.getLang() : 'en';
@@ -101,11 +141,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       const keepLast = document.querySelector('input[name="keep"]:checked').value === 'last';
 
       const cleanText = text.replace(/\n+$/, '');
-const lines = cleanText.split('\n');
-const originalCount = lines.length;
+      const lines = cleanText.split('\n');
+      const originalCount = lines.length;
 
-
-      // Build canonical key for comparison
       function key(line) {
         let k = line;
         if (trim) k = k.trim();
@@ -116,7 +154,6 @@ const originalCount = lines.length;
       let result;
 
       if (keepLast) {
-        // Keep last occurrence: reverse, dedup keeping first, reverse back
         const seen = new Map();
         const reversed = [...lines].reverse();
         for (let i = 0; i < reversed.length; i++) {
@@ -125,7 +162,6 @@ const originalCount = lines.length;
         }
         result = [...seen.values()].reverse();
       } else {
-        // Keep first occurrence
         const seen = new Set();
         result = [];
         for (let i = 0; i < lines.length; i++) {

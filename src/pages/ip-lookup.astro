@@ -70,87 +70,151 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <section class="tool-info">
       <h2 data-t="ip_about">About IP Lookup</h2>
       <p data-t="ip_about_text">This tool queries your public IP address and shows geolocation data including country, city, region, timezone, and ISP. You can also enter any IP address to look up its information. Data is provided by ipapi.co API.</p>
-    
       <h3 data-t="ip_how_title">How to Use</h3>
-<p data-t="ip_how_text">Click "My IP" to automatically detect your public IP address and geolocation. Or enter any IP address in the input field and click "Lookup" to see its location, ISP, timezone, and other details.</p>
-<h3 data-t="ip_what_title">What is an IP Address?</h3>
-<p data-t="ip_what_text">An IP (Internet Protocol) address is a unique numerical identifier assigned to every device connected to the Internet. IPv4 addresses use 32 bits (e.g., 192.168.1.1) while IPv6 addresses use 128 bits (e.g., 2001:db8::1). Your public IP address is assigned by your Internet Service Provider.</p>
-<h3 data-t="ip_uses_title">Common Use Cases</h3>
-<p data-t="ip_uses_text">Network administrators use IP lookup to diagnose connectivity issues and identify server locations. Security professionals use it to investigate suspicious traffic. Developers use it to implement geolocation-based content delivery and regional access controls. Users check their IP to verify VPN connections are working.</p>
-
+      <p data-t="ip_how_text">Click "My IP" to automatically detect your public IP address and geolocation. Or enter any IP address in the input field and click "Lookup" to see its location, ISP, timezone, and other details.</p>
+      <h3 data-t="ip_what_title">What is an IP Address?</h3>
+      <p data-t="ip_what_text">An IP (Internet Protocol) address is a unique numerical identifier assigned to every device connected to the Internet. IPv4 addresses use 32 bits (e.g., 192.168.1.1) while IPv6 addresses use 128 bits (e.g., 2001:db8::1). Your public IP address is assigned by your Internet Service Provider.</p>
+      <h3 data-t="ip_uses_title">Common Use Cases</h3>
+      <p data-t="ip_uses_text">Network administrators use IP lookup to diagnose connectivity issues and identify server locations. Security professionals use it to investigate suspicious traffic. Developers use it to implement geolocation-based content delivery and regional access controls. Users check their IP to verify VPN connections are working.</p>
     </section>
   </div>
 
+  <!-- IP Lookup 页面专属翻译 -->
   <script is:inline>
-  const $ = id => document.getElementById(id);
-  const getLang = () => (window.__devtools && window.__devtools.getLang) ? window.__devtools.getLang() : 'en';
-  const getDict = (key) => (window.__devtools && window.__devtools.dict) ? window.__devtools.dict[getLang()][key] || '' : '';
-
-  let currentError = null;
-  let currentQueryIp = '';
-  let isLoading = false;
-
-  function showError(key) {
-    currentError = key;
-    $('error').textContent = key ? getDict(key) : '';
-  }
-
-  function setLoading(on) {
-    isLoading = on;
-    $('lookupBtn').textContent = on ? getDict('lbl_loading') : getDict('btn_lookup');
-    $('lookupBtn').disabled = on;
-  }
-
-  function renderResults(data) {
-    $('results').style.display = 'block';
-    $('r_ipv4').textContent = data.ipv4 || '—';
-    $('r_ipv6').textContent = data.ipv6 || '—';
-    $('r_country').textContent = data.country || '—';
-    $('r_region').textContent = data.region || '—';
-    $('r_city').textContent = data.city || '—';
-    $('r_timezone').textContent = data.timezone || '—';
-    $('r_isp').textContent = data.isp || '—';
-    $('r_org').textContent = data.org || '—';
-    $('r_coords').textContent = (data.latitude && data.longitude) ? data.latitude + ', ' + data.longitude : '—';
-    $('r_as').textContent = data.as || '—';
-  }
-
-  async function callApi(ip) {
-    try {
-      var url = ip ? '/api/ip?ip=' + encodeURIComponent(ip) : '/api/ip';
-      var res = await fetch(url);
-      if (!res.ok) return null;
-      return await res.json();
-    } catch (e) {
-      return null;
-    }
-  }
-
-  function isIPv6(ip) { return ip.indexOf(':') !== -1; }
-  function isIPv4(ip) { return ip.indexOf('.') !== -1 && !isIPv6(ip); }
-
-  async function lookup(ip) {
-    if (isLoading) return;
-    currentQueryIp = ip;
-    showError(null);
-    $('results').style.display = 'none';
-    setLoading(true);
-
-    try {
-      var data = await callApi(ip || null);
-      if (!data || data.error) {
-        showError('err_ip_invalid');
-        setLoading(false);
-        return;
+    (function() {
+      if (window.__devtoolsMergeDict) {
+        window.__devtoolsMergeDict({
+          en: {
+            ip_title: 'IP Lookup',
+            ip_desc: 'Lookup IP address and geolocation information.',
+            ip_about: 'About IP Lookup',
+            ip_about_text: 'This tool queries your public IP address and shows geolocation data including country, city, region, timezone, and ISP. You can also enter any IP address to look up its information. Data is provided by ipapi.co API.',
+            ip_how_title: 'How to Use',
+            ip_how_text: 'Click "My IP" to automatically detect your public IP address and geolocation. Or enter any IP address in the input field and click "Lookup" to see its location, ISP, timezone, and other details.',
+            ip_what_title: 'What is an IP Address?',
+            ip_what_text: 'An IP (Internet Protocol) address is a unique numerical identifier assigned to every device connected to the Internet. IPv4 addresses use 32 bits (e.g., 192.168.1.1) while IPv6 addresses use 128 bits (e.g., 2001:db8::1). Your public IP address is assigned by your Internet Service Provider.',
+            ip_uses_title: 'Common Use Cases',
+            ip_uses_text: 'Network administrators use IP lookup to diagnose connectivity issues and identify server locations. Security professionals use it to investigate suspicious traffic. Developers use it to implement geolocation-based content delivery and regional access controls. Users check their IP to verify VPN connections are working.',
+            ph_ip_input: 'Enter IP address (e.g. 8.8.8.8) or leave empty for your IP',
+            lbl_ip: 'IP Address',
+            lbl_ipv4: 'IPv4',
+            lbl_ipv6: 'IPv6',
+            lbl_country: 'Country',
+            lbl_region: 'Region',
+            lbl_city: 'City',
+            lbl_timezone: 'Timezone',
+            lbl_isp: 'ISP',
+            lbl_org: 'Organization',
+            lbl_coords: 'Coordinates',
+            lbl_as: 'AS',
+            lbl_loading: 'Querying...',
+            err_ip_invalid: 'Please enter a valid IP address',
+            err_ip_fail: 'Failed to lookup IP information',
+          },
+          zh: {
+            ip_title: 'IP 查询',
+            ip_desc: '查询 IP 地址和地理位置信息。',
+            ip_about: '关于 IP 查询',
+            ip_about_text: '此工具查询你的公网 IP 地址并显示地理位置数据，包括国家、城市、地区、时区和 ISP。你也可以输入任意 IP 地址查询其信息。数据由 ipapi.co API 提供。',
+            ip_how_title: '如何使用',
+            ip_how_text: '点击「我的 IP」自动检测你的公网 IP 地址和地理位置。或在输入框中输入任意 IP 地址，点击「查询」查看其位置、运营商、时区等详细信息。',
+            ip_what_title: '什么是 IP 地址？',
+            ip_what_text: 'IP（互联网协议）地址是分配给连接到互联网的每台设备的唯一数字标识符。IPv4 地址使用 32 位（例如 192.168.1.1），IPv6 地址使用 128 位（例如 2001:db8::1）。你的公网 IP 地址由互联网服务提供商分配。',
+            ip_uses_title: '常见用途',
+            ip_uses_text: '网络管理员使用 IP 查询来诊断连接问题和识别服务器位置。安全专业人员用它调查可疑流量。开发者用它实现基于地理位置的内容分发和区域访问控制。用户检查 IP 以验证 VPN 连接是否正常工作。',
+            ph_ip_input: '输入 IP 地址（如 8.8.8.8），留空则查询你的 IP',
+            lbl_ip: 'IP 地址',
+            lbl_ipv4: 'IPv4',
+            lbl_ipv6: 'IPv6',
+            lbl_country: '国家',
+            lbl_region: '地区',
+            lbl_city: '城市',
+            lbl_timezone: '时区',
+            lbl_isp: '运营商',
+            lbl_org: '组织',
+            lbl_coords: '坐标',
+            lbl_as: 'AS',
+            lbl_loading: '查询中...',
+            err_ip_invalid: '请输入有效的 IP 地址',
+            err_ip_fail: '查询 IP 信息失败',
+          }
+        });
+        if (window.__devtools && window.__devtools.applyLang) {
+          window.__devtools.applyLang(window.__devtools.getLang());
+        }
       }
+    })();
+  </script>
 
-      var loc = data.loc ? data.loc.split(',') : [];
-      var resultIp = data.ip || data._clientIp || '';
-      var isV6 = isIPv6(resultIp);
-      var isV4 = isIPv4(resultIp);
+  <!-- 功能逻辑 -->
+  <script is:inline>
+    const $ = id => document.getElementById(id);
+    const getLang = () => (window.__devtools && window.__devtools.getLang) ? window.__devtools.getLang() : 'en';
+    const getDict = (key) => (window.__devtools && window.__devtools.dict) ? window.__devtools.dict[getLang()][key] || '' : '';
 
-      if (ip) {
-        // User searched a specific IP
+    let currentError = null;
+    let currentQueryIp = '';
+    let isLoading = false;
+
+    function showError(key) {
+      currentError = key;
+      $('error').textContent = key ? getDict(key) : '';
+    }
+
+    function setLoading(on) {
+      isLoading = on;
+      $('lookupBtn').textContent = on ? getDict('lbl_loading') : getDict('btn_lookup');
+      $('lookupBtn').disabled = on;
+    }
+
+    function renderResults(data) {
+      $('results').style.display = 'block';
+      $('r_ipv4').textContent = data.ipv4 || '—';
+      $('r_ipv6').textContent = data.ipv6 || '—';
+      $('r_country').textContent = data.country || '—';
+      $('r_region').textContent = data.region || '—';
+      $('r_city').textContent = data.city || '—';
+      $('r_timezone').textContent = data.timezone || '—';
+      $('r_isp').textContent = data.isp || '—';
+      $('r_org').textContent = data.org || '—';
+      $('r_coords').textContent = (data.latitude && data.longitude) ? data.latitude + ', ' + data.longitude : '—';
+      $('r_as').textContent = data.as || '—';
+    }
+
+    async function callApi(ip) {
+      try {
+        var url = ip ? '/api/ip?ip=' + encodeURIComponent(ip) : '/api/ip';
+        var res = await fetch(url);
+        if (!res.ok) return null;
+        return await res.json();
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function isIPv6(ip) { return ip.indexOf(':') !== -1; }
+    function isIPv4(ip) { return ip.indexOf('.') !== -1 && !isIPv6(ip); }
+
+    async function lookup(ip) {
+      if (isLoading) return;
+      currentQueryIp = ip;
+      showError(null);
+      $('results').style.display = 'none';
+      setLoading(true);
+
+      try {
+        var data = await callApi(ip || null);
+        if (!data || data.error) {
+          showError('err_ip_invalid');
+          setLoading(false);
+          return;
+        }
+
+        var loc = data.loc ? data.loc.split(',') : [];
+        var resultIp = data.ip || data._clientIp || '';
+        var isV6 = isIPv6(resultIp);
+        var isV4 = isIPv4(resultIp);
+
         renderResults({
           ipv4: isV4 ? resultIp : '—',
           ipv6: isV6 ? resultIp : '—',
@@ -164,40 +228,23 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           longitude: loc[1] || null,
           as: data.org || '—',
         });
-      } else {
-        // Auto-detect
-        renderResults({
-          ipv4: isV4 ? resultIp : '—',
-          ipv6: isV6 ? resultIp : '—',
-          country: data.country || '—',
-          region: data.region || '—',
-          city: data.city || '—',
-          timezone: data.timezone || '—',
-          isp: data.org || '—',
-          org: data.org || '—',
-          latitude: loc[0] || null,
-          longitude: loc[1] || null,
-          as: data.org || '—',
-        });
+      } catch (e) {
+        showError('err_ip_fail');
       }
-    } catch (e) {
-      showError('err_ip_fail');
+      setLoading(false);
     }
-    setLoading(false);
-  }
 
-  $('lookupBtn').addEventListener('click', () => lookup($('ipInput').value.trim()));
-  $('ipInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') lookup($('ipInput').value.trim()); });
-  $('myIpBtn').addEventListener('click', () => { $('ipInput').value = ''; lookup(''); });
+    $('lookupBtn').addEventListener('click', () => lookup($('ipInput').value.trim()));
+    $('ipInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') lookup($('ipInput').value.trim()); });
+    $('myIpBtn').addEventListener('click', () => { $('ipInput').value = ''; lookup(''); });
 
-  document.getElementById('langBtn').addEventListener('click', () => {
-    setTimeout(() => {
-      if (currentError) showError(currentError);
-      if ($('results').style.display !== 'none') lookup(currentQueryIp);
-    }, 20);
-  });
+    document.getElementById('langBtn').addEventListener('click', () => {
+      setTimeout(() => {
+        if (currentError) showError(currentError);
+        if ($('results').style.display !== 'none') lookup(currentQueryIp);
+      }, 20);
+    });
 
-  lookup('');
-</script>
-
+    lookup('');
+  </script>
 </BaseLayout>

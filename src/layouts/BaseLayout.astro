@@ -1,5 +1,10 @@
 ---
-import "../styles/global.css";
+import "../styles/base.css";
+import "../styles/layout.css";
+import "../styles/components.css";
+import "../styles/tools.css";
+import "../styles/search.css";
+
 const { title, description } = Astro.props;
 const pageTitle = title ? `${title} — ToolsX` : "ToolsX — Free Online Tools";
 const desc =
@@ -10,21 +15,18 @@ const desc =
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-03GFCN2NXB"></script>
 
-<script is:inline>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-03GFCN2NXB');
-</script>
+    <script>(function(s){s.dataset.zone='11116451',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+    <script>(function(s){s.dataset.zone='11126018',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+    
 
-
-    <script
-      async
-      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6646632276289644"
-      crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-03GFCN2NXB"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag("js", new Date());
+      gtag("config", "G-03GFCN2NXB");
+    </script>
 
     <script>
       (function () {
@@ -39,14 +41,6 @@ const desc =
       })();
     </script>
 
-<script>(function(s){s.dataset.zone='11116451',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-
-<script src="https://5gvci.com/act/files/tag.min.js?z=11126408" data-cfasync="false" async></script>
-
-<script>(function(s){s.dataset.zone='11126432',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-
-
-
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{pageTitle}</title>
@@ -54,10 +48,7 @@ const desc =
     <meta name="description" content={desc} />
     <meta name="robots" content="index, follow" />
     <meta name="baidu-site-verification" content="codeva-3jNkyGby9R" />
-    <meta
-      name="google-site-verification"
-      content="XtA1d-XceBYw4dDcu4y7LKZbKpXnuzSnjXXgHwjn3VU"
-    />
+    <meta name="google-site-verification" content="XtA1d-XceBYw4dDcu4y7LKZbKpXnuzSnjXXgHwjn3VU" />
     <meta name="msvalidate.01" content="7085DD25CAF383479F913F516569ABE5" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={pageTitle} />
@@ -70,40 +61,21 @@ const desc =
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   </head>
   <body>
     <header class="site-header">
       <div class="container">
         <a href="/" class="site-logo">&lt;<span>Tools</span>X/&gt;</a>
         <nav class="site-nav">
-          <a href="/" data-t="nav_tools">All Tools</a>
-          <button id="langBtn" class="lang-btn" title="Switch language"
-            >EN / 中</button
-          >
+          <a href="/" data-t="nav_home">Home</a>
+          <a href="/tools" data-t="nav_tools">Tools</a>
+          <a href="/games" data-t="nav_games">Games</a>
+          <a href="/links" data-t="nav_links">Links</a>
+          <button id="langBtn" class="lang-btn" title="Switch language">EN / 中</button>
         </nav>
       </div>
     </header>
-
-    <main class="container">
-      <slot />
-    </main>
-
-    <footer class="site-footer">
-      <div class="container">
-        <p>
-          &copy; {new Date().getFullYear()} ToolsX. <a
-            href="/privacy"
-            data-t="nav_privacy">Privacy Policy</a
-          >
-        </p>
-      </div>
-    </footer>
-
-    <div id="toast" class="copy-toast">Copied!</div>
 
     <script is:inline>
       (function () {
@@ -111,971 +83,425 @@ const desc =
 
         var dict = {
           en: {
-            nav_tools: "All Tools",
-            copied: "Copied!",
-            json_title: "JSON Formatter",
-            json_desc: "Paste your JSON to format, validate, and minify it.",
-            json_about: "About JSON Formatter",
-            json_about_text:
-              "JSON (JavaScript Object Notation) is a lightweight data interchange format. This tool formats (beautifies) or minifies JSON data instantly. All processing happens in your browser — your data never leaves your device.",
-            json_features: "Features",
-            json_features_text:
-              "Format JSON with proper indentation, minify to reduce file size, validate syntax with detailed error messages, and copy output with one click.",
-            b64_title: "Base64 Encoder / Decoder",
-            b64_desc: "Encode text to Base64 or decode Base64 back to text.",
-            b64_about: "About Base64",
-            b64_about_text:
-              "Base64 is a binary-to-text encoding scheme that represents binary data using 64 printable ASCII characters. It's commonly used for embedding data in HTML/CSS, encoding email attachments, and transmitting data over HTTP.",
-            url_title: "URL Encoder / Decoder",
-            url_desc: "Encode or decode URLs and URI components.",
-            url_about: "About URL Encoding",
-            url_about_text:
-              "URL encoding replaces unsafe ASCII characters with a percent sign followed by two hexadecimal digits. Encode URI preserves URL structure. Encode Component encodes everything — useful for query parameter values.",
-            color_title: "Color Converter",
-            color_desc: "Convert between HEX, RGB, and HSL color formats.",
-            color_about: "About Color Formats",
-            color_about_text:
-              "HEX — hexadecimal notation (#RRGGBB). RGB — red, green, blue values (0–255). HSL — hue (0–360), saturation (0–100%), lightness (0–100%).",
-            case_title: "Text Case Converter",
-            case_desc: "Convert text between different case formats instantly.",
-            case_about: "About Text Case Formats",
-            case_about_text:
-              "camelCase — first word lowercase, each subsequent word capitalized. PascalCase — every word capitalized, no spaces. snake_case — all lowercase, underscores for spaces. kebab-case — all lowercase, hyphens for spaces.",
-            wc_title: "Word & Character Counter",
-            wc_desc:
-              "Real-time counting — just start typing or paste your text.",
-            wc_about: "About Word Counter",
-            wc_about_text:
-              "This tool counts words, characters (with and without spaces), sentences, and paragraphs in real time. English words are counted by word (Hello World = 2), Chinese characters are counted individually (你好世界 = 4).",
-            pw_title: "Password Generator",
-            pw_desc:
-              "Generate secure random passwords with customizable options.",
-            pw_about: "Why Use a Strong Password?",
-            pw_about_text:
-              "A strong password should be at least 12 characters long with a mix of uppercase, lowercase, numbers, and symbols. This generator uses the crypto.getRandomValues() API for cryptographic randomness.",
-            uuid_title: "UUID Generator",
-            uuid_desc: "Generate RFC 4122 compliant UUID v4 identifiers.",
-            uuid_about: "What is a UUID?",
-            uuid_about_text:
-              "A UUID (Universally Unique Identifier) is a 128-bit value used to uniquely identify information. UUID v4 is randomly generated and is the most common version.",
-            hex_title: "Hex Converter",
-            hex_desc:
-              "Convert between hexadecimal, decimal, octal, and binary number systems.",
-            hex_about: "About Number Systems",
-            hex_about_text:
-              "Hexadecimal (base-16) uses digits 0–9 and letters A–F. Decimal (base-10) is the standard number system. Octal (base-8) uses digits 0–7. Binary (base-2) uses only 0 and 1. Computers internally use binary; hex is a compact way to represent binary data.",
-            radix_title: "Radix Converter",
-            radix_desc: "Convert numbers between any radix from 2 to 36.",
-            radix_about: "About Radix Conversion",
-            radix_about_text:
-              "A radix (or base) is the number of unique digits used to represent numbers. Base-2 (binary) uses 0–1, base-8 (octal) uses 0–7, base-10 (decimal) uses 0–9, base-16 (hex) uses 0–9 and A–F. Base-36 uses 0–9 and A–Z, allowing the most compact representation with standard characters.",
-            dedup_title: "Text Dedup",
-            dedup_desc:
-              "Remove duplicate lines from text. Keep unique lines only.",
-            dedup_about: "About Text Dedup",
-            dedup_about_text:
-              "This tool removes duplicate lines from your text. It compares each line and keeps only unique entries. You can choose to keep the first or last occurrence of each duplicate, and whether to ignore leading/trailing whitespace and case when comparing.",
-            yaml_title: "YAML Converter",
-            yaml_desc: "Convert between YAML and JSON formats.",
-            yaml_about: "About YAML",
-            yaml_about_text:
-              "YAML (YAML Ain't Markup Language) is a human-readable data serialization format. It's commonly used for configuration files, data exchange, and in tools like Docker, Kubernetes, and GitHub Actions. This converter uses the js-yaml library to handle parsing and stringifying.",
-            yaml_to_json: "YAML → JSON",
-            yaml_from_json: "JSON → YAML",
-            yaml_tab: "Convert",
-            qr_title: "QR Code Generator",
-            qr_desc:
-              "Generate QR codes from text or URLs. Download as PNG or SVG.",
-            qr_about: "About QR Codes",
-            qr_about_text:
-              "A QR (Quick Response) code is a two-dimensional barcode that can encode text, URLs, contact info, and more. Scannable by any smartphone camera. This tool generates QR codes entirely in your browser using the qrcode-generator library. No data is sent to any server.",
-            ts_title: "Timestamp Converter",
-            ts_desc:
-              "Convert between Unix timestamps and human-readable dates.",
-            ts_about: "About Unix Timestamps",
-            ts_about_text:
-              "A Unix timestamp is the number of seconds since January 1, 1970 00:00:00 UTC (the Unix Epoch). It's widely used in programming, databases, and APIs to represent a specific point in time. This tool supports second-precision (10 digits) and millisecond-precision (13 digits) timestamps.",
-            ip_title: "IP Lookup",
-            ip_desc: "Lookup IP address and geolocation information.",
-            ip_about: "About IP Lookup",
-            ip_about_text:
-              "This tool queries your public IP address and shows geolocation data including country, city, region, timezone, and ISP. You can also enter any IP address to look up its information. Data is provided by ipapi.co API.",
-            regex_title: "Regex Tester",
-            regex_desc:
-              "Test regular expressions with real-time matching and highlighting.",
-            regex_about: "About Regular Expressions",
-            regex_about_text:
-              "A regular expression (regex) is a sequence of characters that defines a search pattern. It's used for string matching, searching, and text manipulation. This tool tests your regex pattern in real time and shows all matches with their positions and captured groups. All processing happens in your browser.",
-            diff_title: "Text Diff",
-            diff_desc:
-              "Compare two texts and highlight differences line by line.",
-            diff_about: "About Text Diff",
-            diff_about_text:
-              "This tool compares two texts line by line and highlights the differences. Green lines indicate additions (present in the new text but not the old), red lines indicate deletions (present in the old text but not the new), and plain lines are unchanged. All processing happens in your browser.",
-            md5_title: "Hash Generator",
-            md5_desc: "Generate MD5, SHA-1, SHA-256, SHA-512 hashes from text.",
-            md5_about: "About Hash Functions",
-            md5_about_text:
-              "A hash function converts input data into a fixed-size string of characters. MD5 produces a 128-bit hash (32 hex chars). SHA-1 produces a 160-bit hash (40 hex chars). SHA-256 produces a 256-bit hash (64 hex chars). SHA-512 produces a 512-bit hash (128 hex chars). These are one-way functions — you cannot reverse a hash back to the original text.",
-            btn_format: "Format",
-            btn_minify: "Minify",
-            btn_copy: "Copy Output",
-            btn_clear: "Clear",
-            btn_encode: "Encode",
-            btn_decode: "Decode",
-            btn_encode_uri: "Encode URI",
-            btn_encode_comp: "Encode Component",
-            btn_copy_hex: "Copy HEX",
-            btn_copy_rgb: "Copy RGB",
-            btn_copy_hsl: "Copy HSL",
-            btn_random: "Random Color",
-            btn_generate: "Generate",
-            btn_copy_all: "Copy All",
-            btn_swap: "Swap",
-            btn_convert: "Convert",
-            btn_now: "Refresh",
-            btn_lookup: "Lookup",
-            btn_my_ip: "My IP",
-            btn_dedup: "Remove Duplicates",
-            btn_pick_color: "Pick Color",
-            btn_compare: "Compare",
-            btn_download_png: "Download PNG",
-            btn_download_svg: "Download SVG",
-            input_label: "Input",
-            output_label: "Output",
-            words: "Words",
-            characters: "Characters",
-            no_spaces: "No Spaces",
-            sentences: "Sentences",
-            paragraphs: "Paragraphs",
-            min_read: "Min Read",
-            ph_input: "Enter input...",
-            ph_output: "Formatted result...",
-            ph_base64_input: "Enter text or Base64 string...",
-            ph_base64_output: "Result...",
-            ph_url_input: "https://example.com/path?q=helloworld",
-            ph_url_output: "Result...",
-            ph_case_input: "Type or paste your text here...",
-            ph_case_output: "Result...",
-            ph_wc_input: "Start typing or paste your text here...",
-            ph_pw_result: "Click Generate",
-            ph_uuid_output: "Generated UUIDs...",
-            ph_hex_input: "Enter a number...",
-            ph_radix_input: "Enter a number...",
-            ph_dedup_input: "Paste text with duplicate lines here...",
-            ph_dedup_output: "Deduplicated result...",
-            ph_yaml_input: "Paste YAML here...",
-            ph_yaml_output: "Result...",
-            ph_json_input: '{"key": "value"}',
-            ph_json_output: "Result...",
-            ph_qr_input: "Enter text or URL (e.g. https://example.com)",
-            ph_ts_input: "e.g. 1700000000",
-            ph_date_input: "2024-01-15 12:30:00",
-            ph_ip_input:
-              "Enter IP address (e.g. 8.8.8.8) or leave empty for your IP",
-            ph_regex_pattern: "e.g. \\b\\w+@\\w+\\.\\w+\\b",
-            ph_regex_test: "Type or paste your test string here...",
-            ph_diff_old: "Paste original text here...",
-            ph_diff_new: "Paste modified text here...",
-            ph_md5_input: "Enter text to hash...",
-            ph_md5_compare: "Paste a hash to compare...",
-            hex_label: "HEX",
-            rgb_label: "RGB",
-            hsl_label: "HSL",
-            opt_length: "Length",
-            opt_upper: "Uppercase (A–Z)",
-            opt_lower: "Lowercase (a–z)",
-            opt_numbers: "Numbers (0–9)",
-            opt_symbols: "Symbols (!@#$%...)",
-            quantity: "Quantity",
-            case_upper: "UPPERCASE",
-            case_lower: "lowercase",
-            case_title_case: "Title Case",
-            case_sentence: "Sentence case",
-            case_camel: "camelCase",
-            case_pascal: "PascalCase",
-            case_snake: "snake_case",
-            case_kebab: "kebab-case",
-            case_reverse: "Reverse",
-            lbl_from: "From",
-            lbl_to: "To",
-            lbl_base: "Base",
-            lbl_options: "Options",
-            opt_trim: "Ignore leading/trailing whitespace",
-            opt_case: "Case insensitive",
-            opt_empty: "Remove empty lines",
-            lbl_keep: "Keep",
-            opt_first: "First occurrence",
-            opt_last: "Last occurrence",
-            lbl_stats: "Stats",
-            lbl_original: "Original",
-            lbl_result: "Result",
-            lbl_removed: "Removed",
-            lbl_size: "Size",
-            lbl_fg: "Foreground",
-            lbl_bg: "Background",
-            lbl_now: "Current Time",
-            lbl_to_date: "Timestamp → Date",
-            lbl_to_ts: "Date → Timestamp",
-            lbl_format: "Format",
-            fmt_iso: "ISO 8601",
-            fmt_utc: "UTC",
-            fmt_local: "Local Time",
-            fmt_relative: "Relative",
-            lbl_seconds: "Seconds",
-            lbl_milliseconds: "Milliseconds",
-            lbl_ipv4: "IPv4",
-            lbl_ipv6: "IPv6",
-            lbl_loading: "Querying...",
-            lbl_ip: "IP Address",
-            lbl_country: "Country",
-            lbl_city: "City",
-            lbl_region: "Region",
-            lbl_timezone: "Timezone",
-            lbl_isp: "ISP",
-            lbl_org: "Organization",
-            lbl_coords: "Coordinates",
-            lbl_as: "AS",
-            lbl_pattern: "Pattern",
-            lbl_flags: "Flags",
-            lbl_test_string: "Test String",
-            lbl_match_count: "Matches",
-            lbl_match: "Match",
-            lbl_group: "Group",
-            lbl_position: "Position",
-            lbl_no_match: "No matches found",
-            lbl_old_text: "Original Text",
-            lbl_new_text: "Modified Text",
-            lbl_added: "Added",
-            lbl_unchanged: "Unchanged",
-            lbl_no_diff: "The two texts are identical",
-            lbl_old_line: "Old",
-            lbl_new_line: "New",
-            lbl_uppercase: "Uppercase output",
-            lbl_compare: "Compare with known hash",
-            lbl_match_hash: "Match",
-            lbl_mismatch: "Mismatch",
-            err_empty: "Please enter JSON data",
-            err_invalid_json: "Invalid JSON",
-            err_encode_fail: "Encoding failed",
-            err_invalid_b64: "Invalid Base64 string",
-            err_invalid_url: "Invalid encoded string",
-            err_select_option: "Select at least one option",
-            err_hex: "Invalid HEX: only 0-9 and A-F allowed",
-            err_dec: "Invalid DEC: only 0-9 allowed",
-            err_oct: "Invalid OCT: only 0-7 allowed",
-            err_bin: "Invalid BIN: only 0 and 1 allowed",
-            err_radix_invalid: "Invalid character for the selected base",
-            err_ip_fail: "Failed to lookup IP information",
-            err_ip_invalid: "Please enter a valid IP address",
-            err_yaml_parse: "Invalid YAML format",
-            err_json_parse: "Invalid JSON format",
-            err_ts_invalid: "Please enter a valid timestamp (numbers only)",
-            err_date_invalid: "Please select a valid date",
-            err_regex_invalid: "Invalid regular expression",
-
+            // Navigation
+            nav_home: 'Home',
+            nav_tools: 'Tools',
+            nav_games: 'Games',
+            nav_links: 'Links',
             nav_privacy: 'Privacy Policy',
-privacy_title: 'Privacy Policy',
-privacy_date: 'Last updated: May 11, 2026',
-privacy_intro_title: 'Introduction',
-privacy_intro_text: 'Welcome to ToolsX ("we", "us", or "our"). We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you visit our website www.kongbyte.top.',
-privacy_collect_title: 'Information We Collect',
-privacy_collect_personal: 'Personal Data:',
-privacy_collect_personal_text: 'We do not collect any personal information such as your name, email address, or phone number. All tools on this website operate entirely within your browser. No data you enter is sent to or stored on our servers.',
-privacy_collect_usage: 'Usage Data:',
-privacy_collect_usage_text: 'We may automatically collect certain information when you visit our website, including your IP address, browser type, operating system, referring URLs, and pages visited. This information is used solely for analytics and improving our services.',
-privacy_ads_title: 'Advertising & Cookies',
-privacy_ads_text: 'We use Monetag to display advertisements on our website. Monetag may use cookies and similar technologies to serve ads. These advertising partners may collect information about your visits to our website and other websites to provide relevant advertisements.',
-privacy_ads_li1: 'Our advertising partners may use cookies and similar technologies to collect information about your browsing activity across websites.',
-privacy_ads_li2: 'You can manage your cookie preferences through your browser settings. Most browsers allow you to block or delete cookies.',
-privacy_ads_li3: 'Disabling cookies may affect the functionality of some features on our website, but the core tools will continue to work as they operate entirely in your browser.',
-privacy_third_title: 'Third-Party Services',
-privacy_third_text: 'We use the following third-party services on our website:',
-privacy_third_monetag: 'Advertising platform that displays ads on our website.',
-privacy_third_vercel: 'Website hosting and deployment platform.',
-privacy_tool_data_title: 'Tool Data & Privacy',
-privacy_tool_data_text: 'All tools provided on ToolsX (JSON Formatter, Base64 Encoder, Password Generator, Color Converter, Regex Tester, IP Lookup, and others) run entirely within your web browser. The data you enter into any tool is processed locally on your device and is never transmitted to or stored on our servers. This means your data remains completely private and under your control at all times.',
-privacy_security_title: 'Data Security',
-privacy_security_text: 'We implement reasonable security measures to protect the limited information we may collect. However, no method of transmission over the Internet is 100% secure, and we cannot guarantee absolute security.',
-privacy_children_title: 'Children\'s Privacy',
-privacy_children_text: 'Our website is not intended for children under the age of 13. We do not knowingly collect personal information from children under 13.',
-privacy_rights_title: 'Your Rights',
-privacy_rights_text: 'You have the right to access, correct, or delete any personal information we may hold about you. Since we collect minimal data, most of your information is controlled by your browser settings. You can clear cookies, disable tracking, or use private browsing mode at any time.',
-privacy_changes_title: 'Changes to This Policy',
-privacy_changes_text: 'We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page with an updated date.',
-privacy_contact_title: 'Contact Us',
-privacy_contact_text: 'If you have any questions about this Privacy Policy, please contact us at:',
 
+            // Common
+            copied: 'Copied!',
+            input_label: 'Input',
+            output_label: 'Output',
+            words: 'Words',
+            characters: 'Characters',
+            no_spaces: 'No Spaces',
+            sentences: 'Sentences',
+            paragraphs: 'Paragraphs',
+            min_read: 'Min Read',
+            hex_label: 'HEX',
+            rgb_label: 'RGB',
+            hsl_label: 'HSL',
+            quantity: 'Quantity',
 
-            json_how_title: "How to Use",
-            json_how_text:
-              'Paste your JSON data into the input field on the left. Click "Format" to beautify the JSON with proper indentation, or "Minify" to compress it into a single line. The output will appear on the right. If your JSON contains syntax errors, the tool will display a detailed error message showing the exact location of the problem.',
-            json_what_title: "What is JSON?",
-            json_what_text:
-              "JSON (JavaScript Object Notation) is a lightweight data interchange format that is easy for humans to read and write. It is commonly used for transmitting data between a server and a web application, as well as for configuration files and data storage. A JSON object consists of key-value pairs enclosed in curly braces, and arrays are ordered lists enclosed in square brackets.",
-            json_errors_title: "Common JSON Errors",
-            json_errors_text:
-              "Missing commas between properties, trailing commas after the last item, unquoted property names, single quotes instead of double quotes, and missing closing brackets are the most common JSON syntax errors. This formatter helps you identify and fix all of these issues instantly.",
+            // Buttons
+            btn_format: 'Format',
+            btn_minify: 'Minify',
+            btn_copy: 'Copy Output',
+            btn_clear: 'Clear',
+            btn_encode: 'Encode',
+            btn_decode: 'Decode',
+            btn_encode_uri: 'Encode URI',
+            btn_encode_comp: 'Encode Component',
+            btn_copy_hex: 'Copy HEX',
+            btn_copy_rgb: 'Copy RGB',
+            btn_copy_hsl: 'Copy HSL',
+            btn_random: 'Random Color',
+            btn_generate: 'Generate',
+            btn_copy_all: 'Copy All',
+            btn_swap: 'Swap',
+            btn_convert: 'Convert',
+            btn_now: 'Refresh',
+            btn_lookup: 'Lookup',
+            btn_my_ip: 'My IP',
+            btn_dedup: 'Remove Duplicates',
+            btn_pick_color: 'Pick Color',
+            btn_compare: 'Compare',
+            btn_download_png: 'Download PNG',
+            btn_download_svg: 'Download SVG',
 
-            b64_how_title: "How to Use",
-            b64_how_text:
-              'Enter your text in the input field and click "Encode" to convert it to Base64, or paste a Base64 string and click "Decode" to convert it back to plain text. The result appears instantly in the output field.',
-            b64_what_title: "What is Base64?",
-            b64_what_text:
-              "Base64 is a binary-to-text encoding scheme that represents binary data using 64 printable ASCII characters (A-Z, a-z, 0-9, +, /). It is widely used in email systems, data URLs, HTTP authentication, and embedding binary data in text-based formats like HTML, CSS, XML, and JSON.",
-            b64_uses_title: "Common Use Cases",
-            b64_uses_text:
-              "Embedding images directly in HTML using data URIs, encoding credentials for HTTP Basic Authentication, transmitting binary data over text-only protocols like email, storing complex data in JSON or XML, and encoding file attachments in API requests.",
+            // Shared placeholders
+            ph_input: 'Enter input...',
+            ph_output: 'Formatted result...',
 
-            url_how_title: "How to Use",
-            url_how_text:
-              'Enter or paste a URL in the input field. Use "Encode URI" to encode special characters while preserving the URL structure, or "Encode Component" to encode everything. Use "Decode" to convert an encoded URL back to its original form.',
-            url_what_title: "What is URL Encoding?",
-            url_what_text:
-              "URL encoding (also called percent-encoding) converts characters into a format that can be safely transmitted over the Internet. Unsafe characters are replaced with a percent sign (%) followed by two hexadecimal digits. For example, a space becomes %20.",
-            url_diff_title: "Encode URI vs Encode Component",
-            url_diff_text:
-              "Encode URI preserves the structure of a URL (keeps :, /, ?, #, etc.) and is suitable for encoding a complete URL. Encode Component encodes everything including special URL characters, making it ideal for encoding individual parameter values in a query string.",
+            // Labels
+            lbl_from: 'From',
+            lbl_to: 'To',
+            lbl_base: 'Base',
+            lbl_options: 'Options',
+            lbl_keep: 'Keep',
+            lbl_stats: 'Stats',
+            lbl_original: 'Original',
+            lbl_result: 'Result',
+            lbl_removed: 'Removed',
+            lbl_size: 'Size',
+            lbl_fg: 'Foreground',
+            lbl_bg: 'Background',
+            lbl_now: 'Current Time',
+            lbl_format: 'Format',
+            lbl_loading: 'Querying...',
+            lbl_pattern: 'Pattern',
+            lbl_flags: 'Flags',
+            lbl_test_string: 'Test String',
+            lbl_match_count: 'Matches',
+            lbl_match: 'Match',
+            lbl_group: 'Group',
+            lbl_position: 'Position',
+            lbl_no_match: 'No matches found',
+            lbl_old_text: 'Original Text',
+            lbl_new_text: 'Modified Text',
+            lbl_added: 'Added',
+            lbl_unchanged: 'Unchanged',
+            lbl_no_diff: 'The two texts are identical',
+            lbl_old_line: 'Old',
+            lbl_new_line: 'New',
+            lbl_uppercase: 'Uppercase output',
+            lbl_compare: 'Compare with known hash',
+            lbl_match_hash: 'Match',
+            lbl_mismatch: 'Mismatch',
+            lbl_saved: 'Saved',
 
-            color_how_title: "How to Use",
-            color_how_text:
-              'Enter a color value in any format (HEX, RGB, or HSL) and the tool will automatically convert it to all other formats. Use the color picker to visually select a color, or click "Random Color" to generate a random one.',
-            color_formats_title: "Understanding Color Formats",
-            color_formats_text:
-              "HEX uses a 6-digit hexadecimal number (#RRGGBB) to represent colors. RGB specifies red, green, and blue values from 0 to 255. HSL uses hue (0-360 degrees on the color wheel), saturation (0-100% intensity), and lightness (0-100% brightness).",
-            color_uses_title: "When to Use Each Format",
-            color_uses_text:
-              "HEX is most commonly used in CSS and web design. RGB is useful when working with dynamic color calculations in JavaScript. HSL is great for creating color variations — adjusting only the hue creates complementary colors, while changing saturation and lightness creates harmonious palettes.",
+            // Options
+            opt_trim: 'Ignore leading/trailing whitespace',
+            opt_case: 'Case insensitive',
+            opt_empty: 'Remove empty lines',
+            opt_first: 'First occurrence',
+            opt_last: 'Last occurrence',
+            opt_length: 'Length',
+            opt_upper: 'Uppercase (A–Z)',
+            opt_lower: 'Lowercase (a–z)',
+            opt_numbers: 'Numbers (0–9)',
+            opt_symbols: 'Symbols (!@#$%...)',
 
-            case_how_title: "How to Use",
-            case_how_text:
-              "Type or paste your text into the input field. Click any case format button to instantly convert your text. You can switch between formats as many times as you like without re-entering the text.",
-            case_formats_title: "Understanding Case Formats",
-            case_formats_text:
-              "UPPERCASE converts all letters to capital letters. lowercase converts all to small letters. Title Case capitalizes the first letter of each word. camelCase is used in JavaScript and Java for variable names. PascalCase is used for class names. snake_case is common in Python and database fields. kebab-case is used in CSS class names and URL slugs.",
-            case_uses_title: "Common Use Cases",
-            case_uses_text:
-              "Developers use case conversion daily when writing code in different programming languages. Writers use title case for headlines and headings. Data analysts convert text cases when cleaning and standardizing datasets. SEO professionals use kebab-case for URL-friendly slugs.",
+            // Case formats
+            case_upper: 'UPPERCASE',
+            case_lower: 'lowercase',
+            case_title_case: 'Title Case',
+            case_sentence: 'Sentence case',
+            case_camel: 'camelCase',
+            case_pascal: 'PascalCase',
+            case_snake: 'snake_case',
+            case_kebab: 'kebab-case',
+            case_reverse: 'Reverse',
 
-            wc_how_title: "How to Use",
-            wc_how_text:
-              "Start typing or paste your text into the input field. The statistics update instantly in real time as you type. No need to click any button — just paste and see the results immediately.",
-            wc_method_title: "Counting Method",
-            wc_method_text:
-              "English words are counted by word (Hello World = 2 words). Chinese characters are counted individually (你好世界 = 4 words). This hybrid approach ensures accurate counting for mixed Chinese-English text, which is common in bilingual documents and technical writing.",
-            wc_uses_title: "Common Use Cases",
-            wc_uses_text:
-              "Writers and bloggers use word counters to meet article length requirements. Students use it to check essay and report word counts. Social media managers use it to stay within character limits for posts. Translators use it to estimate project scope and pricing based on word count.",
+            // Errors
+            err_empty: 'Please enter JSON data',
+            err_invalid_json: 'Invalid JSON',
+            err_encode_fail: 'Encoding failed',
+            err_invalid_b64: 'Invalid Base64 string',
+            err_invalid_url: 'Invalid encoded string',
+            err_select_option: 'Select at least one option',
+            err_hex: 'Invalid HEX: only 0-9 and A-F allowed',
+            err_dec: 'Invalid DEC: only 0-9 allowed',
+            err_oct: 'Invalid OCT: only 0-7 allowed',
+            err_bin: 'Invalid BIN: only 0 and 1 allowed',
+            err_radix_invalid: 'Invalid character for the selected base',
+            err_ip_fail: 'Failed to lookup IP information',
+            err_ip_invalid: 'Please enter a valid IP address',
+            err_yaml_parse: 'Invalid YAML format',
+            err_json_parse: 'Invalid JSON format',
+            err_ts_invalid: 'Please enter a valid timestamp (numbers only)',
+            err_date_invalid: 'Please select a valid date',
+            err_regex_invalid: 'Invalid regular expression',
+            err_css_format: 'CSS format error',
 
-            dedup_how_title: "How to Use",
-            dedup_how_text:
-              'Paste your text containing duplicate lines into the input field. Configure options such as ignoring leading/trailing whitespace, case insensitive comparison, and removing empty lines. Click "Remove Duplicates" to get the deduplicated result.',
-            dedup_options_title: "Understanding Options",
-            dedup_options_text:
-              '"Ignore whitespace" trims spaces from the start and end of each line before comparing. "Case insensitive" treats "Apple" and "apple" as the same. "Remove empty lines" filters out blank lines. "Keep first occurrence" preserves the original order while "Keep last occurrence" keeps the most recent duplicate.',
-            dedup_uses_title: "Common Use Cases",
-            dedup_uses_text:
-              "Data cleaning removes duplicate entries from CSV files, email lists, and log files. Developers deduplicate configuration lists and dependency arrays. Content managers clean up keyword lists and URL lists. Researchers remove duplicate entries from survey responses and datasets.",
-
-            yaml_how_title: "How to Use",
-            yaml_how_text:
-              'Paste YAML into the input field and click "Convert" to convert it to JSON. Or switch the direction to convert JSON to YAML. The result appears instantly in the output field and can be copied with one click.',
-            yaml_what_title: "What is YAML?",
-            yaml_what_text:
-              "YAML (YAML Ain't Markup Language) is a human-readable data serialization format. It uses indentation to represent structure instead of brackets and braces. YAML is commonly used for configuration files in Docker, Kubernetes, GitHub Actions, Ansible, and many other DevOps and development tools.",
-            yaml_vs_title: "YAML vs JSON",
-            yaml_vs_text:
-              "YAML is more human-readable with its indentation-based structure and supports comments (using #). JSON is more compact and widely supported by programming languages. YAML is preferred for configuration files that humans edit manually, while JSON is preferred for data exchange between systems and APIs.",
-
-            pw_how_title: "How to Use",
-            pw_how_text:
-              'Set your desired password length using the slider. Check the character types you want to include: uppercase letters, lowercase letters, numbers, and symbols. Click "Generate" to create a secure random password. Click "Copy" to copy it to your clipboard.',
-            pw_strength_title: "Password Strength Tips",
-            pw_strength_text:
-              "A strong password should be at least 12 characters long and include a mix of all character types. Longer passwords are exponentially harder to crack — a 16-character password with mixed types would take billions of years to brute force with current technology. Never reuse passwords across different websites.",
-            pw_security_title: "How This Generator Works",
-            pw_security_text:
-              "This password generator uses the browser's built-in crypto.getRandomValues() API for cryptographic randomness, which is more secure than Math.random(). All generation happens locally in your browser — no data is sent to any server, ensuring your passwords remain completely private.",
-
-            uuid_how_title: "How to Use",
-            uuid_how_text:
-              'Click "Generate" to create one or more UUID v4 identifiers. Set the quantity to generate multiple UUIDs at once. Click "Copy All" to copy all generated UUIDs to your clipboard, separated by line breaks.',
-            uuid_what_title: "What is a UUID?",
-            uuid_what_text:
-              "A UUID (Universally Unique Identifier) is a 128-bit number used to uniquely identify information in computer systems. The standard format is 8-4-4-4-12 hexadecimal characters (e.g., 550e8400-e29b-41d4-a716-446655440000). UUID v4 is randomly generated and is the most commonly used version.",
-            uuid_uses_title: "Common Use Cases",
-            uuid_uses_text:
-              "Database primary keys that need to be unique across distributed systems. API request identifiers for tracing and debugging. Session tokens and temporary file names. Naming uploaded files to avoid conflicts. Generating unique identifiers for microservices and event-driven architectures.",
-
-            qr_how_title: "How to Use",
-            qr_how_text:
-              "Enter any text, URL, email address, phone number, or Wi-Fi configuration in the input field. The QR code is generated in real time as you type. Download the QR code as PNG (raster) or SVG (vector) format.",
-            qr_what_title: "What is a QR Code?",
-            qr_what_text:
-              "A QR (Quick Response) code is a two-dimensional barcode that can be scanned by any smartphone camera. It can encode up to 4,296 alphanumeric characters and supports URLs, plain text, email addresses, phone numbers, vCards, and Wi-Fi network configurations.",
-            qr_tips_title: "Tips for Using QR Codes",
-            qr_tips_text:
-              "For printed materials, use SVG format for crisp results at any size. Add sufficient white space (quiet zone) around the QR code for reliable scanning. Test your QR code with multiple devices before printing. For URLs, keep them short to generate simpler QR codes that scan more easily.",
-
-            ts_how_title: "How to Use",
-            ts_how_text:
-              'Enter a Unix timestamp (10 digits for seconds, 13 digits for milliseconds) in the timestamp field to convert it to human-readable date. Or select a date and time to convert it to a Unix timestamp. Click "Refresh" to get the current timestamp.',
-            ts_what_title: "What is a Unix Timestamp?",
-            ts_what_text:
-              "A Unix timestamp is the total number of seconds elapsed since January 1, 1970 00:00:00 UTC, known as the Unix Epoch. It is the standard way computers represent time and is used in virtually all operating systems, programming languages, databases, and APIs.",
-            ts_formats_title: "Timestamp Formats",
-            ts_formats_text:
-              "Seconds (10 digits): 1700000000 represents November 14, 2023. Milliseconds (13 digits): 1700000000000 represents the same moment with higher precision. ISO 8601 format (2023-11-14T00:00:00Z) is the international standard for date-time representation.",
-
-            ip_how_title: "How to Use",
-            ip_how_text:
-              'Click "My IP" to automatically detect your public IP address and geolocation. Or enter any IP address in the input field and click "Lookup" to see its location, ISP, timezone, and other details.',
-            ip_what_title: "What is an IP Address?",
-            ip_what_text:
-              "An IP (Internet Protocol) address is a unique numerical identifier assigned to every device connected to the Internet. IPv4 addresses use 32 bits (e.g., 192.168.1.1) while IPv6 addresses use 128 bits (e.g., 2001:db8::1). Your public IP address is assigned by your Internet Service Provider.",
-            ip_uses_title: "Common Use Cases",
-            ip_uses_text:
-              "Network administrators use IP lookup to diagnose connectivity issues and identify server locations. Security professionals use it to investigate suspicious traffic. Developers use it to implement geolocation-based content delivery and regional access controls. Users check their IP to verify VPN connections are working.",
-
-            regex_how_title: "How to Use",
-            regex_how_text:
-              "Enter your regular expression pattern in the top field between the slashes. Type or paste your test string in the text area below. Matches are highlighted in real time with details shown below including match position and capture groups.",
-            regex_flags_title: "Understanding Flags",
-            regex_flags_text:
-              "The g (global) flag finds all matches instead of stopping at the first one. The i (insensitive) flag makes the pattern case-insensitive. The m (multiline) flag makes ^ and $ match the start and end of each line. The s (dotAll) flag makes the dot (.) also match newline characters.",
-            regex_uses_title: "Common Use Cases",
-            regex_uses_text:
-              "Data validation (emails, phone numbers, URLs). Find and replace in text editors and IDEs. Log file parsing and analysis. Web scraping and data extraction. Input sanitization and format checking in web forms.",
-
-            diff_how_title: "How to Use",
-            diff_how_text:
-              'Paste the original text on the left and the modified text on the right. Click "Compare" to see the differences highlighted. Green lines indicate additions, red lines indicate deletions, and plain lines are unchanged.',
-            diff_what_title: "What is Text Diff?",
-            diff_what_text:
-              "Text diff (difference) is a comparison algorithm that analyzes two texts line by line and identifies what has been added, removed, or changed. It is one of the most fundamental tools in software development and document editing, used to track changes and review code modifications.",
-            diff_uses_title: "Common Use Cases",
-            diff_uses_text:
-              "Code review: compare versions of source code files. Document editing: track changes between draft versions. Configuration management: find differences between config files. Data comparison: compare CSV or log file outputs. Legal and academic: compare versions of contracts or research papers.",
-
-            md5_how_title: "How to Use",
-            md5_how_text:
-              "Enter or paste your text in the input field. The tool automatically generates MD5, SHA-1, SHA-256, and SHA-512 hashes simultaneously. Click the copy button next to any hash to copy it to your clipboard. Use the compare feature to verify a hash against a known value.",
-            md5_what_title: "What is a Hash Function?",
-            md5_what_text:
-              "A hash function takes input data of any size and produces a fixed-size string of characters. The same input always produces the same hash, but you cannot reverse the process to get the original data from the hash. This makes hash functions ideal for data integrity verification and password storage.",
-            md5_choosing_title: "Which Hash to Choose?",
-            md5_choosing_text:
-              "MD5 (32 chars): Fast but not collision-resistant. Use for checksums and non-security purposes. SHA-1 (40 chars): Stronger than MD5 but deprecated for security use. SHA-256 (64 chars): Industry standard for security. Used in SSL certificates and blockchain. SHA-512 (128 chars): Strongest option with highest collision resistance.",
-
-            css_title: "CSS Minifier & Beautifier",
-            css_desc: "Paste your CSS to minify or beautify it instantly.",
-            css_about: "About CSS Minifier",
-            css_about_text:
-              "A CSS minifier removes unnecessary characters from CSS code — whitespace, comments, newlines, and redundant semicolons — to reduce file size. A beautifier reformats messy CSS with proper indentation and line breaks for readability. All processing happens in your browser.",
-            css_how_title: "How to Use",
-            css_how_text:
-              'Paste your CSS code into the input field. Click "Minify" to compress it for production use, or "Format" to beautify it with proper indentation for development. The size comparison stats show how much file size was saved.',
-            css_why_title: "Why Minify CSS?",
-            css_why_text:
-              "Minifying CSS reduces file size by 30-60%, which makes your website load faster. Faster websites rank higher in Google search results and provide a better user experience. Minified CSS is the standard for production websites and is required by Google PageSpeed Insights.",
-            css_tips_title: "CSS Optimization Tips",
-            css_tips_text:
-              "Remove unused CSS rules to further reduce file size. Combine similar selectors where possible. Use shorthand properties (margin, padding, background) instead of individual properties. Consider using CSS variables (custom properties) for repeated values. Load critical CSS inline and defer non-critical CSS.",
-            ph_css_input: "body { color: red; margin: 0; }",
-            ph_css_output: "Result...",
-            lbl_saved: "Saved",
-            err_css_format: "CSS format error",
-
+            // Search
             ph_search: 'Enter search content...',
-search_btn: 'Search',
-search_site: 'Site',
+            search_btn: 'Search',
+            search_site: 'Site',
+            search_baidu: 'Baidu',
 
-search_baidu: 'Baidu',
+            // Privacy
+            privacy_title: 'Privacy Policy',
+            privacy_date: 'Last updated: May 11, 2026',
+            privacy_intro_title: 'Introduction',
+            privacy_intro_text: 'Welcome to ToolsX ("we", "us", or "our"). We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you visit our website www.kongbyte.top.',
+            privacy_collect_title: 'Information We Collect',
+            privacy_collect_personal: 'Personal Data:',
+            privacy_collect_personal_text: 'We do not collect any personal information such as your name, email address, or phone number. All tools on this website operate entirely within your browser. No data you enter is sent to or stored on our servers.',
+            privacy_collect_usage: 'Usage Data:',
+            privacy_collect_usage_text: 'We may automatically collect certain information when you visit our website, including your IP address, browser type, operating system, referring URLs, and pages visited. This information is used solely for analytics and improving our services.',
+            privacy_ads_title: 'Advertising & Cookies',
+            privacy_ads_text: 'We use Monetag to display advertisements on our website. Monetag may use cookies and similar technologies to serve ads. These advertising partners may collect information about your visits to our website and other websites to provide relevant advertisements.',
+            privacy_ads_li1: 'Our advertising partners may use cookies and similar technologies to collect information about your browsing activity across websites.',
+            privacy_ads_li2: 'You can manage your cookie preferences through your browser settings. Most browsers allow you to block or delete cookies.',
+            privacy_ads_li3: 'Disabling cookies may affect the functionality of some features on our website, but the core tools will continue to work as they operate entirely in your browser.',
+            privacy_third_title: 'Third-Party Services',
+            privacy_third_text: 'We use the following third-party services on our website:',
+            privacy_third_monetag: 'Advertising platform that displays ads on our website.',
+            privacy_third_vercel: 'Website hosting and deployment platform.',
+            privacy_tool_data_title: 'Tool Data & Privacy',
+            privacy_tool_data_text: 'All tools provided on ToolsX run entirely within your web browser. The data you enter into any tool is processed locally on your device and is never transmitted to or stored on our servers.',
+            privacy_security_title: 'Data Security',
+            privacy_security_text: 'We implement reasonable security measures to protect the limited information we may collect. However, no method of transmission over the Internet is 100% secure.',
+            privacy_children_title: "Children's Privacy",
+            privacy_children_text: 'Our website is not intended for children under the age of 13. We do not knowingly collect personal information from children under 13.',
+            privacy_rights_title: 'Your Rights',
+            privacy_rights_text: 'You have the right to access, correct, or delete any personal information we may hold about you. You can clear cookies, disable tracking, or use private browsing mode at any time.',
+            privacy_changes_title: 'Changes to This Policy',
+            privacy_changes_text: 'We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page with an updated date.',
+            privacy_contact_title: 'Contact Us',
+            privacy_contact_text: 'If you have any questions about this Privacy Policy, please contact us at:',
+
+            // Games
+            games_title: 'Games',
+            games_desc: 'Fun browser games - play directly in your browser, no download needed.',
+            games_2048_desc: 'Classic number puzzle game',
+            games_typing_title: 'Typing Test',
+            games_typing_desc: 'Test your typing speed and accuracy',
+            games_memory_title: 'Memory Cards',
+            games_memory_desc: 'Flip cards and find matching pairs',
+            games_snake_title: 'Snake',
+            games_snake_desc: 'Classic snake game',
+            games_coming_title: 'Coming Soon',
+            games_coming_text: 'We are working on adding more games. Stay tuned!',
+
+            // Links
+            links_title: 'Recommended Links',
+            links_desc: 'Curated collection of useful websites for developers, designers, and creators.',
+
+            //2048小游戏得分
+g2048_score: 'SCORE',
+g2048_best: 'BEST',
+g2048_clear: 'Clear Best',
+
+home_tools: 'Tools',
+home_games: 'Games',
+home_links: 'Recommended Links',
+
+
+ad_title: 'Sponsored',
+ad_desc: 'Support our site',
+
 
 
           },
           zh: {
-            nav_tools: "全部工具",
-            copied: "已复制！",
-            json_title: "JSON 格式化",
-            json_desc: "粘贴你的 JSON 数据，一键格式化、校验和压缩。",
-            json_about: "关于 JSON 格式化",
-            json_about_text:
-              "JSON（JavaScript Object Notation）是一种轻量级的数据交换格式。本工具可以即时格式化（美化）或压缩 JSON 数据。所有处理都在浏览器端完成，你的数据不会离开你的设备。",
-            json_features: "功能特性",
-            json_features_text:
-              "带缩进的 JSON 格式化、压缩以减小文件体积、带详细错误信息的语法校验、一键复制输出结果。",
-            b64_title: "Base64 编解码",
-            b64_desc: "将文本编码为 Base64，或将 Base64 解码为文本。",
-            b64_about: "关于 Base64",
-            b64_about_text:
-              "Base64 是一种用 64 个可打印 ASCII 字符表示二进制数据的编码方式。常用于 HTML/CSS 中嵌入数据、编码邮件附件、以及 HTTP 数据传输。",
-            url_title: "URL 编解码",
-            url_desc: "编码或解码 URL 和 URI 组件。",
-            url_about: "关于 URL 编码",
-            url_about_text:
-              "URL 编码会将不安全的 ASCII 字符替换为百分号（%）加两位十六进制数。「编码 URI」保留 URL 结构，「编码组件」会编码所有字符——适合用于查询参数值。",
-            color_title: "颜色转换",
-            color_desc: "在 HEX、RGB 和 HSL 颜色格式之间转换。",
-            color_about: "关于颜色格式",
-            color_about_text:
-              "HEX — 十六进制表示法（#RRGGBB）。RGB — 红、绿、蓝值（0–255）。HSL — 色相（0–360）、饱和度（0–100%）、亮度（0–100%）。",
-            case_title: "文本大小写转换",
-            case_desc: "在不同的大小写格式之间即时转换文本。",
-            case_about: "关于文本格式",
-            case_about_text:
-              "camelCase — 首词小写，后续词首字母大写。PascalCase — 每个词首字母大写，无空格。snake_case — 全小写，用下划线分隔。kebab-case — 全小写，用连字符分隔。",
-            wc_title: "字数统计",
-            wc_desc: "实时统计——直接开始输入或粘贴文本即可。",
-            wc_about: "关于字数统计",
-            wc_about_text:
-              "此工具实时统计字数、字符数（含/不含空格）、句子数和段落数。英文按单词计数（Hello World = 2），中文按单字计数（你好世界 = 4）。",
-            pw_title: "密码生成器",
-            pw_desc: "生成安全的随机密码，支持自定义选项。",
-            pw_about: "为什么要使用强密码？",
-            pw_about_text:
-              "强密码应至少 12 个字符，包含大小写字母、数字和符号。此生成器使用 crypto.getRandomValues() API 确保密码学级别的随机性。",
-            uuid_title: "UUID 生成器",
-            uuid_desc: "生成符合 RFC 4122 标准的 UUID v4 标识符。",
-            uuid_about: "什么是 UUID？",
-            uuid_about_text:
-              "UUID（通用唯一标识符）是一个 128 位的值，用于唯一标识信息。UUID v4 是随机生成的，也是最常用的版本。",
-            hex_title: "十六进制转换",
-            hex_desc: "十六进制、十进制、八进制、二进制互转。",
-            hex_about: "关于进制系统",
-            hex_about_text:
-              "十六进制（基数16）使用数字 0–9 和字母 A–F。十进制（基数10）是标准数字系统。八进制（基数8）使用数字 0–7。二进制（基数2）只使用 0 和 1。计算机内部使用二进制，十六进制是表示二进制数据的紧凑方式。",
-            radix_title: "进制转换",
-            radix_desc: "任意进制（2–36）数字转换。",
-            radix_about: "关于进制转换",
-            radix_about_text:
-              "进制（基数）是用于表示数字的唯一数字个数。二进制（基数2）使用 0–1，八进制（基数8）使用 0–7，十进制（基数10）使用 0–9，十六进制（基数16）使用 0–9 和 A–F。三十六进制（基数36）使用 0–9 和 A–Z，能在标准字符内实现最紧凑的表示。",
-            dedup_title: "文本去重",
-            dedup_desc: "去除文本中的重复行，只保留唯一内容。",
-            dedup_about: "关于文本去重",
-            dedup_about_text:
-              "此工具去除文本中的重复行。逐行比较，仅保留唯一内容。你可以选择保留每组重复项的首次或末次出现，以及在比较时是否忽略首尾空格和大小写。",
-            yaml_title: "YAML 转换",
-            yaml_desc: "YAML 与 JSON 互转。",
-            yaml_about: "关于 YAML",
-            yaml_about_text:
-              "YAML（YAML Ain't Markup Language）是一种人类可读的数据序列化格式。常用于配置文件、数据交换，以及 Docker、Kubernetes、GitHub Actions 等工具。此转换器使用 js-yaml 库进行解析和生成。",
-            yaml_to_json: "YAML → JSON",
-            yaml_from_json: "JSON → YAML",
-            yaml_tab: "转换",
-            qr_title: "二维码生成",
-            qr_desc: "从文本或 URL 生成二维码。支持下载 PNG 和 SVG。",
-            qr_about: "关于二维码",
-            qr_about_text:
-              "二维码（Quick Response Code）是一种二维条码，可以编码文本、URL、联系信息等。任何智能手机摄像头都能扫描。此工具使用 qrcode-generator 库完全在浏览器端生成二维码，数据不会发送到任何服务器。",
-            ts_title: "时间戳转换",
-            ts_desc: "时间戳与日期互转。",
-            ts_about: "关于 Unix 时间戳",
-            ts_about_text:
-              "Unix 时间戳是指从 1970 年 1 月 1 日 00:00:00 UTC（Unix 纪元）起经过的秒数。在编程、数据库和 API 中被广泛使用，用于表示特定的时间点。此工具支持秒级（10位）和毫秒级（13位）时间戳。",
-            ip_title: "IP 查询",
-            ip_desc: "查询 IP 地址和地理位置信息。",
-            ip_about: "关于 IP 查询",
-            ip_about_text:
-              "此工具查询你的公网 IP 地址并显示地理位置数据，包括国家、城市、地区、时区和 ISP。你也可以输入任意 IP 地址查询其信息。数据由 ipapi.co API 提供。",
-            regex_title: "正则测试",
-            regex_desc: "正则表达式实时匹配和高亮测试。",
-            regex_about: "关于正则表达式",
-            regex_about_text:
-              "正则表达式（regex）是一组定义搜索模式的字符序列。用于字符串匹配、搜索和文本处理。此工具实时测试你的正则模式，显示所有匹配项及其位置和捕获组。所有处理在浏览器端完成。",
-            diff_title: "文本对比",
-            diff_desc: "逐行对比两段文本并高亮差异。",
-            diff_about: "关于文本对比",
-            diff_about_text:
-              "此工具逐行对比两段文本并高亮差异。绿色行表示新增（新文本中有，旧文本中没有），红色行表示删除（旧文本中有，新文本中没有），普通行表示未改变。所有处理在浏览器端完成。",
-            md5_title: "MD5 / SHA 哈希生成",
-            md5_desc: "生成 MD5、SHA-1、SHA-256、SHA-512 哈希值。",
-            md5_about: "关于哈希函数",
-            md5_about_text:
-              "哈希函数将输入数据转换为固定长度的字符串。MD5 生成 128 位哈希值（32个十六进制字符）。SHA-1 生成 160 位哈希值（40个字符）。SHA-256 生成 256 位哈希值（64个字符）。SHA-512 生成 512 位哈希值（128个字符）。这些都是单向函数——无法从哈希值反推出原始文本。",
-            btn_format: "格式化",
-            btn_minify: "压缩",
-            btn_copy: "复制结果",
-            btn_clear: "清空",
-            btn_encode: "编码",
-            btn_decode: "解码",
-            btn_encode_uri: "编码 URI",
-            btn_encode_comp: "编码组件",
-            btn_copy_hex: "复制 HEX",
-            btn_copy_rgb: "复制 RGB",
-            btn_copy_hsl: "复制 HSL",
-            btn_random: "随机颜色",
-            btn_generate: "生成",
-            btn_copy_all: "全部复制",
-            btn_swap: "交换",
-            btn_convert: "转换",
-            btn_now: "刷新",
-            btn_lookup: "查询",
-            btn_my_ip: "我的 IP",
-            btn_dedup: "去除重复",
-            btn_pick_color: "选取颜色",
-            btn_compare: "开始对比",
-            btn_download_png: "下载 PNG",
-            btn_download_svg: "下载 SVG",
-            input_label: "输入",
-            output_label: "输出",
-            words: "字数",
-            characters: "字符",
-            no_spaces: "不含空格",
-            sentences: "句子",
-            paragraphs: "段落",
-            min_read: "分钟阅读",
-            ph_input: "输入内容...",
-            ph_output: "格式化结果...",
-            ph_base64_input: "输入文本或 Base64 字符串...",
-            ph_base64_output: "结果...",
-            ph_url_input: "https://example.com/path?q=helloworld",
-            ph_url_output: "结果...",
-            ph_case_input: "输入或粘贴文本...",
-            ph_case_output: "结果...",
-            ph_wc_input: "开始输入或粘贴文本...",
-            ph_pw_result: "点击生成",
-            ph_uuid_output: "生成的 UUID...",
-            ph_hex_input: "输入一个数字...",
-            ph_radix_input: "输入一个数字...",
-            ph_dedup_input: "粘贴包含重复行的文本...",
-            ph_dedup_output: "去重结果...",
-            ph_yaml_input: "粘贴 YAML...",
-            ph_yaml_output: "结果...",
-            ph_json_input: '{"key": "value"}',
-            ph_json_output: "结果...",
-            ph_qr_input: "输入文本或 URL（如 https://example.com）",
-            ph_ts_input: "例如 1700000000",
-            ph_date_input: "2024-01-15 12:30:00",
-            ph_ip_input: "输入 IP 地址（如 8.8.8.8），留空则查询你的 IP",
-            ph_regex_pattern: "例如 \\b\\w+@\\w+\\.\\w+\\b",
-            ph_regex_test: "输入或粘贴测试文本...",
-            ph_diff_old: "粘贴原始文本...",
-            ph_diff_new: "粘贴修改后文本...",
-            ph_md5_input: "输入要哈希的文本...",
-            ph_md5_compare: "粘贴哈希值进行对比...",
-            hex_label: "HEX",
-            rgb_label: "RGB",
-            hsl_label: "HSL",
-            opt_length: "长度",
-            opt_upper: "大写字母 (A–Z)",
-            opt_lower: "小写字母 (a–z)",
-            opt_numbers: "数字 (0–9)",
-            opt_symbols: "符号 (!@#$%...)",
-            quantity: "数量",
-            case_upper: "全部大写",
-            case_lower: "全部小写",
-            case_title_case: "首字母大写",
-            case_sentence: "句首大写",
-            case_camel: "驼峰命名",
-            case_pascal: "帕斯卡命名",
-            case_snake: "下划线命名",
-            case_kebab: "连字符命名",
-            case_reverse: "反转文本",
-            lbl_from: "从",
-            lbl_to: "到",
-            lbl_base: "进制",
-            lbl_options: "选项",
-            opt_trim: "忽略首尾空格",
-            opt_case: "忽略大小写",
-            opt_empty: "去除空行",
-            lbl_keep: "保留",
-            opt_first: "首次出现",
-            opt_last: "末次出现",
-            lbl_stats: "统计",
-            lbl_original: "原始",
-            lbl_result: "结果",
-            lbl_removed: "已移除",
-            lbl_size: "尺寸",
-            lbl_fg: "前景色",
-            lbl_bg: "背景色",
-            lbl_now: "当前时间",
-            lbl_to_date: "时间戳 → 日期",
-            lbl_to_ts: "日期 → 时间戳",
-            lbl_format: "格式",
-            fmt_iso: "ISO 8601",
-            fmt_utc: "UTC",
-            fmt_local: "本地时间",
-            fmt_relative: "相对时间",
-            lbl_seconds: "秒",
-            lbl_milliseconds: "毫秒",
-            lbl_ipv4: "IPv4",
-            lbl_ipv6: "IPv6",
-            lbl_loading: "查询中...",
-            lbl_ip: "IP 地址",
-            lbl_country: "国家",
-            lbl_city: "城市",
-            lbl_region: "地区",
-            lbl_timezone: "时区",
-            lbl_isp: "运营商",
-            lbl_org: "组织",
-            lbl_coords: "坐标",
-            lbl_as: "AS",
-            lbl_pattern: "表达式",
-            lbl_flags: "标志",
-            lbl_test_string: "测试文本",
-            lbl_match_count: "匹配数",
-            lbl_match: "匹配",
-            lbl_group: "分组",
-            lbl_position: "位置",
-            lbl_no_match: "未找到匹配项",
-            lbl_old_text: "原始文本",
-            lbl_new_text: "修改后文本",
-            lbl_added: "新增",
-            lbl_unchanged: "未改变",
-            lbl_no_diff: "两段文本完全相同",
-            lbl_old_line: "旧",
-            lbl_new_line: "新",
-            lbl_uppercase: "大写输出",
-            lbl_compare: "与已知哈希值对比",
-            lbl_match_hash: "匹配",
-            lbl_mismatch: "不匹配",
-            err_empty: "请输入 JSON 数据",
-            err_invalid_json: "无效的 JSON 格式",
-            err_encode_fail: "编码失败",
-            err_invalid_b64: "无效的 Base64 字符串",
-            err_invalid_url: "无效的编码字符串",
-            err_select_option: "请至少选择一个选项",
-            err_hex: "无效的十六进制格式：只能使用 0-9 和 A-F",
-            err_dec: "无效的十进制格式：只能使用 0-9",
-            err_oct: "无效的八进制格式：只能使用 0-7",
-            err_bin: "无效的二进制格式：只能使用 0 和 1",
-            err_radix_invalid: "输入字符不符合所选进制",
-            err_ip_fail: "查询 IP 信息失败",
-            err_ip_invalid: "请输入有效的 IP 地址",
-            err_yaml_parse: "无效的 YAML 格式",
-            err_json_parse: "无效的 JSON 格式",
-            err_ts_invalid: "请输入有效的时间戳（纯数字）",
-            err_date_invalid: "请选择有效的日期",
-            err_regex_invalid: "无效的正则表达式",
-
+            // Navigation
+            nav_home: '首页',
+            nav_tools: '工具',
+            nav_games: '小游戏',
+            nav_links: '推荐',
             nav_privacy: '隐私政策',
-privacy_title: '隐私政策',
-privacy_date: '最后更新：2026年5月11日',
-privacy_intro_title: '简介',
-privacy_intro_text: '欢迎访问 ToolsX（"我们"）。我们致力于保护您的隐私。本隐私政策说明了您访问 www.kongbyte.top 时我们如何收集、使用和保护您的信息。',
-privacy_collect_title: '我们收集的信息',
-privacy_collect_personal: '个人数据：',
-privacy_collect_personal_text: '我们不会收集任何个人信息，如您的姓名、电子邮件地址或电话号码。本网站上的所有工具完全在您的浏览器中运行。您输入的任何数据都不会发送到我们的服务器或在我们的服务器上存储。',
-privacy_collect_usage: '使用数据：',
-privacy_collect_usage_text: '当您访问我们的网站时，我们可能会自动收集某些信息，包括您的 IP 地址、浏览器类型、操作系统、来源 URL 和访问的页面。这些信息仅用于分析和改进我们的服务。',
-privacy_ads_title: '广告与 Cookies',
-privacy_ads_text: '我们使用 Monetag 在网站上展示广告。Monetag 可能使用 Cookie 和类似技术投放广告。这些广告合作伙伴可能会收集您访问本网站和其他网站的信息，以提供相关广告。',
-privacy_ads_li1: '我们的广告合作伙伴可能使用 Cookie 和类似技术收集您在各网站的浏览活动信息。',
-privacy_ads_li2: '您可以通过浏览器设置管理 Cookie 偏好。大多数浏览器允许您阻止或删除 Cookie。',
-privacy_ads_li3: '禁用 Cookie 可能会影响网站某些功能的正常使用，但核心工具将继续正常工作，因为它们完全在您的浏览器中运行。',
-privacy_third_title: '第三方服务',
-privacy_third_text: '我们在网站上使用以下第三方服务：',
-privacy_third_monetag: '在网站上展示广告的广告平台。',
-privacy_third_vercel: '网站托管和部署平台。',
-privacy_tool_data_title: '工具数据与隐私',
-privacy_tool_data_text: 'ToolsX 上提供的所有工具（JSON 格式化、Base64 编码器、密码生成器、颜色转换器、正则测试器、IP 查询等）完全在您的网页浏览器中运行。您输入到任何工具中的数据都在您的设备上本地处理，永远不会传输到或存储在我们的服务器上。这意味着您的数据始终保持完全私密，并始终在您的控制之下。',
-privacy_security_title: '数据安全',
-privacy_security_text: '我们采取合理的安全措施来保护我们可能收集的有限信息。但是，没有任何互联网传输方法是 100% 安全的，我们无法保证绝对安全。',
-privacy_children_title: '儿童隐私',
-privacy_children_text: '我们的网站不面向 13 岁以下的儿童。我们不会故意收集 13 岁以下儿童的个人信息。',
-privacy_rights_title: '您的权利',
-privacy_rights_text: '您有权访问、更正或删除我们可能持有的关于您的任何个人信息。由于我们收集的数据极少，您的大部分信息由浏览器设置控制。您可以随时清除 Cookie、禁用跟踪或使用隐私浏览模式。',
-privacy_changes_title: '政策变更',
-privacy_changes_text: '我们可能会不时更新本隐私政策。我们将在本页面发布新的隐私政策并更新日期来通知您任何变更。',
-privacy_contact_title: '联系我们',
-privacy_contact_text: '如果您对本隐私政策有任何疑问，请通过以下方式联系我们：',
 
+            // Common
+            copied: '已复制！',
+            input_label: '输入',
+            output_label: '输出',
+            words: '字数',
+            characters: '字符',
+            no_spaces: '不含空格',
+            sentences: '句子',
+            paragraphs: '段落',
+            min_read: '分钟阅读',
+            hex_label: 'HEX',
+            rgb_label: 'RGB',
+            hsl_label: 'HSL',
+            quantity: '数量',
 
-            json_how_title: "如何使用",
-            json_how_text:
-              "将 JSON 数据粘贴到左侧输入框中。点击「格式化」以美化 JSON 并添加缩进，或点击「压缩」将其压缩为单行。结果将显示在右侧。如果 JSON 包含语法错误，工具会显示详细的错误信息，指出问题的精确位置。",
-            json_what_title: "什么是 JSON？",
-            json_what_text:
-              "JSON（JavaScript Object Notation）是一种轻量级的数据交换格式，易于人类阅读和编写。它通常用于服务器和 Web 应用程序之间的数据传输，也常用于配置文件和数据存储。JSON 对象由花括号括起来的键值对组成，数组是方括号括起来的有序值列表。",
-            json_errors_title: "常见 JSON 错误",
-            json_errors_text:
-              "属性之间缺少逗号、最后一项后有多余逗号、属性名未加引号、使用单引号代替双引号、缺少闭合括号，这些是最常见的 JSON 语法错误。此格式化工具可以帮助你即时识别并修复所有这些问题。",
+            // Buttons
+            btn_format: '格式化',
+            btn_minify: '压缩',
+            btn_copy: '复制结果',
+            btn_clear: '清空',
+            btn_encode: '编码',
+            btn_decode: '解码',
+            btn_encode_uri: '编码 URI',
+            btn_encode_comp: '编码组件',
+            btn_copy_hex: '复制 HEX',
+            btn_copy_rgb: '复制 RGB',
+            btn_copy_hsl: '复制 HSL',
+            btn_random: '随机颜色',
+            btn_generate: '生成',
+            btn_copy_all: '全部复制',
+            btn_swap: '交换',
+            btn_convert: '转换',
+            btn_now: '刷新',
+            btn_lookup: '查询',
+            btn_my_ip: '我的 IP',
+            btn_dedup: '去除重复',
+            btn_pick_color: '选取颜色',
+            btn_compare: '开始对比',
+            btn_download_png: '下载 PNG',
+            btn_download_svg: '下载 SVG',
 
-            b64_how_title: "如何使用",
-            b64_how_text:
-              "在输入框中输入文本，点击「编码」转换为 Base64；或粘贴 Base64 字符串，点击「解码」转换为纯文本。结果会即时显示在输出框中。",
-            b64_what_title: "什么是 Base64？",
-            b64_what_text:
-              "Base64 是一种用 64 个可打印 ASCII 字符（A-Z、a-z、0-9、+、/）表示二进制数据的编码方案。它广泛用于电子邮件系统、数据 URL、HTTP 认证，以及在 HTML、CSS、XML 和 JSON 等文本格式中嵌入二进制数据。",
-            b64_uses_title: "常见用途",
-            b64_uses_text:
-              "在 HTML 中使用 data URI 直接嵌入图片、为 HTTP 基本身份验证编码凭据、通过纯文本协议（如电子邮件）传输二进制数据、在 JSON 或 XML 中存储复杂数据、以及在 API 请求中编码文件附件。",
+            // Shared placeholders
+            ph_input: '输入内容...',
+            ph_output: '格式化结果...',
 
-            url_how_title: "如何使用",
-            url_how_text:
-              "在输入框中输入或粘贴 URL。使用「编码 URI」在保留 URL 结构的同时编码特殊字符，或使用「编码组件」编码所有字符。使用「解码」将编码后的 URL 转换回原始形式。",
-            url_what_title: "什么是 URL 编码？",
-            url_what_text:
-              "URL 编码（也称为百分号编码）将字符转换为可在互联网上安全传输的格式。不安全字符会被替换为百分号（%）加两位十六进制数。例如，空格变成 %20。",
-            url_diff_title: "编码 URI 和编码组件的区别",
-            url_diff_text:
-              "编码 URI 保留 URL 结构（保留 :、/、?、# 等），适合编码完整 URL。编码组件会编码所有字符包括 URL 特殊字符，适合编码查询字符串中的单个参数值。",
+            // Labels
+            lbl_from: '从',
+            lbl_to: '到',
+            lbl_base: '进制',
+            lbl_options: '选项',
+            lbl_keep: '保留',
+            lbl_stats: '统计',
+            lbl_original: '原始',
+            lbl_result: '结果',
+            lbl_removed: '已移除',
+            lbl_size: '尺寸',
+            lbl_fg: '前景色',
+            lbl_bg: '背景色',
+            lbl_now: '当前时间',
+            lbl_format: '格式',
+            lbl_loading: '查询中...',
+            lbl_pattern: '表达式',
+            lbl_flags: '标志',
+            lbl_test_string: '测试文本',
+            lbl_match_count: '匹配数',
+            lbl_match: '匹配',
+            lbl_group: '分组',
+            lbl_position: '位置',
+            lbl_no_match: '未找到匹配项',
+            lbl_old_text: '原始文本',
+            lbl_new_text: '修改后文本',
+            lbl_added: '新增',
+            lbl_unchanged: '未改变',
+            lbl_no_diff: '两段文本完全相同',
+            lbl_old_line: '旧',
+            lbl_new_line: '新',
+            lbl_uppercase: '大写输出',
+            lbl_compare: '与已知哈希值对比',
+            lbl_match_hash: '匹配',
+            lbl_mismatch: '不匹配',
+            lbl_saved: '已节省',
 
-            color_how_title: "如何使用",
-            color_how_text:
-              "在任意格式（HEX、RGB 或 HSL）中输入颜色值，工具会自动转换为所有其他格式。使用颜色选择器可视化选取颜色，或点击「随机颜色」生成随机颜色。",
-            color_formats_title: "理解颜色格式",
-            color_formats_text:
-              "HEX 使用 6 位十六进制数（#RRGGBB）表示颜色。RGB 指定红、绿、蓝值（0 到 255）。HSL 使用色相（色轮上 0-360 度）、饱和度（0-100% 强度）和亮度（0-100% 亮度）。",
-            color_uses_title: "何时使用哪种格式",
-            color_uses_text:
-              "HEX 最常用于 CSS 和网页设计。RGB 在 JavaScript 中进行动态颜色计算时很有用。HSL 非常适合创建颜色变体——只调整色相可以创建互补色，改变饱和度和亮度可以创建和谐的配色方案。",
+            // Options
+            opt_trim: '忽略首尾空格',
+            opt_case: '忽略大小写',
+            opt_empty: '去除空行',
+            opt_first: '首次出现',
+            opt_last: '末次出现',
+            opt_length: '长度',
+            opt_upper: '大写字母 (A–Z)',
+            opt_lower: '小写字母 (a–z)',
+            opt_numbers: '数字 (0–9)',
+            opt_symbols: '符号 (!@#$%...)',
 
-            case_how_title: "如何使用",
-            case_how_text:
-              "在输入框中输入或粘贴文本。点击任意大小写格式按钮即可即时转换。你可以随意切换格式，无需重新输入文本。",
-            case_formats_title: "理解大小写格式",
-            case_formats_text:
-              "全部大写将所有字母转换为大写。全部小写将所有字母转换为小写。首字母大写将每个单词的首字母大写。驼峰命名用于 JavaScript 和 Java 变量名。帕斯卡命名用于类名。下划线命名常见于 Python 和数据库字段。连字符命名用于 CSS 类名和 URL 友好的标识符。",
-            case_uses_title: "常见用途",
-            case_uses_text:
-              "开发者在不同编程语言中编写代码时每天都会用到大小写转换。写作者使用首字母大写格式处理标题和标题。数据分析师在清洗和标准化数据集时转换文本大小写。SEO 从业者使用连字符命名创建 URL 友好的标识符。",
+            // Case formats
+            case_upper: '全部大写',
+            case_lower: '全部小写',
+            case_title_case: '首字母大写',
+            case_sentence: '句首大写',
+            case_camel: '驼峰命名',
+            case_pascal: '帕斯卡命名',
+            case_snake: '下划线命名',
+            case_kebab: '连字符命名',
+            case_reverse: '反转文本',
 
-            wc_how_title: "如何使用",
-            wc_how_text:
-              "开始输入或粘贴文本到输入框中。统计数据会实时更新。无需点击任何按钮——粘贴后立即查看结果。",
-            wc_method_title: "计数方式",
-            wc_method_text:
-              "英文按单词计数（Hello World = 2 个字）。中文按单字计数（你好世界 = 4 个字）。这种混合方式确保中英混合文本的准确计数，常见于双语文档和技术写作。",
-            wc_uses_title: "常见用途",
-            wc_uses_text:
-              "作家和博主使用字数统计来满足文章长度要求。学生用它检查论文和报告的字数。社交媒体管理员用它来控制帖子的字符限制。译者用它根据字数估算项目范围和定价。",
+            // Errors
+            err_empty: '请输入 JSON 数据',
+            err_invalid_json: '无效的 JSON 格式',
+            err_encode_fail: '编码失败',
+            err_invalid_b64: '无效的 Base64 字符串',
+            err_invalid_url: '无效的编码字符串',
+            err_select_option: '请至少选择一个选项',
+            err_hex: '无效的十六进制格式：只能使用 0-9 和 A-F',
+            err_dec: '无效的十进制格式：只能使用 0-9',
+            err_oct: '无效的八进制格式：只能使用 0-7',
+            err_bin: '无效的二进制格式：只能使用 0 和 1',
+            err_radix_invalid: '输入字符不符合所选进制',
+            err_ip_fail: '查询 IP 信息失败',
+            err_ip_invalid: '请输入有效的 IP 地址',
+            err_yaml_parse: '无效的 YAML 格式',
+            err_json_parse: '无效的 JSON 格式',
+            err_ts_invalid: '请输入有效的时间戳（纯数字）',
+            err_date_invalid: '请选择有效的日期',
+            err_regex_invalid: '无效的正则表达式',
+            err_css_format: 'CSS 格式错误',
 
-            dedup_how_title: "如何使用",
-            dedup_how_text:
-              "将包含重复行的文本粘贴到输入框中。配置选项，如忽略首尾空格、忽略大小写、去除空行等。点击「去除重复」即可得到去重后的结果。",
-            dedup_options_title: "理解选项",
-            dedup_options_text:
-              '「忽略空格」会在比较前去掉每行首尾的空格。「忽略大小写」会将 "Apple" 和 "apple" 视为相同。「去除空行」会过滤掉空白行。「保留首次出现」保持原始顺序，「保留末次出现」保留最近的重复项。',
-            dedup_uses_title: "常见用途",
-            dedup_uses_text:
-              "数据清洗从 CSV 文件、邮件列表和日志文件中移除重复条目。开发者去重配置列表和依赖数组。内容管理员清理关键词列表和 URL 列表。研究人员从调查回复和数据集中移除重复条目。",
-
-            yaml_how_title: "如何使用",
-            yaml_how_text:
-              "将 YAML 粘贴到输入框中，点击「转换」即可转换为 JSON。或切换方向将 JSON 转换为 YAML。结果会即时显示在输出框中，支持一键复制。",
-            yaml_what_title: "什么是 YAML？",
-            yaml_what_text:
-              "YAML（YAML Ain't Markup Language）是一种人类可读的数据序列化格式。它使用缩进来表示结构，而不是括号和花括号。YAML 常用于 Docker、Kubernetes、GitHub Actions、Ansible 等 DevOps 和开发工具的配置文件。",
-            yaml_vs_title: "YAML 与 JSON 的区别",
-            yaml_vs_text:
-              "YAML 基于缩进的结构更易读，且支持注释（使用 #）。JSON 更紧凑，编程语言支持更广泛。YAML 适合人类手动编辑的配置文件，JSON 适合系统和 API 之间的数据交换。",
-
-            pw_how_title: "如何使用",
-            pw_how_text:
-              "使用滑块设置所需的密码长度。勾选你想要包含的字符类型：大写字母、小写字母、数字和符号。点击「生成」创建安全的随机密码。点击「复制」将其复制到剪贴板。",
-            pw_strength_title: "密码强度建议",
-            pw_strength_text:
-              "强密码应至少 12 个字符长，并包含所有字符类型的混合。更长的密码破解难度呈指数级增长——一个包含混合字符类型的 16 位密码用当前技术暴力破解需要数十亿年。永远不要在不同网站上重复使用密码。",
-            pw_security_title: "生成器工作原理",
-            pw_security_text:
-              "此密码生成器使用浏览器内置的 crypto.getRandomValues() API 生成密码学级别的随机数，比 Math.random() 更安全。所有生成过程都在浏览器本地完成，不向任何服务器发送数据，确保你的密码完全私密。",
-
-            uuid_how_title: "如何使用",
-            uuid_how_text:
-              "点击「生成」创建一个或多个 UUID v4 标识符。设置数量可以一次生成多个 UUID。点击「全部复制」将所有生成的 UUID 复制到剪贴板，以换行符分隔。",
-            uuid_what_title: "什么是 UUID？",
-            uuid_what_text:
-              "UUID（通用唯一标识符）是一个 128 位的数字，用于在计算机系统中唯一标识信息。标准格式为 8-4-4-4-12 个十六进制字符（例如 550e8400-e29b-41d4-a716-446655440000）。UUID v4 是随机生成的，也是最常用的版本。",
-            uuid_uses_title: "常见用途",
-            uuid_uses_text:
-              "在分布式系统中需要全局唯一的数据库主键。API 请求标识符用于追踪和调试。会话令牌和临时文件名。为上传的文件命名以避免冲突。为微服务和事件驱动架构生成唯一标识符。",
-
-            qr_how_title: "如何使用",
-            qr_how_text:
-              "在输入框中输入任何文本、URL、电子邮件地址、电话号码或 Wi-Fi 配置。二维码会实时生成。可下载为 PNG（位图）或 SVG（矢量）格式。",
-            qr_what_title: "什么是二维码？",
-            qr_what_text:
-              "二维码（Quick Response Code）是一种二维条码，任何智能手机摄像头都能扫描。它最多可编码 4,296 个字母数字字符，支持 URL、纯文本、电子邮件地址、电话号码、名片和 Wi-Fi 网络配置。",
-            qr_tips_title: "二维码使用技巧",
-            qr_tips_text:
-              "用于印刷材料时，使用 SVG 格式可确保任意尺寸都清晰。二维码周围留出足够的白色空间（静区）以便可靠扫描。打印前用多台设备测试二维码。对于 URL，保持简短以生成更简单的二维码，更容易扫描。",
-
-            ts_how_title: "如何使用",
-            ts_how_text:
-              "在时间戳字段中输入 Unix 时间戳（10 位为秒，13 位为毫秒）转换为可读日期。或选择日期时间转换为 Unix 时间戳。点击「刷新」获取当前时间戳。",
-            ts_what_title: "什么是 Unix 时间戳？",
-            ts_what_text:
-              "Unix 时间戳是指从 1970 年 1 月 1 日 00:00:00 UTC（Unix 纪元）起经过的总秒数。它是计算机表示时间的标准方式，几乎所有操作系统、编程语言、数据库和 API 都使用它。",
-            ts_formats_title: "时间戳格式",
-            ts_formats_text:
-              "秒级（10 位）：1700000000 表示 2023 年 11 月 14 日。毫秒级（13 位）：1700000000000 表示同一时刻但精度更高。ISO 8601 格式（2023-11-14T00:00:00Z）是日期时间表示的国际标准。",
-
-            ip_how_title: "如何使用",
-            ip_how_text:
-              "点击「我的 IP」自动检测你的公网 IP 地址和地理位置。或在输入框中输入任意 IP 地址，点击「查询」查看其位置、运营商、时区等详细信息。",
-            ip_what_title: "什么是 IP 地址？",
-            ip_what_text:
-              "IP（互联网协议）地址是分配给连接到互联网的每台设备的唯一数字标识符。IPv4 地址使用 32 位（例如 192.168.1.1），IPv6 地址使用 128 位（例如 2001:db8::1）。你的公网 IP 地址由互联网服务提供商分配。",
-            ip_uses_title: "常见用途",
-            ip_uses_text:
-              "网络管理员使用 IP 查询来诊断连接问题和识别服务器位置。安全专业人员用它调查可疑流量。开发者用它实现基于地理位置的内容分发和区域访问控制。用户检查 IP 以验证 VPN 连接是否正常工作。",
-
-            regex_how_title: "如何使用",
-            regex_how_text:
-              "在顶部的斜杠之间输入正则表达式。在下方的文本区域输入或粘贴测试文本。匹配项会实时高亮显示，并在下方显示匹配位置和捕获组等详细信息。",
-            regex_flags_title: "理解标志",
-            regex_flags_text:
-              "g（全局）标志查找所有匹配项，而不是在第一个就停止。i（忽略大小写）标志使模式不区分大小写。m（多行）标志使 ^ 和 $ 匹配每行的开头和结尾。s（dotAll）标志使点号（.）也能匹配换行符。",
-            regex_uses_title: "常见用途",
-            regex_uses_text:
-              "数据验证（邮箱、电话号码、URL）。文本编辑器和 IDE 中的查找替换。日志文件解析和分析。网页爬虫和数据提取。Web 表单中的输入清理和格式检查。",
-
-            diff_how_title: "如何使用",
-            diff_how_text:
-              "在左侧粘贴原始文本，在右侧粘贴修改后的文本。点击「开始对比」查看高亮显示的差异。绿色行表示新增，红色行表示删除，普通行表示未改变。",
-            diff_what_title: "什么是文本对比？",
-            diff_what_text:
-              "文本对比（差异分析）是一种逐行比较算法，分析两段文本并识别哪些内容被添加、删除或修改。它是软件开发和文档编辑中最基本的工具之一，用于跟踪变更和审查代码修改。",
-            diff_uses_title: "常见用途",
-            diff_uses_text:
-              "代码审查：比较源代码文件的不同版本。文档编辑：跟踪草稿版本之间的变化。配置管理：找出配置文件之间的差异。数据比较：比较 CSV 或日志文件输出。法律和学术：比较合同或研究论文的不同版本。",
-
-            md5_how_title: "如何使用",
-            md5_how_text:
-              "在输入框中输入或粘贴文本。工具会同时自动生成 MD5、SHA-1、SHA-256 和 SHA-512 哈希值。点击任意哈希值旁边的复制按钮将其复制到剪贴板。使用对比功能验证哈希值是否与已知值匹配。",
-            md5_what_title: "什么是哈希函数？",
-            md5_what_text:
-              "哈希函数接收任意大小的输入数据，生成固定长度的字符串。相同的输入总是产生相同的哈希值，但无法从哈希值反向推导出原始数据。这使得哈希函数非常适合用于数据完整性验证和密码存储。",
-            md5_choosing_title: "应该选择哪种哈希？",
-            md5_choosing_text:
-              "MD5（32 字符）：速度快但不抗碰撞。用于校验和非安全场景。SHA-1（40 字符）：比 MD5 更强但已不推荐用于安全场景。SHA-256（64 字符）：安全行业标准，用于 SSL 证书和区块链。SHA-512（128 字符）：最强选项，碰撞抗性最高。",
-
-            css_title: "CSS 压缩 / 美化",
-            css_desc: "粘贴 CSS 代码，即时压缩或美化。",
-            css_about: "关于 CSS 压缩工具",
-            css_about_text:
-              "CSS 压缩工具移除 CSS 代码中不必要的字符——空白、注释、换行和多余的分号——以减小文件大小。美化工具则重新格式化混乱的 CSS，添加正确的缩进和换行以提高可读性。所有处理都在浏览器本地完成。",
-            css_how_title: "如何使用",
-            css_how_text:
-              "将 CSS 代码粘贴到输入框中。点击「压缩」将其压缩为生产环境版本，或点击「格式化」添加正确的缩进便于开发。尺寸对比统计显示节省了多少文件大小。",
-            css_why_title: "为什么要压缩 CSS？",
-            css_why_text:
-              "压缩 CSS 可减少 30-60% 的文件大小，使网站加载更快。加载更快的网站在 Google 搜索结果中排名更高，用户体验也更好。压缩后的 CSS 是生产网站的标准做法，也是 Google PageSpeed Insights 的要求。",
-            css_tips_title: "CSS 优化技巧",
-            css_tips_text:
-              "删除未使用的 CSS 规则以进一步减小文件大小。尽可能合并相似的选择器。使用简写属性（margin、padding、background）代替单独的属性。考虑使用 CSS 变量（自定义属性）处理重复的值。将关键 CSS 内联加载，延迟加载非关键 CSS。",
-            ph_css_input: "body { color: red; margin: 0; }",
-            ph_css_output: "结果...",
-            lbl_saved: "已节省",
-            err_css_format: "CSS 格式错误",
-
+            // Search
             ph_search: '请输入搜索内容...',
-search_btn: '搜索',
-search_site: '站内',
+            search_btn: '搜索',
+            search_site: '站内',
+            search_baidu: '百度',
 
-search_baidu: '百度',
+            // Privacy
+            privacy_title: '隐私政策',
+            privacy_date: '最后更新：2026年5月11日',
+            privacy_intro_title: '简介',
+            privacy_intro_text: '欢迎访问 ToolsX（"我们"）。我们致力于保护您的隐私。本隐私政策说明了您访问 www.kongbyte.top 时我们如何收集、使用和保护您的信息。',
+            privacy_collect_title: '我们收集的信息',
+            privacy_collect_personal: '个人数据：',
+            privacy_collect_personal_text: '我们不会收集任何个人信息，如您的姓名、电子邮件地址或电话号码。本网站上的所有工具完全在您的浏览器中运行。',
+            privacy_collect_usage: '使用数据：',
+            privacy_collect_usage_text: '当您访问我们的网站时，我们可能会自动收集某些信息，包括您的 IP 地址、浏览器类型、操作系统、来源 URL 和访问的页面。这些信息仅用于分析和改进我们的服务。',
+            privacy_ads_title: '广告与 Cookies',
+            privacy_ads_text: '我们使用 Monetag 在网站上展示广告。Monetag 可能使用 Cookie 和类似技术投放广告。',
+            privacy_ads_li1: '我们的广告合作伙伴可能使用 Cookie 和类似技术收集您在各网站的浏览活动信息。',
+            privacy_ads_li2: '您可以通过浏览器设置管理 Cookie 偏好。大多数浏览器允许您阻止或删除 Cookie。',
+            privacy_ads_li3: '禁用 Cookie 可能会影响网站某些功能的正常使用，但核心工具将继续正常工作。',
+            privacy_third_title: '第三方服务',
+            privacy_third_text: '我们在网站上使用以下第三方服务：',
+            privacy_third_monetag: '在网站上展示广告的广告平台。',
+            privacy_third_vercel: '网站托管和部署平台。',
+            privacy_tool_data_title: '工具数据与隐私',
+            privacy_tool_data_text: 'ToolsX 上提供的所有工具完全在您的网页浏览器中运行。您输入的数据都在您的设备上本地处理，永远不会传输到或存储在我们的服务器上。',
+            privacy_security_title: '数据安全',
+            privacy_security_text: '我们采取合理的安全措施来保护我们可能收集的有限信息。但是，没有任何互联网传输方法是 100% 安全的。',
+            privacy_children_title: '儿童隐私',
+            privacy_children_text: '我们的网站不面向 13 岁以下的儿童。我们不会故意收集 13 岁以下儿童的个人信息。',
+            privacy_rights_title: '您的权利',
+            privacy_rights_text: '您有权访问、更正或删除我们可能持有的关于您的任何个人信息。您可以随时清除 Cookie、禁用跟踪或使用隐私浏览模式。',
+            privacy_changes_title: '政策变更',
+            privacy_changes_text: '我们可能会不时更新本隐私政策。我们将在本页面发布新的隐私政策并更新日期来通知您任何变更。',
+            privacy_contact_title: '联系我们',
+            privacy_contact_text: '如果您对本隐私政策有任何疑问，请通过以下方式联系我们：',
+
+            // Games
+            games_title: '小游戏',
+            games_desc: '好玩的浏览器游戏——直接在浏览器中玩，无需下载。',
+            games_2048_desc: '经典数字拼图游戏',
+            games_typing_title: '打字测试',
+            games_typing_desc: '测试你的打字速度和准确率',
+            games_memory_title: '记忆翻牌',
+            games_memory_desc: '翻转卡牌，找出配对',
+            games_snake_title: '贪吃蛇',
+            games_snake_desc: '经典贪吃蛇游戏',
+            games_coming_title: '即将上线',
+            games_coming_text: '我们正在开发更多游戏，敬请期待！',
+
+            // Links
+            links_title: '推荐网站',
+            links_desc: '为开发者、设计师和创作者精心整理的实用网站集合。',
+
+            //2048
+g2048_score: '得分',
+g2048_best: '最高',
+g2048_clear: '清除最高分',
+
+home_tools: '工具',
+home_games: '小游戏',
+home_links: '推荐网站',
+
+
+ad_title: '赞助内容',
+ad_desc: '支持我们的网站',
 
 
           },
         };
 
+        window.__devtoolsMergeDict = function (extra) {
+          if (extra.en) Object.keys(extra.en).forEach(function (k) { dict.en[k] = extra.en[k]; });
+          if (extra.zh) Object.keys(extra.zh).forEach(function (k) { dict.zh[k] = extra.zh[k]; });
+        };
+
         function getLang() {
           var saved = localStorage.getItem(KEY);
           if (saved) return saved;
-          var browserLang =
-            navigator.language || navigator.userLanguage || "en";
+          var browserLang = navigator.language || navigator.userLanguage || "en";
           if (browserLang.toLowerCase().indexOf("zh") === 0) return "zh";
           return "en";
         }
@@ -1087,7 +513,6 @@ search_baidu: '百度',
               el.textContent = dict[lang][key];
             }
           });
-
           document.querySelectorAll("[data-t-zh]").forEach(function (el) {
             if (lang === "zh") {
               el.textContent = el.getAttribute("data-t-zh");
@@ -1096,14 +521,12 @@ search_baidu: '百度',
               if (enText) el.textContent = enText;
             }
           });
-
           document.querySelectorAll("[data-t-ph]").forEach(function (el) {
             var key = el.getAttribute("data-t-ph");
             if (dict[lang] && dict[lang][key]) {
               el.placeholder = dict[lang][key];
             }
           });
-
           var btn = document.getElementById("langBtn");
           if (btn) btn.textContent = lang === "en" ? "EN / 中" : "中 / EN";
         }
@@ -1111,6 +534,7 @@ search_baidu: '百度',
         window.__devtools = window.__devtools || {};
         window.__devtools.getLang = getLang;
         window.__devtools.dict = dict;
+        window.__devtools.applyLang = applyLang;
 
         var btn = document.getElementById("langBtn");
         if (btn) {
@@ -1121,8 +545,55 @@ search_baidu: '百度',
           });
         }
 
-        applyLang(getLang());
+function showContent() {
+  var loader = document.getElementById('langLoader');
+  var main = document.querySelector('main');
+  if (loader) loader.style.display = 'none';
+  if (main) main.classList.remove('lang-loading');
+}
+
+applyLang(getLang());
+showContent();
+
+document.addEventListener('DOMContentLoaded', function() {
+  applyLang(getLang());
+  showContent();
+});
+
+
+
+
       })();
+
+      document.addEventListener('DOMContentLoaded', function () {
+        var currentPath = window.location.pathname;
+        var navLinks = document.querySelectorAll('.site-nav a');
+        navLinks.forEach(function (link) {
+          var href = link.getAttribute('href');
+          if (href === currentPath || (href === '/' && currentPath === '/')) {
+            link.classList.add('active');
+          }
+        });
+      });
     </script>
+
+<main class="container lang-loading">
+  <div class="lang-loader" id="langLoader"></div>
+  <div class="page-content">
+    <slot />
+  </div>
+</main>
+
+
+
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>&copy; {new Date().getFullYear()} ToolsX. <a href="/privacy" data-t="nav_privacy">Privacy Policy</a></p>
+      </div>
+    </footer>
+
+    <div id="toast" class="copy-toast">Copied!</div>
+
   </body>
 </html>

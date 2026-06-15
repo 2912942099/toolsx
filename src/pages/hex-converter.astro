@@ -50,82 +50,122 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </section>
   </div>
 
-<script is:inline>
-  const $ = id => document.getElementById(id);
-  const getDict = (key) => (window.__devtools && window.__devtools.dict) ? window.__devtools.dict[(window.__devtools.getLang())][key] || '' : '';
-  const toast = () => {
-    const t = $('toast');
-    t.textContent = getDict('copied');
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2000);
-  };
+  <!-- Hex Converter 页面专属翻译 -->
+  <script is:inline>
+    (function() {
+      if (window.__devtoolsMergeDict) {
+        window.__devtoolsMergeDict({
+          en: {
+            hex_title: 'Hex Converter',
+            hex_desc: 'Convert between hexadecimal, decimal, octal, and binary number systems.',
+            hex_about: 'About Number Systems',
+            hex_about_text: 'Hexadecimal (base-16) uses digits 0–9 and letters A–F. Decimal (base-10) is the standard number system. Octal (base-8) uses digits 0–7. Binary (base-2) uses only 0 and 1. Computers internally use binary; hex is a compact way to represent binary data.',
+            ph_hex_input: 'Enter a number...',
+            lbl_hex: 'HEX',
+            lbl_dec: 'DEC',
+            lbl_oct: 'OCT',
+            lbl_bin: 'BIN',
+            err_hex: 'Invalid HEX: only 0-9 and A-F allowed',
+            err_dec: 'Invalid DEC: only 0-9 allowed',
+            err_oct: 'Invalid OCT: only 0-7 allowed',
+            err_bin: 'Invalid BIN: only 0 and 1 allowed',
+          },
+          zh: {
+            hex_title: '十六进制转换',
+            hex_desc: '十六进制、十进制、八进制、二进制互转。',
+            hex_about: '关于进制系统',
+            hex_about_text: '十六进制（基数16）使用数字 0–9 和字母 A–F。十进制（基数10）是标准数字系统。八进制（基数8）使用数字 0–7。二进制（基数2）只使用 0 和 1。计算机内部使用二进制，十六进制是表示二进制数据的紧凑方式。',
+            ph_hex_input: '输入一个数字...',
+            lbl_hex: 'HEX',
+            lbl_dec: 'DEC',
+            lbl_oct: 'OCT',
+            lbl_bin: 'BIN',
+            err_hex: '无效的十六进制格式：只能使用 0-9 和 A-F',
+            err_dec: '无效的十进制格式：只能使用 0-9',
+            err_oct: '无效的八进制格式：只能使用 0-7',
+            err_bin: '无效的二进制格式：只能使用 0 和 1',
+          }
+        });
+        if (window.__devtools && window.__devtools.applyLang) {
+          window.__devtools.applyLang(window.__devtools.getLang());
+        }
+      }
+    })();
+  </script>
 
-  const fields = { hex: $('hex'), dec: $('dec'), oct: $('oct'), bin: $('bin') };
-  const bases = { hex: 16, dec: 10, oct: 8, bin: 2 };
-  const patterns = {
-    hex: /^[0-9A-Fa-f]*$/,
-    dec: /^[0-9]*$/,
-    oct: /^[0-7]*$/,
-    bin: /^[01]*$/,
-  };
+  <!-- 功能逻辑 -->
+  <script is:inline>
+    const $ = id => document.getElementById(id);
+    const getDict = (key) => (window.__devtools && window.__devtools.dict) ? window.__devtools.dict[(window.__devtools.getLang())][key] || '' : '';
+    const toast = () => {
+      const t = $('toast');
+      t.textContent = getDict('copied');
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2000);
+    };
 
-  let updating = false;
-  let currentError = null;
+    const fields = { hex: $('hex'), dec: $('dec'), oct: $('oct'), bin: $('bin') };
+    const bases = { hex: 16, dec: 10, oct: 8, bin: 2 };
+    const patterns = {
+      hex: /^[0-9A-Fa-f]*$/,
+      dec: /^[0-9]*$/,
+      oct: /^[0-7]*$/,
+      bin: /^[01]*$/,
+    };
 
-  function showError(key) {
-    currentError = key;
-    $('error').textContent = key ? getDict(key) : '';
-  }
+    let updating = false;
+    let currentError = null;
 
-  function updateAll(source) {
-    if (updating) return;
-    updating = true;
+    function showError(key) {
+      currentError = key;
+      $('error').textContent = key ? getDict(key) : '';
+    }
 
-    const val = fields[source].value.trim();
-    if (!val) {
-      Object.keys(fields).forEach(k => { if (k !== source) fields[k].value = ''; });
+    function updateAll(source) {
+      if (updating) return;
+      updating = true;
+
+      const val = fields[source].value.trim();
+      if (!val) {
+        Object.keys(fields).forEach(k => { if (k !== source) fields[k].value = ''; });
+        showError(null);
+        updating = false;
+        return;
+      }
+
+      if (!patterns[source].test(val)) {
+        showError('err_' + source);
+        Object.keys(fields).forEach(k => { if (k !== source) fields[k].value = ''; });
+        updating = false;
+        return;
+      }
+
       showError(null);
-      updating = false;
-      return;
-    }
+      const num = parseInt(val, bases[source]);
 
-    if (!patterns[source].test(val)) {
-      showError('err_' + source);
-      Object.keys(fields).forEach(k => { if (k !== source) fields[k].value = ''; });
-      updating = false;
-      return;
-    }
+      Object.keys(fields).forEach(k => {
+        if (k !== source) {
+          fields[k].value = num.toString(bases[k]).toUpperCase();
+        }
+      });
 
-    showError(null);
-    const num = parseInt(val, bases[source]);
+      updating = false;
+    }
 
     Object.keys(fields).forEach(k => {
-      if (k !== source) {
-        fields[k].value = num.toString(bases[k]).toUpperCase();
-      }
+      fields[k].addEventListener('input', () => updateAll(k));
     });
 
-    updating = false;
-  }
-
-  Object.keys(fields).forEach(k => {
-    fields[k].addEventListener('input', () => updateAll(k));
-  });
-
-  document.querySelectorAll('.hex-copy').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const target = btn.getAttribute('data-target');
-      const val = fields[target].value;
-      if (val) { navigator.clipboard.writeText(val); toast(); }
+    document.querySelectorAll('.hex-copy').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-target');
+        const val = fields[target].value;
+        if (val) { navigator.clipboard.writeText(val); toast(); }
+      });
     });
-  });
 
-  document.getElementById('langBtn').addEventListener('click', () => {
-    setTimeout(() => { if (currentError) showError(currentError); }, 20);
-  });
-</script>
-
-
-
-
+    document.getElementById('langBtn').addEventListener('click', () => {
+      setTimeout(() => { if (currentError) showError(currentError); }, 20);
+    });
+  </script>
 </BaseLayout>

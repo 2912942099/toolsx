@@ -20,17 +20,55 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <section class="tool-info">
       <h2 data-t="uuid_about">What is a UUID?</h2>
       <p data-t="uuid_about_text">A UUID (Universally Unique Identifier) is a 128-bit value used to uniquely identify information. UUID v4 is randomly generated and is the most common version.</p>
-    
       <h3 data-t="uuid_how_title">How to Use</h3>
-<p data-t="uuid_how_text">Click "Generate" to create one or more UUID v4 identifiers. Set the quantity to generate multiple UUIDs at once. Click "Copy All" to copy all generated UUIDs to your clipboard, separated by line breaks.</p>
-<h3 data-t="uuid_what_title">What is a UUID?</h3>
-<p data-t="uuid_what_text">A UUID (Universally Unique Identifier) is a 128-bit number used to uniquely identify information in computer systems. The standard format is 8-4-4-4-12 hexadecimal characters (e.g., 550e8400-e29b-41d4-a716-446655440000). UUID v4 is randomly generated and is the most commonly used version.</p>
-<h3 data-t="uuid_uses_title">Common Use Cases</h3>
-<p data-t="uuid_uses_text">Database primary keys that need to be unique across distributed systems. API request identifiers for tracing and debugging. Session tokens and temporary file names. Naming uploaded files to avoid conflicts. Generating unique identifiers for microservices and event-driven architectures.</p>
-
+      <p data-t="uuid_how_text">Click "Generate" to create one or more UUID v4 identifiers. Set the quantity to generate multiple UUIDs at once. Click "Copy All" to copy all generated UUIDs to your clipboard, separated by line breaks.</p>
+      <h3 data-t="uuid_what_title">What is a UUID?</h3>
+      <p data-t="uuid_what_text">A UUID (Universally Unique Identifier) is a 128-bit number used to uniquely identify information in computer systems. The standard format is 8-4-4-4-12 hexadecimal characters (e.g., 550e8400-e29b-41d4-a716-446655440000). UUID v4 is randomly generated and is the most commonly used version.</p>
+      <h3 data-t="uuid_uses_title">Common Use Cases</h3>
+      <p data-t="uuid_uses_text">Database primary keys that need to be unique across distributed systems. API request identifiers for tracing and debugging. Session tokens and temporary file names. Naming uploaded files to avoid conflicts. Generating unique identifiers for microservices and event-driven architectures.</p>
     </section>
   </div>
 
+  <!-- UUID Generator 页面专属翻译 -->
+  <script is:inline>
+    (function() {
+      if (window.__devtoolsMergeDict) {
+        window.__devtoolsMergeDict({
+          en: {
+            uuid_title: 'UUID Generator',
+            uuid_desc: 'Generate RFC 4122 compliant UUID v4 identifiers.',
+            uuid_about: 'What is a UUID?',
+            uuid_about_text: 'A UUID (Universally Unique Identifier) is a 128-bit value used to uniquely identify information. UUID v4 is randomly generated and is the most common version.',
+            uuid_how_title: 'How to Use',
+            uuid_how_text: 'Click "Generate" to create one or more UUID v4 identifiers. Set the quantity to generate multiple UUIDs at once. Click "Copy All" to copy all generated UUIDs to your clipboard, separated by line breaks.',
+            uuid_what_title: 'What is a UUID?',
+            uuid_what_text: 'A UUID (Universally Unique Identifier) is a 128-bit number used to uniquely identify information in computer systems. The standard format is 8-4-4-4-12 hexadecimal characters (e.g., 550e8400-e29b-41d4-a716-446655440000). UUID v4 is randomly generated and is the most commonly used version.',
+            uuid_uses_title: 'Common Use Cases',
+            uuid_uses_text: 'Database primary keys that need to be unique across distributed systems. API request identifiers for tracing and debugging. Session tokens and temporary file names. Naming uploaded files to avoid conflicts. Generating unique identifiers for microservices and event-driven architectures.',
+            ph_uuid_output: 'Generated UUIDs...',
+          },
+          zh: {
+            uuid_title: 'UUID 生成器',
+            uuid_desc: '生成符合 RFC 4122 标准的 UUID v4 标识符。',
+            uuid_about: '什么是 UUID？',
+            uuid_about_text: 'UUID（通用唯一标识符）是一个 128 位的值，用于唯一标识信息。UUID v4 是随机生成的，也是最常用的版本。',
+            uuid_how_title: '如何使用',
+            uuid_how_text: '点击「生成」创建一个或多个 UUID v4 标识符。设置数量可以一次生成多个 UUID。点击「全部复制」将所有生成的 UUID 复制到剪贴板，以换行符分隔。',
+            uuid_what_title: '什么是 UUID？',
+            uuid_what_text: 'UUID（通用唯一标识符）是一个 128 位的数字，用于在计算机系统中唯一标识信息。标准格式为 8-4-4-4-12 个十六进制字符（例如 550e8400-e29b-41d4-a716-446655440000）。UUID v4 是随机生成的，也是最常用的版本。',
+            uuid_uses_title: '常见用途',
+            uuid_uses_text: '在分布式系统中需要全局唯一的数据库主键。API 请求标识符用于追踪和调试。会话令牌和临时文件名。为上传的文件命名以避免冲突。为微服务和事件驱动架构生成唯一标识符。',
+            ph_uuid_output: '生成的 UUID...',
+          }
+        });
+        if (window.__devtools && window.__devtools.applyLang) {
+          window.__devtools.applyLang(window.__devtools.getLang());
+        }
+      }
+    })();
+  </script>
+
+  <!-- 功能逻辑 -->
   <script is:inline>
     const $ = id => document.getElementById(id);
     const getDict = (key) => (window.__devtools && window.__devtools.dict) ? window.__devtools.dict[(window.__devtools.getLang())][key] || '' : '';

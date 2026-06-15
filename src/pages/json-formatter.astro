@@ -26,7 +26,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <button class="btn" id="clearBtn" data-t="btn_clear">Clear</button>
     </div>
     <div id="error" class="error-msg"></div>
-        <section class="tool-info">
+
+    <section class="tool-info">
       <h2 data-t="json_about">About JSON Formatter</h2>
       <p data-t="json_about_text">JSON (JavaScript Object Notation) is a lightweight data interchange format. This tool formats (beautifies) or minifies JSON data instantly. All processing happens in your browser — your data never leaves your device.</p>
       <h3 data-t="json_features">Features</h3>
@@ -38,9 +39,50 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <h3 data-t="json_errors_title">Common JSON Errors</h3>
       <p data-t="json_errors_text">Missing commas between properties, trailing commas after the last item, unquoted property names, single quotes instead of double quotes, and missing closing brackets are the most common JSON syntax errors. This formatter helps you identify and fix all of these issues instantly.</p>
     </section>
-
   </div>
 
+  <!-- JSON Formatter 页面专属翻译 -->
+  <script is:inline>
+    (function() {
+      if (window.__devtoolsMergeDict) {
+        window.__devtoolsMergeDict({
+          en: {
+            json_title: 'JSON Formatter',
+            json_desc: 'Paste your JSON to format, validate, and minify it.',
+            json_about: 'About JSON Formatter',
+            json_about_text: 'JSON (JavaScript Object Notation) is a lightweight data interchange format. This tool formats (beautifies) or minifies JSON data instantly. All processing happens in your browser — your data never leaves your device.',
+            json_features: 'Features',
+            json_features_text: 'Format JSON with proper indentation, minify to reduce file size, validate syntax with detailed error messages, and copy output with one click.',
+            json_how_title: 'How to Use',
+            json_how_text: 'Paste your JSON data into the input field on the left. Click "Format" to beautify the JSON with proper indentation, or "Minify" to compress it into a single line. The output will appear on the right. If your JSON contains syntax errors, the tool will display a detailed error message showing the exact location of the problem.',
+            json_what_title: 'What is JSON?',
+            json_what_text: 'JSON (JavaScript Object Notation) is a lightweight data interchange format that is easy for humans to read and write. It is commonly used for transmitting data between a server and a web application, as well as for configuration files and data storage. A JSON object consists of key-value pairs enclosed in curly braces, and arrays are ordered lists enclosed in square brackets.',
+            json_errors_title: 'Common JSON Errors',
+            json_errors_text: 'Missing commas between properties, trailing commas after the last item, unquoted property names, single quotes instead of double quotes, and missing closing brackets are the most common JSON syntax errors. This formatter helps you identify and fix all of these issues instantly.',
+          },
+          zh: {
+            json_title: 'JSON 格式化',
+            json_desc: '粘贴你的 JSON 数据，一键格式化、校验和压缩。',
+            json_about: '关于 JSON 格式化',
+            json_about_text: 'JSON（JavaScript Object Notation）是一种轻量级的数据交换格式。本工具可以即时格式化（美化）或压缩 JSON 数据。所有处理都在浏览器端完成，你的数据不会离开你的设备。',
+            json_features: '功能特性',
+            json_features_text: '带缩进的 JSON 格式化、压缩以减小文件体积、带详细错误信息的语法校验、一键复制输出结果。',
+            json_how_title: '如何使用',
+            json_how_text: '将 JSON 数据粘贴到左侧输入框中。点击「格式化」以美化 JSON 并添加缩进，或点击「压缩」将其压缩为单行。结果将显示在右侧。如果 JSON 包含语法错误，工具会显示详细的错误信息，指出问题的精确位置。',
+            json_what_title: '什么是 JSON？',
+            json_what_text: 'JSON（JavaScript Object Notation）是一种轻量级的数据交换格式，易于人类阅读和编写。它通常用于服务器和 Web 应用程序之间的数据传输，也常用于配置文件和数据存储。JSON 对象由花括号括起来的键值对组成，数组是方括号括起来的有序值列表。',
+            json_errors_title: '常见 JSON 错误',
+            json_errors_text: '属性之间缺少逗号、最后一项后有多余逗号、属性名未加引号、使用单引号代替双引号、缺少闭合括号，这些是最常见的 JSON 语法错误。此格式化工具可以帮助你即时识别并修复所有这些问题。',
+          }
+        });
+        if (window.__devtools && window.__devtools.applyLang) {
+          window.__devtools.applyLang(window.__devtools.getLang());
+        }
+      }
+    })();
+  </script>
+
+  <!-- 功能逻辑 -->
   <script is:inline>
     const $ = id => document.getElementById(id);
     const getLang = () => (window.__devtools && window.__devtools.getLang) ? window.__devtools.getLang() : 'en';

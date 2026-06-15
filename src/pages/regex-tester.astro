@@ -41,17 +41,59 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <section class="tool-info">
       <h2 data-t="regex_about">About Regular Expressions</h2>
       <p data-t="regex_about_text">A regular expression (regex) is a sequence of characters that defines a search pattern. This tool tests your regex pattern in real time and shows all matches with their positions and captured groups.</p>
-    
       <h3 data-t="regex_how_title">How to Use</h3>
-<p data-t="regex_how_text">Enter your regular expression pattern in the top field between the slashes. Type or paste your test string in the text area below. Matches are highlighted in real time with details shown below including match position and capture groups.</p>
-<h3 data-t="regex_flags_title">Understanding Flags</h3>
-<p data-t="regex_flags_text">The g (global) flag finds all matches instead of stopping at the first one. The i (insensitive) flag makes the pattern case-insensitive. The m (multiline) flag makes ^ and $ match the start and end of each line. The s (dotAll) flag makes the dot (.) also match newline characters.</p>
-<h3 data-t="regex_uses_title">Common Use Cases</h3>
-<p data-t="regex_uses_text">Data validation (emails, phone numbers, URLs). Find and replace in text editors and IDEs. Log file parsing and analysis. Web scraping and data extraction. Input sanitization and format checking in web forms.</p>
-
+      <p data-t="regex_how_text">Enter your regular expression pattern in the top field between the slashes. Type or paste your test string in the text area below. Matches are highlighted in real time with details shown below including match position and capture groups.</p>
+      <h3 data-t="regex_flags_title">Understanding Flags</h3>
+      <p data-t="regex_flags_text">The g (global) flag finds all matches instead of stopping at the first one. The i (insensitive) flag makes the pattern case-insensitive. The m (multiline) flag makes ^ and $ match the start and end of each line. The s (dotAll) flag makes the dot (.) also match newline characters.</p>
+      <h3 data-t="regex_uses_title">Common Use Cases</h3>
+      <p data-t="regex_uses_text">Data validation (emails, phone numbers, URLs). Find and replace in text editors and IDEs. Log file parsing and analysis. Web scraping and data extraction. Input sanitization and format checking in web forms.</p>
     </section>
   </div>
 
+  <!-- Regex Tester 页面专属翻译 -->
+  <script is:inline>
+    (function() {
+      if (window.__devtoolsMergeDict) {
+        window.__devtoolsMergeDict({
+          en: {
+            regex_title: 'Regex Tester',
+            regex_desc: 'Test regular expressions with real-time matching and highlighting.',
+            regex_about: 'About Regular Expressions',
+            regex_about_text: 'A regular expression (regex) is a sequence of characters that defines a search pattern. This tool tests your regex pattern in real time and shows all matches with their positions and captured groups.',
+            regex_how_title: 'How to Use',
+            regex_how_text: 'Enter your regular expression pattern in the top field between the slashes. Type or paste your test string in the text area below. Matches are highlighted in real time with details shown below including match position and capture groups.',
+            regex_flags_title: 'Understanding Flags',
+            regex_flags_text: 'The g (global) flag finds all matches instead of stopping at the first one. The i (insensitive) flag makes the pattern case-insensitive. The m (multiline) flag makes ^ and $ match the start and end of each line. The s (dotAll) flag makes the dot (.) also match newline characters.',
+            regex_uses_title: 'Common Use Cases',
+            regex_uses_text: 'Data validation (emails, phone numbers, URLs). Find and replace in text editors and IDEs. Log file parsing and analysis. Web scraping and data extraction. Input sanitization and format checking in web forms.',
+            ph_regex_pattern: 'e.g. \\b\\w+@\\w+\\.\\w+\\b',
+            ph_regex_test: 'Type or paste your test string here...',
+            err_regex_invalid: 'Invalid regular expression',
+          },
+          zh: {
+            regex_title: '正则测试',
+            regex_desc: '正则表达式实时匹配和高亮测试。',
+            regex_about: '关于正则表达式',
+            regex_about_text: '正则表达式（regex）是一组定义搜索模式的字符序列。用于字符串匹配、搜索和文本处理。此工具实时测试你的正则模式，显示所有匹配项及其位置和捕获组。所有处理在浏览器端完成。',
+            regex_how_title: '如何使用',
+            regex_how_text: '在顶部的斜杠之间输入正则表达式。在下方的文本区域输入或粘贴测试文本。匹配项会实时高亮显示，并在下方显示匹配位置和捕获组等详细信息。',
+            regex_flags_title: '理解标志',
+            regex_flags_text: 'g（全局）标志查找所有匹配项，而不是在第一个就停止。i（忽略大小写）标志使模式不区分大小写。m（多行）标志使 ^ 和 $ 匹配每行的开头和结尾。s（dotAll）标志使点号（.）也能匹配换行符。',
+            regex_uses_title: '常见用途',
+            regex_uses_text: '数据验证（邮箱、电话号码、URL）。文本编辑器和 IDE 中的查找替换。日志文件解析和分析。网页爬虫和数据提取。Web 表单中的输入清理和格式检查。',
+            ph_regex_pattern: '例如 \\b\\w+@\\w+\\.\\w+\\b',
+            ph_regex_test: '输入或粘贴测试文本...',
+            err_regex_invalid: '无效的正则表达式',
+          }
+        });
+        if (window.__devtools && window.__devtools.applyLang) {
+          window.__devtools.applyLang(window.__devtools.getLang());
+        }
+      }
+    })();
+  </script>
+
+  <!-- 功能逻辑 -->
   <script is:inline>
   (function(){
     var RE = {};
@@ -106,20 +148,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
       if (!p) return;
 
-if (!t) {
-  var z = RE.getLang() === 'zh';
-  RE.errorEl.textContent = z ? '请在下方输入测试文本' : 'Please enter test string below';
-  return;
-}
-
-
+      if (!t) {
+        var z = RE.getLang() === 'zh';
+        RE.errorEl.textContent = z ? '请在下方输入测试文本' : 'Please enter test string below';
+        return;
+      }
 
       var flags = '';
       if (document.getElementById('flagG').checked) flags += 'g';
       if (document.getElementById('flagI').checked) flags += 'i';
       if (document.getElementById('flagM').checked) flags += 'm';
       if (document.getElementById('flagS').checked) flags += 's';
-
 
       var re;
       try { re = new RegExp(p, flags); } catch(e) {

@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const categories = [
+  {
+    titleEn: 'Developer Utilities',
+    titleZh: '实用开发工具',
+    tools: [
+      { name: 'Timestamp', nameZh: '时间戳转换', slug: 'timestamp', en: 'Convert between timestamps and dates', zh: '时间戳与日期互转', icon: '⏱', color: '#0d9488', ready: true },
+      { name: 'Regex Tester', nameZh: '正则测试', slug: 'regex-tester', en: 'Test regular expressions with live matching', zh: '正则表达式实时匹配测试', icon: '.*', color: '#7c3aed', ready: true },
+      { name: 'Text Diff', nameZh: '文本对比', slug: 'text-diff', en: 'Compare two texts and highlight differences', zh: '对比两段文本并高亮差异', icon: '≠', color: '#b45309', ready: true },
+      { name: 'IP Lookup', nameZh: 'IP 查询', slug: 'ip-lookup', en: 'Lookup your IP address and geolocation', zh: '查询 IP 地址和地理位置', icon: 'IP', color: '#2563eb', ready: true },
+      { name: 'MD5 Hash', nameZh: 'MD5 加密', slug: 'md5-hash', en: 'Generate MD5, SHA-1, SHA-256 hashes', zh: '生成 MD5、SHA-1、SHA-256 哈希值', icon: '#', color: '#64748b', ready: true },
+    ]
+  },
+  {
+    titleEn: 'Encoding & Conversion',
+    titleZh: '编解码转换区',
+    tools: [
+      { name: 'Base64', nameZh: 'Base64 编解码', slug: 'base64', en: 'Encode and decode Base64 strings', zh: 'Base64 字符串编解码', icon: 'B64', color: '#8b5cf6', ready: true },
+      { name: 'URL Encoder', nameZh: 'URL 编解码', slug: 'url-encoder', en: 'Encode and decode URLs', zh: 'URL 编解码', icon: '%20', color: '#f59e0b', ready: true },
+      { name: 'Hex Converter', nameZh: '十六进制转换', slug: 'hex-converter', en: 'Convert between hex, decimal, octal, binary', zh: '十六进制、十进制、八进制、二进制互转', icon: '0x', color: '#0ea5e9', ready: true },
+    ]
+  },
+  {
+    titleEn: 'Text & Data Formatting',
+    titleZh: '文本 & 数据格式化',
+    tools: [
+      { name: 'JSON Formatter', nameZh: 'JSON 格式化', slug: 'json-formatter', en: 'Format, validate, minify JSON', zh: '格式化、校验、压缩 JSON', icon: '{ }', color: '#3b82f6', ready: true },
+      { name: 'Text Case', nameZh: '大小写转换', slug: 'text-case', en: 'Convert between case formats', zh: '大小写格式转换', icon: 'Aa', color: '#06b6d4', ready: true },
+      { name: 'Word Counter', nameZh: '文本统计', slug: 'word-counter', en: 'Count words and characters', zh: '字数和字符统计', icon: '#', color: '#22c55e', ready: true },
+      { name: 'Text Dedup', nameZh: '文本去重', slug: 'text-dedup', en: 'Remove duplicate lines from text', zh: '去除文本中的重复行', icon: '≡', color: '#14b8a6', ready: true },
+      { name: 'YAML Converter', nameZh: 'YAML 转换', slug: 'yaml-converter', en: 'Convert between YAML and JSON', zh: 'YAML 与 JSON 互转', icon: 'Y', color: '#a855f7', ready: true },
+      { name: 'CSS Minifier', nameZh: 'CSS 压缩', slug: 'css-minifier', en: 'Minify and beautify CSS code', zh: '压缩和美化 CSS 代码', icon: 'CSS', color: '#1e40af', ready: true },
+    ]
+  },
+  {
+    titleEn: 'Style & Generation',
+    titleZh: '样式 & 生成工具',
+    tools: [
+      { name: 'Color Converter', nameZh: '颜色转换', slug: 'color-converter', en: 'Convert HEX, RGB, HSL colors', zh: 'HEX、RGB、HSL 颜色转换', icon: '#', color: '#ec4899', ready: true },
+      { name: 'UUID Generator', nameZh: 'UUID 生成', slug: 'uuid-generator', en: 'Generate UUID v4 identifiers', zh: '生成 UUID v4 标识符', icon: 'ID', color: '#f97316', ready: true },
+      { name: 'Password Generator', nameZh: '密码生成', slug: 'password-generator', en: 'Generate secure passwords', zh: '生成安全密码', icon: '🔑', color: '#ef4444', ready: true },
+      { name: 'QR Code Generator', nameZh: '二维码生成', slug: 'qr-generator', en: 'Generate QR codes from text or URLs', zh: '从文本或 URL 生成二维码', icon: '▦', color: '#171717', ready: true },
+    ]
+  },
+];
+---
+<BaseLayout>
+  {categories.map(cat => (
+    <section class="tool-section">
+      <h2 class="section-title" data-t-en={cat.titleEn} data-t-zh={cat.titleZh}>{cat.titleEn}</h2>
+      <div class="tools-grid">
+        {cat.tools.map(tool => (
+          tool.ready ? (
+            <a href={`/${tool.slug}`} class="tool-card">
+              <div class="tool-card-icon" style={`background:${tool.color}12; color:${tool.color}`}>{tool.icon}</div>
+              <h3 data-t-en={tool.name} data-t-zh={tool.nameZh}>{tool.name}</h3>
+              <p data-t-en={tool.en} data-t-zh={tool.zh}>{tool.en}</p>
+            </a>
+          ) : (
+            <div class="tool-card">
+              <div class="tool-card-icon" style={`background:${tool.color}12; color:${tool.color}`}>{tool.icon}</div>
+              <h3 data-t-en={tool.name} data-t-zh={tool.nameZh}>{tool.name}</h3>
+              <p data-t-en={tool.en} data-t-zh={tool.zh}>{tool.en}</p>
+            </div>
+          )
+        ))}
+      </div>
+    </section>
+  ))}
+</BaseLayout>

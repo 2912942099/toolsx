@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Games" description="Fun browser games - play directly in your browser, no download needed.">
+  <div class="tool-page">
+    <div class="tool-header">
+      <h1 data-t="games_title">Games</h1>
+      <p data-t="games_desc">Fun browser games - play directly in your browser, no download needed.</p>
+    </div>
+
+    <div class="tools-grid">
+      <a href="/games/2048" class="tool-card">
+  <div class="tool-card-icon" style="background:#22c55e12; color:#22c55e">2048</div>
+  <h3>2048</h3>
+  <p data-t="games_2048_desc">Classic number puzzle game</p>
+</a>
+
+      <div class="tool-card" style="opacity:0.5; pointer-events:none;">
+        <div class="tool-card-icon" style="background:#3b82f612; color:#3b82f6">⌨</div>
+        <h3 data-t="games_typing_title">Typing Test</h3>
+        <p data-t="games_typing_desc">Test your typing speed and accuracy</p>
+      </div>
+      <div class="tool-card" style="opacity:0.5; pointer-events:none;">
+        <div class="tool-card-icon" style="background:#f59e0b12; color:#f59e0b">🧠</div>
+        <h3 data-t="games_memory_title">Memory Cards</h3>
+        <p data-t="games_memory_desc">Flip cards and find matching pairs</p>
+      </div>
+      <div class="tool-card" style="opacity:0.5; pointer-events:none;">
+        <div class="tool-card-icon" style="background:#ef444412; color:#ef4444">🐍</div>
+        <h3 data-t="games_snake_title">Snake</h3>
+        <p data-t="games_snake_desc">Classic snake game</p>
+      </div>
+    </div>
+
+    <section class="tool-info">
+      <h2 data-t="games_coming_title">Coming Soon</h2>
+      <p data-t="games_coming_text">We are working on adding more games. Stay tuned! Each game will run entirely in your browser with no downloads required. All game data is stored locally on your device.</p>
+    </section>
+  </div>
+</BaseLayout>

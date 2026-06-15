@@ -41,17 +41,53 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <section class="tool-info">
       <h2 data-t="color_about">About Color Formats</h2>
       <p data-t="color_about_text">HEX — hexadecimal notation (#RRGGBB). RGB — red, green, blue values (0–255). HSL — hue (0–360), saturation (0–100%), lightness (0–100%).</p>
-    
       <h3 data-t="color_how_title">How to Use</h3>
-<p data-t="color_how_text">Enter a color value in any format (HEX, RGB, or HSL) and the tool will automatically convert it to all other formats. Use the color picker to visually select a color, or click "Random Color" to generate a random one.</p>
-<h3 data-t="color_formats_title">Understanding Color Formats</h3>
-<p data-t="color_formats_text">HEX uses a 6-digit hexadecimal number (#RRGGBB) to represent colors. RGB specifies red, green, and blue values from 0 to 255. HSL uses hue (0-360 degrees on the color wheel), saturation (0-100% intensity), and lightness (0-100% brightness).</p>
-<h3 data-t="color_uses_title">When to Use Each Format</h3>
-<p data-t="color_uses_text">HEX is most commonly used in CSS and web design. RGB is useful when working with dynamic color calculations in JavaScript. HSL is great for creating color variations — adjusting only the hue creates complementary colors, while changing saturation and lightness creates harmonious palettes.</p>
-
+      <p data-t="color_how_text">Enter a color value in any format (HEX, RGB, or HSL) and the tool will automatically convert it to all other formats. Use the color picker to visually select a color, or click "Random Color" to generate a random one.</p>
+      <h3 data-t="color_formats_title">Understanding Color Formats</h3>
+      <p data-t="color_formats_text">HEX uses a 6-digit hexadecimal number (#RRGGBB) to represent colors. RGB specifies red, green, and blue values from 0 to 255. HSL uses hue (0-360 degrees on the color wheel), saturation (0-100% intensity), and lightness (0-100% brightness).</p>
+      <h3 data-t="color_uses_title">When to Use Each Format</h3>
+      <p data-t="color_uses_text">HEX is most commonly used in CSS and web design. RGB is useful when working with dynamic color calculations in JavaScript. HSL is great for creating color variations — adjusting only the hue creates complementary colors, while changing saturation and lightness creates harmonious palettes.</p>
     </section>
   </div>
 
+  <!-- Color Converter 页面专属翻译 -->
+  <script is:inline>
+    (function() {
+      if (window.__devtoolsMergeDict) {
+        window.__devtoolsMergeDict({
+          en: {
+            color_title: 'Color Converter',
+            color_desc: 'Convert between HEX, RGB, and HSL color formats.',
+            color_about: 'About Color Formats',
+            color_about_text: 'HEX — hexadecimal notation (#RRGGBB). RGB — red, green, blue values (0–255). HSL — hue (0–360), saturation (0–100%), lightness (0–100%).',
+            color_how_title: 'How to Use',
+            color_how_text: 'Enter a color value in any format (HEX, RGB, or HSL) and the tool will automatically convert it to all other formats. Use the color picker to visually select a color, or click "Random Color" to generate a random one.',
+            color_formats_title: 'Understanding Color Formats',
+            color_formats_text: 'HEX uses a 6-digit hexadecimal number (#RRGGBB) to represent colors. RGB specifies red, green, and blue values from 0 to 255. HSL uses hue (0-360 degrees on the color wheel), saturation (0-100% intensity), and lightness (0-100% brightness).',
+            color_uses_title: 'When to Use Each Format',
+            color_uses_text: 'HEX is most commonly used in CSS and web design. RGB is useful when working with dynamic color calculations in JavaScript. HSL is great for creating color variations — adjusting only the hue creates complementary colors, while changing saturation and lightness creates harmonious palettes.',
+          },
+          zh: {
+            color_title: '颜色转换',
+            color_desc: '在 HEX、RGB 和 HSL 颜色格式之间转换。',
+            color_about: '关于颜色格式',
+            color_about_text: 'HEX — 十六进制表示法（#RRGGBB）。RGB — 红、绿、蓝值（0–255）。HSL — 色相（0–360）、饱和度（0–100%）、亮度（0–100%）。',
+            color_how_title: '如何使用',
+            color_how_text: '在任意格式（HEX、RGB 或 HSL）中输入颜色值，工具会自动转换为所有其他格式。使用颜色选择器可视化选取颜色，或点击「随机颜色」生成随机颜色。',
+            color_formats_title: '理解颜色格式',
+            color_formats_text: 'HEX 使用 6 位十六进制数（#RRGGBB）表示颜色。RGB 指定红、绿、蓝值（0 到 255）。HSL 使用色相（色轮上 0-360 度）、饱和度（0-100% 强度）和亮度（0-100% 亮度）。',
+            color_uses_title: '何时使用哪种格式',
+            color_uses_text: 'HEX 最常用于 CSS 和网页设计。RGB 在 JavaScript 中进行动态颜色计算时很有用。HSL 非常适合创建颜色变体——只调整色相可以创建互补色，改变饱和度和亮度可以创建和谐的配色方案。',
+          }
+        });
+        if (window.__devtools && window.__devtools.applyLang) {
+          window.__devtools.applyLang(window.__devtools.getLang());
+        }
+      }
+    })();
+  </script>
+
+  <!-- 功能逻辑 -->
   <script is:inline>
     const $ = id => document.getElementById(id);
     const getDict = (key) => (window.__devtools && window.__devtools.dict) ? window.__devtools.dict[(window.__devtools.getLang())][key] || '' : '';

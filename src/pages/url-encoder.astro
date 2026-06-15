@@ -31,17 +31,57 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <section class="tool-info">
       <h2 data-t="url_about">About URL Encoding</h2>
       <p data-t="url_about_text">URL encoding replaces unsafe ASCII characters with a percent sign followed by two hexadecimal digits. Encode URI preserves URL structure. Encode Component encodes everything — useful for query parameter values.</p>
-    
       <h3 data-t="url_how_title">How to Use</h3>
-<p data-t="url_how_text">Enter or paste a URL in the input field. Use "Encode URI" to encode special characters while preserving the URL structure, or "Encode Component" to encode everything. Use "Decode" to convert an encoded URL back to its original form.</p>
-<h3 data-t="url_what_title">What is URL Encoding?</h3>
-<p data-t="url_what_text">URL encoding (also called percent-encoding) converts characters into a format that can be safely transmitted over the Internet. Unsafe characters are replaced with a percent sign (%) followed by two hexadecimal digits. For example, a space becomes %20.</p>
-<h3 data-t="url_diff_title">Encode URI vs Encode Component</h3>
-<p data-t="url_diff_text">Encode URI preserves the structure of a URL (keeps :, /, ?, #, etc.) and is suitable for encoding a complete URL. Encode Component encodes everything including special URL characters, making it ideal for encoding individual parameter values in a query string.</p>
-
+      <p data-t="url_how_text">Enter or paste a URL in the input field. Use "Encode URI" to encode special characters while preserving the URL structure, or "Encode Component" to encode everything. Use "Decode" to convert an encoded URL back to its original form.</p>
+      <h3 data-t="url_what_title">What is URL Encoding?</h3>
+      <p data-t="url_what_text">URL encoding (also called percent-encoding) converts characters into a format that can be safely transmitted over the Internet. Unsafe characters are replaced with a percent sign (%) followed by two hexadecimal digits. For example, a space becomes %20.</p>
+      <h3 data-t="url_diff_title">Encode URI vs Encode Component</h3>
+      <p data-t="url_diff_text">Encode URI preserves the structure of a URL (keeps :, /, ?, #, etc.) and is suitable for encoding a complete URL. Encode Component encodes everything including special URL characters, making it ideal for encoding individual parameter values in a query string.</p>
     </section>
   </div>
 
+  <!-- URL Encoder 页面专属翻译 -->
+  <script is:inline>
+    (function() {
+      if (window.__devtoolsMergeDict) {
+        window.__devtoolsMergeDict({
+          en: {
+            url_title: 'URL Encoder / Decoder',
+            url_desc: 'Encode or decode URLs and URI components.',
+            url_about: 'About URL Encoding',
+            url_about_text: 'URL encoding replaces unsafe ASCII characters with a percent sign followed by two hexadecimal digits. Encode URI preserves URL structure. Encode Component encodes everything — useful for query parameter values.',
+            url_how_title: 'How to Use',
+            url_how_text: 'Enter or paste a URL in the input field. Use "Encode URI" to encode special characters while preserving the URL structure, or "Encode Component" to encode everything. Use "Decode" to convert an encoded URL back to its original form.',
+            url_what_title: 'What is URL Encoding?',
+            url_what_text: 'URL encoding (also called percent-encoding) converts characters into a format that can be safely transmitted over the Internet. Unsafe characters are replaced with a percent sign (%) followed by two hexadecimal digits. For example, a space becomes %20.',
+            url_diff_title: 'Encode URI vs Encode Component',
+            url_diff_text: 'Encode URI preserves the structure of a URL (keeps :, /, ?, #, etc.) and is suitable for encoding a complete URL. Encode Component encodes everything including special URL characters, making it ideal for encoding individual parameter values in a query string.',
+            ph_url_input: 'https://example.com/path?q=helloworld',
+            ph_url_output: 'Result...',
+          },
+          zh: {
+            url_title: 'URL 编解码',
+            url_desc: '编码或解码 URL 和 URI 组件。',
+            url_about: '关于 URL 编码',
+            url_about_text: 'URL 编码会将不安全的 ASCII 字符替换为百分号（%）加两位十六进制数。「编码 URI」保留 URL 结构，「编码组件」会编码所有字符——适合用于查询参数值。',
+            url_how_title: '如何使用',
+            url_how_text: '在输入框中输入或粘贴 URL。使用「编码 URI」在保留 URL 结构的同时编码特殊字符，或使用「编码组件」编码所有字符。使用「解码」将编码后的 URL 转换回原始形式。',
+            url_what_title: '什么是 URL 编码？',
+            url_what_text: 'URL 编码（也称为百分号编码）将字符转换为可在互联网上安全传输的格式。不安全字符会被替换为百分号（%）加两位十六进制数。例如，空格变成 %20。',
+            url_diff_title: '编码 URI 和编码组件的区别',
+            url_diff_text: '编码 URI 保留 URL 结构（保留 :、/、?、# 等），适合编码完整 URL。编码组件会编码所有字符包括 URL 特殊字符，适合编码查询字符串中的单个参数值。',
+            ph_url_input: 'https://example.com/path?q=helloworld',
+            ph_url_output: '结果...',
+          }
+        });
+        if (window.__devtools && window.__devtools.applyLang) {
+          window.__devtools.applyLang(window.__devtools.getLang());
+        }
+      }
+    })();
+  </script>
+
+  <!-- 功能逻辑 -->
   <script is:inline>
     const $ = id => document.getElementById(id);
     const getLang = () => (window.__devtools && window.__devtools.getLang) ? window.__devtools.getLang() : 'en';

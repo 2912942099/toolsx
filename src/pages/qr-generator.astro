@@ -52,25 +52,64 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             <line x1="21" y1="21" x2="21" y2="21.01"/>
           </svg>
         </div>
-<canvas id="qrCanvas" style="display:none;"></canvas>
-
+        <canvas id="qrCanvas" style="display:none;"></canvas>
       </div>
     </div>
 
     <section class="tool-info">
       <h2 data-t="qr_about">About QR Codes</h2>
       <p data-t="qr_about_text">A QR (Quick Response) code is a two-dimensional barcode that can encode text, URLs, contact info, and more. Scannable by any smartphone camera. This tool generates QR codes entirely in your browser using the qrcode-generator library. No data is sent to any server.</p>
-    
       <h3 data-t="qr_how_title">How to Use</h3>
-<p data-t="qr_how_text">Enter any text, URL, email address, phone number, or Wi-Fi configuration in the input field. The QR code is generated in real time as you type. Download the QR code as PNG (raster) or SVG (vector) format.</p>
-<h3 data-t="qr_what_title">What is a QR Code?</h3>
-<p data-t="qr_what_text">A QR (Quick Response) code is a two-dimensional barcode that can be scanned by any smartphone camera. It can encode up to 4,296 alphanumeric characters and supports URLs, plain text, email addresses, phone numbers, vCards, and Wi-Fi network configurations.</p>
-<h3 data-t="qr_tips_title">Tips for Using QR Codes</h3>
-<p data-t="qr_tips_text">For printed materials, use SVG format for crisp results at any size. Add sufficient white space (quiet zone) around the QR code for reliable scanning. Test your QR code with multiple devices before printing. For URLs, keep them short to generate simpler QR codes that scan more easily.</p>
-
+      <p data-t="qr_how_text">Enter any text, URL, email address, phone number, or Wi-Fi configuration in the input field. The QR code is generated in real time as you type. Download the QR code as PNG (raster) or SVG (vector) format.</p>
+      <h3 data-t="qr_what_title">What is a QR Code?</h3>
+      <p data-t="qr_what_text">A QR (Quick Response) code is a two-dimensional barcode that can be scanned by any smartphone camera. It can encode up to 4,296 alphanumeric characters and supports URLs, plain text, email addresses, phone numbers, vCards, and Wi-Fi network configurations.</p>
+      <h3 data-t="qr_tips_title">Tips for Using QR Codes</h3>
+      <p data-t="qr_tips_text">For printed materials, use SVG format for crisp results at any size. Add sufficient white space (quiet zone) around the QR code for reliable scanning. Test your QR code with multiple devices before printing. For URLs, keep them short to generate simpler QR codes that scan more easily.</p>
     </section>
   </div>
 
+  <!-- QR Code Generator 页面专属翻译 -->
+  <script is:inline>
+    (function() {
+      if (window.__devtoolsMergeDict) {
+        window.__devtoolsMergeDict({
+          en: {
+            qr_title: 'QR Code Generator',
+            qr_desc: 'Generate QR codes from text or URLs. Download as PNG or SVG.',
+            qr_about: 'About QR Codes',
+            qr_about_text: 'A QR (Quick Response) code is a two-dimensional barcode that can encode text, URLs, contact info, and more. Scannable by any smartphone camera. This tool generates QR codes entirely in your browser using the qrcode-generator library. No data is sent to any server.',
+            qr_how_title: 'How to Use',
+            qr_how_text: 'Enter any text, URL, email address, phone number, or Wi-Fi configuration in the input field. The QR code is generated in real time as you type. Download the QR code as PNG (raster) or SVG (vector) format.',
+            qr_what_title: 'What is a QR Code?',
+            qr_what_text: 'A QR (Quick Response) code is a two-dimensional barcode that can be scanned by any smartphone camera. It can encode up to 4,296 alphanumeric characters and supports URLs, plain text, email addresses, phone numbers, vCards, and Wi-Fi network configurations.',
+            qr_tips_title: 'Tips for Using QR Codes',
+            qr_tips_text: 'For printed materials, use SVG format for crisp results at any size. Add sufficient white space (quiet zone) around the QR code for reliable scanning. Test your QR code with multiple devices before printing. For URLs, keep them short to generate simpler QR codes that scan more easily.',
+            ph_qr_input: 'Enter text or URL (e.g. https://example.com)',
+            lbl_size: 'Size',
+          },
+          zh: {
+            qr_title: '二维码生成',
+            qr_desc: '从文本或 URL 生成二维码。支持下载 PNG 和 SVG。',
+            qr_about: '关于二维码',
+            qr_about_text: '二维码（Quick Response Code）是一种二维条码，可以编码文本、URL、联系信息等。任何智能手机摄像头都能扫描。此工具使用 qrcode-generator 库完全在浏览器端生成二维码，数据不会发送到任何服务器。',
+            qr_how_title: '如何使用',
+            qr_how_text: '在输入框中输入任何文本、URL、电子邮件地址、电话号码或 Wi-Fi 配置。二维码会实时生成。可下载为 PNG（位图）或 SVG（矢量）格式。',
+            qr_what_title: '什么是二维码？',
+            qr_what_text: '二维码（Quick Response Code）是一种二维条码，任何智能手机摄像头都能扫描。它最多可编码 4,296 个字母数字字符，支持 URL、纯文本、电子邮件地址、电话号码、名片和 Wi-Fi 网络配置。',
+            qr_tips_title: '二维码使用技巧',
+            qr_tips_text: '用于印刷材料时，使用 SVG 格式可确保任意尺寸都清晰。二维码周围留出足够的白色空间（静区）以便可靠扫描。打印前用多台设备测试二维码。对于 URL，保持简短以生成更简单的二维码，更容易扫描。',
+            ph_qr_input: '输入文本或 URL（如 https://example.com）',
+            lbl_size: '尺寸',
+          }
+        });
+        if (window.__devtools && window.__devtools.applyLang) {
+          window.__devtools.applyLang(window.__devtools.getLang());
+        }
+      }
+    })();
+  </script>
+
+  <!-- 功能逻辑 -->
   <script is:inline src="/qrcode.js"></script>
   <script is:inline>
     const $ = id => document.getElementById(id);
@@ -101,32 +140,28 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       const canvas = $('qrCanvas');
       const ctx = canvas.getContext('2d');
 
-      // Generate QR data
-      const typeNumber = 0; // auto detect
+      const typeNumber = 0;
       const errorCorrection = 'M';
       const qr = qrcode(typeNumber, errorCorrection);
       qr.addData(text);
       qr.make();
 
       const modules = qr.getModuleCount();
-      const margin = 4; // quiet zone in modules
+      const margin = 4;
       const totalModules = modules + margin * 2;
       const cellSize = size / totalModules;
 
       canvas.width = size;
-canvas.height = size;
-canvas.removeAttribute('style');
-canvas.style.display = 'block';
-canvas.style.maxWidth = '100%';
-canvas.style.height = 'auto';
-canvas.style.borderRadius = '8px';
+      canvas.height = size;
+      canvas.removeAttribute('style');
+      canvas.style.display = 'block';
+      canvas.style.maxWidth = '100%';
+      canvas.style.height = 'auto';
+      canvas.style.borderRadius = '8px';
 
-
-      // Draw background
       ctx.fillStyle = bg;
       ctx.fillRect(0, 0, size, size);
 
-      // Draw QR modules
       ctx.fillStyle = fg;
       for (let row = 0; row < modules; row++) {
         for (let col = 0; col < modules; col++) {

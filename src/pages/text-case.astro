@@ -34,17 +34,57 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <section class="tool-info">
       <h2 data-t="case_about">About Text Case Formats</h2>
       <p data-t="case_about_text">camelCase — first word lowercase, each subsequent word capitalized. PascalCase — every word capitalized, no spaces. snake_case — all lowercase, underscores for spaces. kebab-case — all lowercase, hyphens for spaces.</p>
-    
       <h3 data-t="case_how_title">How to Use</h3>
-<p data-t="case_how_text">Type or paste your text into the input field. Click any case format button to instantly convert your text. You can switch between formats as many times as you like without re-entering the text.</p>
-<h3 data-t="case_formats_title">Understanding Case Formats</h3>
-<p data-t="case_formats_text">UPPERCASE converts all letters to capital letters. lowercase converts all to small letters. Title Case capitalizes the first letter of each word. camelCase is used in JavaScript and Java for variable names. PascalCase is used for class names. snake_case is common in Python and database fields. kebab-case is used in CSS class names and URL slugs.</p>
-<h3 data-t="case_uses_title">Common Use Cases</h3>
-<p data-t="case_uses_text">Developers use case conversion daily when writing code in different programming languages. Writers use title case for headlines and headings. Data analysts convert text cases when cleaning and standardizing datasets. SEO professionals use kebab-case for URL-friendly slugs.</p>
-
+      <p data-t="case_how_text">Type or paste your text into the input field. Click any case format button to instantly convert your text. You can switch between formats as many times as you like without re-entering the text.</p>
+      <h3 data-t="case_formats_title">Understanding Case Formats</h3>
+      <p data-t="case_formats_text">UPPERCASE converts all letters to capital letters. lowercase converts all to small letters. Title Case capitalizes the first letter of each word. camelCase is used in JavaScript and Java for variable names. PascalCase is used for class names. snake_case is common in Python and database fields. kebab-case is used in CSS class names and URL slugs.</p>
+      <h3 data-t="case_uses_title">Common Use Cases</h3>
+      <p data-t="case_uses_text">Developers use case conversion daily when writing code in different programming languages. Writers use title case for headlines and headings. Data analysts convert text cases when cleaning and standardizing datasets. SEO professionals use kebab-case for URL-friendly slugs.</p>
     </section>
   </div>
 
+  <!-- Text Case Converter 页面专属翻译 -->
+  <script is:inline>
+    (function() {
+      if (window.__devtoolsMergeDict) {
+        window.__devtoolsMergeDict({
+          en: {
+            case_title: 'Text Case Converter',
+            case_desc: 'Convert text between different case formats instantly.',
+            case_about: 'About Text Case Formats',
+            case_about_text: 'camelCase — first word lowercase, each subsequent word capitalized. PascalCase — every word capitalized, no spaces. snake_case — all lowercase, underscores for spaces. kebab-case — all lowercase, hyphens for spaces.',
+            case_how_title: 'How to Use',
+            case_how_text: 'Type or paste your text into the input field. Click any case format button to instantly convert your text. You can switch between formats as many times as you like without re-entering the text.',
+            case_formats_title: 'Understanding Case Formats',
+            case_formats_text: 'UPPERCASE converts all letters to capital letters. lowercase converts all to small letters. Title Case capitalizes the first letter of each word. camelCase is used in JavaScript and Java for variable names. PascalCase is used for class names. snake_case is common in Python and database fields. kebab-case is used in CSS class names and URL slugs.',
+            case_uses_title: 'Common Use Cases',
+            case_uses_text: 'Developers use case conversion daily when writing code in different programming languages. Writers use title case for headlines and headings. Data analysts convert text cases when cleaning and standardizing datasets. SEO professionals use kebab-case for URL-friendly slugs.',
+            ph_case_input: 'Type or paste your text here...',
+            ph_case_output: 'Result...',
+          },
+          zh: {
+            case_title: '文本大小写转换',
+            case_desc: '在不同的大小写格式之间即时转换文本。',
+            case_about: '关于文本格式',
+            case_about_text: 'camelCase — 首词小写，后续词首字母大写。PascalCase — 每个词首字母大写，无空格。snake_case — 全小写，用下划线分隔。kebab-case — 全小写，用连字符分隔。',
+            case_how_title: '如何使用',
+            case_how_text: '在输入框中输入或粘贴文本。点击任意大小写格式按钮即可即时转换。你可以随意切换格式，无需重新输入文本。',
+            case_formats_title: '理解大小写格式',
+            case_formats_text: '全部大写将所有字母转换为大写。全部小写将所有字母转换为小写。首字母大写将每个单词的首字母大写。驼峰命名用于 JavaScript 和 Java 变量名。帕斯卡命名用于类名。下划线命名常见于 Python 和数据库字段。连字符命名用于 CSS 类名和 URL 友好的标识符。',
+            case_uses_title: '常见用途',
+            case_uses_text: '开发者在不同编程语言中编写代码时每天都会用到大小写转换。写作者使用首字母大写格式处理标题和标题。数据分析师在清洗和标准化数据集时转换文本大小写。SEO 从业者使用连字符命名创建 URL 友好的标识符。',
+            ph_case_input: '输入或粘贴文本...',
+            ph_case_output: '结果...',
+          }
+        });
+        if (window.__devtools && window.__devtools.applyLang) {
+          window.__devtools.applyLang(window.__devtools.getLang());
+        }
+      }
+    })();
+  </script>
+
+  <!-- 功能逻辑 -->
   <script is:inline>
     const $ = id => document.getElementById(id);
     const getDict = (key) => (window.__devtools && window.__devtools.dict) ? window.__devtools.dict[(window.__devtools.getLang())][key] || '' : '';

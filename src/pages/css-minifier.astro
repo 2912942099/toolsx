@@ -54,6 +54,50 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </section>
   </div>
 
+  <!-- CSS Minifier 页面专属翻译 -->
+  <script is:inline>
+    (function() {
+      if (window.__devtoolsMergeDict) {
+        window.__devtoolsMergeDict({
+          en: {
+            css_title: 'CSS Minifier & Beautifier',
+            css_desc: 'Paste your CSS to minify or beautify it instantly.',
+            css_about: 'About CSS Minifier',
+            css_about_text: 'A CSS minifier removes unnecessary characters from CSS code — whitespace, comments, newlines, and redundant semicolons — to reduce file size. A beautifier reformats messy CSS with proper indentation and line breaks for readability. All processing happens in your browser.',
+            css_how_title: 'How to Use',
+            css_how_text: 'Paste your CSS code into the input field. Click "Minify" to compress it for production use, or "Format" to beautify it with proper indentation for development. The size comparison stats show how much file size was saved.',
+            css_why_title: 'Why Minify CSS?',
+            css_why_text: 'Minifying CSS reduces file size by 30-60%, which makes your website load faster. Faster websites rank higher in Google search results and provide a better user experience. Minified CSS is the standard for production websites and is required by Google PageSpeed Insights.',
+            css_tips_title: 'CSS Optimization Tips',
+            css_tips_text: 'Remove unused CSS rules to further reduce file size. Combine similar selectors where possible. Use shorthand properties (margin, padding, background) instead of individual properties. Consider using CSS variables (custom properties) for repeated values. Load critical CSS inline and defer non-critical CSS.',
+            ph_css_input: 'body { color: red; margin: 0; }',
+            ph_css_output: 'Result...',
+            err_css_format: 'CSS format error',
+          },
+          zh: {
+            css_title: 'CSS 压缩 / 美化',
+            css_desc: '粘贴 CSS 代码，即时压缩或美化。',
+            css_about: '关于 CSS 压缩工具',
+            css_about_text: 'CSS 压缩工具移除 CSS 代码中不必要的字符——空白、注释、换行和多余的分号——以减小文件大小。美化工具则重新格式化混乱的 CSS，添加正确的缩进和换行以提高可读性。所有处理都在浏览器本地完成。',
+            css_how_title: '如何使用',
+            css_how_text: '将 CSS 代码粘贴到输入框中。点击「压缩」将其压缩为生产环境版本，或点击「格式化」添加正确的缩进便于开发。尺寸对比统计显示节省了多少文件大小。',
+            css_why_title: '为什么要压缩 CSS？',
+            css_why_text: '压缩 CSS 可减少 30-60% 的文件大小，使网站加载更快。加载更快的网站在 Google 搜索结果中排名更高，用户体验也更好。压缩后的 CSS 是生产网站的标准做法，也是 Google PageSpeed Insights 的要求。',
+            css_tips_title: 'CSS 优化技巧',
+            css_tips_text: '删除未使用的 CSS 规则以进一步减小文件大小。尽可能合并相似的选择器。使用简写属性（margin、padding、background）代替单独的属性。考虑使用 CSS 变量（自定义属性）处理重复的值。将关键 CSS 内联加载，延迟加载非关键 CSS。',
+            ph_css_input: 'body { color: red; margin: 0; }',
+            ph_css_output: '结果...',
+            err_css_format: 'CSS 格式错误',
+          }
+        });
+        if (window.__devtools && window.__devtools.applyLang) {
+          window.__devtools.applyLang(window.__devtools.getLang());
+        }
+      }
+    })();
+  </script>
+
+  <!-- 功能逻辑 -->
   <script is:inline>
     const $ = id => document.getElementById(id);
     const getLang = () => (window.__devtools && window.__devtools.getLang) ? window.__devtools.getLang() : 'en';
@@ -123,9 +167,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
         if (c === '}') {
           result = result.trimEnd();
-          if (result.endsWith(';')) {
-            // keep semicolon
-          }
           result += '\n';
           indent = Math.max(0, indent - 1);
           result += '  '.repeat(indent) + '}\n';

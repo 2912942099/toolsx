@@ -56,17 +56,71 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <section class="tool-info">
       <h2 data-t="yaml_about">About YAML</h2>
       <p data-t="yaml_about_text">YAML (YAML Ain't Markup Language) is a human-readable data serialization format. It's commonly used for configuration files, data exchange, and in tools like Docker, Kubernetes, and GitHub Actions. This converter uses the js-yaml library to handle parsing and stringifying.</p>
-    
       <h3 data-t="yaml_how_title">How to Use</h3>
-<p data-t="yaml_how_text">Paste YAML into the input field and click "Convert" to convert it to JSON. Or switch the direction to convert JSON to YAML. The result appears instantly in the output field and can be copied with one click.</p>
-<h3 data-t="yaml_what_title">What is YAML?</h3>
-<p data-t="yaml_what_text">YAML (YAML Ain't Markup Language) is a human-readable data serialization format. It uses indentation to represent structure instead of brackets and braces. YAML is commonly used for configuration files in Docker, Kubernetes, GitHub Actions, Ansible, and many other DevOps and development tools.</p>
-<h3 data-t="yaml_vs_title">YAML vs JSON</h3>
-<p data-t="yaml_vs_text">YAML is more human-readable with its indentation-based structure and supports comments (using #). JSON is more compact and widely supported by programming languages. YAML is preferred for configuration files that humans edit manually, while JSON is preferred for data exchange between systems and APIs.</p>
-
+      <p data-t="yaml_how_text">Paste YAML into the input field and click "Convert" to convert it to JSON. Or switch the direction to convert JSON to YAML. The result appears instantly in the output field and can be copied with one click.</p>
+      <h3 data-t="yaml_what_title">What is YAML?</h3>
+      <p data-t="yaml_what_text">YAML (YAML Ain't Markup Language) is a human-readable data serialization format. It uses indentation to represent structure instead of brackets and braces. YAML is commonly used for configuration files in Docker, Kubernetes, GitHub Actions, Ansible, and many other DevOps and development tools.</p>
+      <h3 data-t="yaml_vs_title">YAML vs JSON</h3>
+      <p data-t="yaml_vs_text">YAML is more human-readable with its indentation-based structure and supports comments (using #). JSON is more compact and widely supported by programming languages. YAML is preferred for configuration files that humans edit manually, while JSON is preferred for data exchange between systems and APIs.</p>
     </section>
   </div>
 
+  <!-- YAML Converter 页面专属翻译 -->
+  <script is:inline>
+    (function() {
+      if (window.__devtoolsMergeDict) {
+        window.__devtoolsMergeDict({
+          en: {
+            yaml_title: 'YAML Converter',
+            yaml_desc: 'Convert between YAML and JSON formats.',
+            yaml_about: 'About YAML',
+            yaml_about_text: 'YAML (YAML Ain\'t Markup Language) is a human-readable data serialization format. It\'s commonly used for configuration files, data exchange, and in tools like Docker, Kubernetes, and GitHub Actions. This converter uses the js-yaml library to handle parsing and stringifying.',
+            yaml_how_title: 'How to Use',
+            yaml_how_text: 'Paste YAML into the input field and click "Convert" to convert it to JSON. Or switch the direction to convert JSON to YAML. The result appears instantly in the output field and can be copied with one click.',
+            yaml_what_title: 'What is YAML?',
+            yaml_what_text: 'YAML (YAML Ain\'t Markup Language) is a human-readable data serialization format. It uses indentation to represent structure instead of brackets and braces. YAML is commonly used for configuration files in Docker, Kubernetes, GitHub Actions, Ansible, and many other DevOps and development tools.',
+            yaml_vs_title: 'YAML vs JSON',
+            yaml_vs_text: 'YAML is more human-readable with its indentation-based structure and supports comments (using #). JSON is more compact and widely supported by programming languages. YAML is preferred for configuration files that humans edit manually, while JSON is preferred for data exchange between systems and APIs.',
+            yaml_to_json: 'YAML → JSON',
+            yaml_from_json: 'JSON → YAML',
+            yaml_tab: 'Convert',
+            ph_yaml_input: 'Paste YAML here...',
+            ph_yaml_output: 'Result...',
+            ph_json_input: '{"key": "value"}',
+            ph_json_output: 'Result...',
+            err_yaml_parse: 'Invalid YAML format',
+            err_json_parse: 'Invalid JSON format',
+          },
+          zh: {
+            yaml_title: 'YAML 转换',
+            yaml_desc: 'YAML 与 JSON 互转。',
+            yaml_about: '关于 YAML',
+            yaml_about_text: 'YAML（YAML Ain\'t Markup Language）是一种人类可读的数据序列化格式。常用于配置文件、数据交换，以及 Docker、Kubernetes、GitHub Actions 等工具。此转换器使用 js-yaml 库进行解析和生成。',
+            yaml_how_title: '如何使用',
+            yaml_how_text: '将 YAML 粘贴到输入框中，点击「转换」即可转换为 JSON。或切换方向将 JSON 转换为 YAML。结果会即时显示在输出框中，支持一键复制。',
+            yaml_what_title: '什么是 YAML？',
+            yaml_what_text: 'YAML（YAML Ain\'t Markup Language）是一种人类可读的数据序列化格式。它使用缩进来表示结构，而不是括号和花括号。YAML 常用于 Docker、Kubernetes、GitHub Actions、Ansible 等 DevOps 和开发工具的配置文件。',
+            yaml_vs_title: 'YAML 与 JSON 的区别',
+            yaml_vs_text: 'YAML 基于缩进的结构更易读，且支持注释（使用 #）。JSON 更紧凑，编程语言支持更广泛。YAML 适合人类手动编辑的配置文件，JSON 适合系统和 API 之间的数据交换。',
+            yaml_to_json: 'YAML → JSON',
+            yaml_from_json: 'JSON → YAML',
+            yaml_tab: '转换',
+            ph_yaml_input: '粘贴 YAML...',
+            ph_yaml_output: '结果...',
+            ph_json_input: '{"key": "value"}',
+            ph_json_output: '结果...',
+            err_yaml_parse: '无效的 YAML 格式',
+            err_json_parse: '无效的 JSON 格式',
+          }
+        });
+        if (window.__devtools && window.__devtools.applyLang) {
+          window.__devtools.applyLang(window.__devtools.getLang());
+        }
+      }
+    })();
+  </script>
+
+  <!-- 功能逻辑 -->
   <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
   <script is:inline>
     const $ = id => document.getElementById(id);
@@ -104,7 +158,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     $('tabY2J').addEventListener('click', () => switchTab('y2j'));
     $('tabJ2Y').addEventListener('click', () => switchTab('j2y'));
 
-    // YAML → JSON
     $('y2jBtn').addEventListener('click', () => {
       showError('y2j', null);
       const val = $('y2j_input').value.trim();
@@ -118,7 +171,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       }
     });
 
-    // JSON → YAML
     $('j2yBtn').addEventListener('click', () => {
       showError('j2y', null);
       const val = $('j2y_input').value.trim();
@@ -132,15 +184,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       }
     });
 
-    // Copy
     $('y2jCopy').addEventListener('click', () => { if ($('y2j_output').value) { navigator.clipboard.writeText($('y2j_output').value); toast(); } });
     $('j2yCopy').addEventListener('click', () => { if ($('j2y_output').value) { navigator.clipboard.writeText($('j2y_output').value); toast(); } });
 
-    // Clear
     $('y2jClear').addEventListener('click', () => { $('y2j_input').value = ''; $('y2j_output').value = ''; showError('y2j', null); });
     $('j2yClear').addEventListener('click', () => { $('j2y_input').value = ''; $('j2y_output').value = ''; showError('j2y', null); });
 
-    // Language switch
     document.getElementById('langBtn').addEventListener('click', () => {
       setTimeout(() => {
         if (currentErrors.y2j) showError('y2j', currentErrors.y2j);
