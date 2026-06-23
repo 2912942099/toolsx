@@ -187,3 +187,11 @@ main.lang-loading .page-content { display: none; }
   color: var(--text-muted);
   opacity: 0.4;
 }
+
+/* Extra small phones */
+@media (max-width: 380px) {
+  .site-nav {
+    gap: 10px;
+    font-size: 14px;
+  }
+}
